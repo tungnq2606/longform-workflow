@@ -3,7 +3,7 @@ import shutil
 import tempfile
 import unittest
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from tools.longform import cutout
 from tools.longform.tests.imgs import figure
@@ -32,6 +32,29 @@ class CutoutTest(unittest.TestCase):
         info = cutout.cut(src, self.dst)
         self.assertEqual(info["key"], [20, 190, 80])
         self.assertEqual(Image.open(self.dst).getpixel((0, 0))[3], 0)
+
+    def test_rejects_non_green_background(self):
+        src = figure(os.path.join(self.d, "src.png"), bg=(245, 240, 230))  # generator ignored the chroma prompt
+        with self.assertRaisesRegex(ValueError, "not chroma green"):
+            cutout.cut(src, self.dst)
+
+    def test_green_clothing_inside_figure_kept(self):
+        src = figure(os.path.join(self.d, "src.png"))
+        im = Image.open(src)
+        ImageDraw.Draw(im).rectangle([460, 650, 540, 700], fill=(20, 120, 50))  # dark green sash on the body
+        im.save(src)
+        info = cutout.cut(src, self.dst)
+        x0, y0 = info["box"][:2]
+        self.assertEqual(Image.open(self.dst).getpixel((500 - x0, 675 - y0))[3], 255)
+
+    def test_enclosed_key_hole_removed(self):
+        src = figure(os.path.join(self.d, "src.png"))
+        im = Image.open(src)
+        ImageDraw.Draw(im).rectangle([460, 650, 540, 700], fill=(0, 177, 64))  # background seen through an arm loop
+        im.save(src)
+        info = cutout.cut(src, self.dst)
+        x0, y0 = info["box"][:2]
+        self.assertEqual(Image.open(self.dst).getpixel((500 - x0, 675 - y0))[3], 0)
 
     def test_anchor_at_feet(self):
         src = figure(os.path.join(self.d, "src.png"), cx=500, bottom=900, width=200)

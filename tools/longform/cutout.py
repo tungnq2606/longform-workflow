@@ -3,8 +3,10 @@
   python -m tools.longform.cutout SRC DST      prints {"width", "height", "anchor", "key"} as JSON
 
 The key colour is the median of the source's border ring, so a generator that drew a slightly different green still
-works. White or pale clothes stay opaque because only colours close to the key become transparent.
+works. White or pale clothes stay opaque because only colours close to the key become transparent. Key-like colour
+inside the figure (a green sash) stays opaque unless it is flat key colour (background seen through an arm loop).
 """
+import collections
 import json
 import statistics
 import sys
@@ -14,6 +16,7 @@ from PIL import Image, PngImagePlugin
 DEFAULT_KEY = (0, 177, 64)
 RING = 4
 SOLID = 128  # alpha at or above this counts as part of the figure
+HOLE = 25  # an enclosed key-like region whose median distance to the key is below this is background, not clothing
 
 
 def _border_key(im):
@@ -42,12 +45,40 @@ def _mask(im, key, tol):
     return [_alpha(c, key, tol) for c in im.getdata()]
 
 
+def _keep_enclosed(im, alpha, key):
+    """Make enclosed key-like regions opaque again unless they are flat key colour (a real hole)."""
+    w, h = im.size
+    data = list(im.getdata())
+    seen = bytearray(w * h)
+    for start in range(w * h):
+        if seen[start] or alpha[start] == 255:
+            continue
+        comp, edge, q = [], False, collections.deque([start])
+        seen[start] = 1
+        while q:
+            i = q.popleft()
+            comp.append(i)
+            x, y = i % w, i // w
+            if x in (0, w - 1) or y in (0, h - 1):
+                edge = True
+            for j in (i - 1 if x else -1, i + 1 if x < w - 1 else -1, i - w if y else -1, i + w if y < h - 1 else -1):
+                if j >= 0 and not seen[j] and alpha[j] < 255:
+                    seen[j] = 1
+                    q.append(j)
+        if not edge and statistics.median(_dist(data[i], key) for i in comp) >= HOLE:
+            for i in comp:
+                alpha[i] = 255
+    return alpha
+
+
 def cut(src, dst, tol=60, pad=16, box=None, key=None):
     """box/key: reuse another cut's crop box and key (a blink image must line up with its pose)."""
     im = Image.open(src).convert("RGB")
     w, h = im.size
     key = tuple(key) if key else _border_key(im)
-    alpha = _mask(im, key, tol)
+    if key[1] < max(key[0], key[2]) + 40:
+        raise ValueError("background of %s is not chroma green (border colour %s); regenerate the image" % (src, key))
+    alpha = _keep_enclosed(im, _mask(im, key, tol), key)
     out = Image.new("RGBA", (w, h))
     pix = []
     for c, a in zip(im.getdata(), alpha):
