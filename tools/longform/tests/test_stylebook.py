@@ -52,6 +52,16 @@ class StylebookTest(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.sb.decide("vi", "R999", True)
 
+    def test_each_lang_has_core_rules(self):
+        legend = {"en": "legend says", "ja": "伝説によると", "de": "der Legende nach", "es": "según la leyenda"}
+        for lang, word in legend.items():
+            shutil.copy(os.path.join(WS, "library", "stylebook", "%s.json" % lang), os.path.join(self.root, "library", "stylebook"))
+            kept = self.sb.kept(lang)
+            self.assertGreaterEqual(len(kept), 10, lang)
+            self.assertTrue(any(word in r for r in kept), lang)
+            self.assertEqual(self.sb.load(lang)["lang"], lang)
+        self.assertTrue(os.path.isfile(os.path.join(WS, "library", "localization", "GUIDE.md")))
+
     def test_missing_lang_empty(self):
         self.assertEqual(self.sb.load("ja"), {"lang": "ja", "rules": [], "examples": []})
         self.assertEqual(self.sb.kept("ja"), [])

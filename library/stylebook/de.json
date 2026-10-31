@@ -1,0 +1,139 @@
+{
+ "lang": "de",
+ "rules": [
+  {
+   "id": "R01",
+   "text": "A history storyteller's voice, not a classroom and not a Shorts-style \"Today you'll build…\" voice.",
+   "status": "kept",
+   "from": "vi.json R01, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R02",
+   "text": "Now and then ask the viewer a direct question.",
+   "status": "kept",
+   "from": "vi.json R02, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R03",
+   "text": "Light humour that young viewers get; never academic, never a lecture.",
+   "status": "kept",
+   "from": "vi.json R03, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R04",
+   "text": "Short sentences, one idea each.",
+   "status": "kept",
+   "from": "vi.json R04, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R05",
+   "text": "A paragraph may end with one short joke.",
+   "status": "kept",
+   "from": "vi.json R05, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R06",
+   "text": "No English slang (the voice engine misreads it); light colloquial German is fine.",
+   "status": "kept",
+   "from": "vi.json R06, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R07",
+   "text": "Open with a real question; never open with congratulations.",
+   "status": "kept",
+   "from": "vi.json R07, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R08",
+   "text": "Address the viewer as \"du\" (lower case in running text), never \"Sie\"; never a lecturing \"wir\".",
+   "status": "kept",
+   "from": "vi.json R08, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R09",
+   "text": "A joke never bends a fact.",
+   "status": "kept",
+   "from": "vi.json R09, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R10",
+   "text": "End with an archaeological twist or \"what is left today\".",
+   "status": "kept",
+   "from": "vi.json R10, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R11",
+   "text": "Numbers easy to hear: digits, only numbers from the linked facts; exact figures go on the on-screen card.",
+   "status": "kept",
+   "from": "vi.json R11, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R12",
+   "text": "Never name a modern source (author, paper, museum, link). When records disagree, tell both in plain words: \"Die Chronik der Trần berichtet…, die Geschichte der Yuan dagegen…\".",
+   "status": "kept",
+   "from": "vi.json R12, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R13",
+   "text": "Certainty words: legend → \"der Legende nach\"; debated → \"manche Historiker meinen\"; archaeology → \"deutet darauf hin\", never \"beweist\".",
+   "status": "kept",
+   "from": "vi.json R13 + GUIDE §6, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R14",
+   "text": "Open a new question every 60–90 seconds to keep the viewer.",
+   "status": "kept",
+   "from": "vi.json R14, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R15",
+   "text": "At most 1–3 places per video where records disagree, the ones that matter most for the story.",
+   "status": "kept",
+   "from": "vi.json R15, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R16",
+   "text": "Write natively for a viewer of this country who does not know Vietnam; never translate Vietnamese sentences.",
+   "status": "kept",
+   "from": "GUIDE §1, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R17",
+   "text": "Explain context a foreign viewer lacks only with the beat's own facts; otherwise say less.",
+   "status": "kept",
+   "from": "GUIDE §3, rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R18",
+   "text": "Avoid long compound nouns; split them into two words or a short phrase.",
+   "status": "kept",
+   "from": "GUIDE §9 (de), rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  },
+  {
+   "id": "R19",
+   "text": "Dates as \"April 1288\"; numbers as digits.",
+   "status": "kept",
+   "from": "GUIDE §9 (de), rewritten for de (Plan 6)",
+   "added": "2026-11-01"
+  }
+ ],
+ "examples": []
+}
