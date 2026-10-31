@@ -30,6 +30,20 @@ A lane is the maximum number of jobs of that sort running at once.
 
 All of these are gitignored except `project.json`.
 
+## Job kinds
+
+| Kind | Lane | Module | What it does |
+|---|---|---|---|
+| `claude` | claude | `claude_box` | The Claude box (one session per project) |
+| `agy_research`, `agy_draft`, `agy_chat` | agy | `workers`, `chat` | Research sources, write the Vietnamese draft, chat edits |
+| `claude_verify`, `claude_review` | claude | `workers` | Check facts against quotes, review the Vietnamese script |
+| `agy_shotlist`, `agy_image`, `agy_image_review` | agy | `workers`, `image_worker` | Shot list, image generation, image review |
+| `agy_rewrite` | agy | `langscript` | Native rewrite of one language from the beat outline (no Vietnamese sentences) |
+| `claude_review_lang` | claude | `langscript` | Review one language; clean → auto-approve, flags → "Cần bạn" with back-translation |
+| `timing_build` | cpu | Plan 5 `timing` | Sentence timing from the voice parts (queued by `voice.drop` when all parts are in) |
+| `agy_upload_texts` | agy | `upload` | Title, description (one sources line, no links), tags |
+| `render_thumb` | render | `thumb` | Thumbnail still (Remotion `Thumb`) → `lang/<code>/upload/thumb.png` |
+
 ## For later plans
 
 Add a job kind:

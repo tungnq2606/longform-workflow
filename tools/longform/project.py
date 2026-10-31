@@ -75,6 +75,24 @@ def load_project(pdir):
         return json.load(f)
 
 
+def add_language(pdir, code):
+    """Add a configured output language to a project and create its folders (Plan 6). Returns the new list."""
+    if not isinstance(code, str) or code not in load_languages():
+        raise ValueError("ngôn ngữ chưa khai báo trong config/languages.json: %s" % code)
+    with _new_lock:
+        meta = load_project(pdir)
+        if code in meta["languages"]:
+            raise ValueError("dự án đã có ngôn ngữ %s" % code)
+        for sub in LANG_DIRS:
+            os.makedirs(os.path.join(pdir, "lang", code, sub), exist_ok=True)
+        meta["languages"].append(code)
+        p = os.path.join(pdir, "project.json")
+        with open(p + ".tmp", "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=1)
+        os.replace(p + ".tmp", p)
+    return meta["languages"]
+
+
 def list_projects():
     """Every project whose project.json reads; a broken one is skipped so it cannot hide the others."""
     out = []

@@ -2,6 +2,7 @@
 import json
 import os
 from dataclasses import dataclass
+from typing import Optional
 
 from tools.longform import paths
 
@@ -15,6 +16,9 @@ class Lang:
     speed: float
     font: str
     line_break: str
+    chars_per_second: float = 15.0  # Plan 6 voice parts
+    max_part_seconds: Optional[float] = None
+    max_part_chars: Optional[int] = None
 
 
 def load_languages():

@@ -19,3 +19,10 @@ Status key: OK = cleared for commercial use on the evidence below; ACTION = must
 | Remotion 4.0.537 (`tools/anim/`) | Animated video renderer (React) | CHECK | Remotion License (in `tools/anim/node_modules/remotion/LICENSE.md`): free, including commercial videos, for an individual or a for-profit company with up to 3 employees; larger companies need a paid Company License (remotion.pro). OK if the channel is run by the owner personally; if it is run by or for a company with more than 3 employees, buy the Company License before publishing videos made with it. |
 
 Evidence links: ElevenLabs pricing https://elevenlabs.io/pricing ; Microsoft font FAQ https://learn.microsoft.com/en-us/typography/fonts/font-faq ; YouTube disclosure https://support.google.com/youtube/answer/14328491 ; Patrick Hand https://github.com/google/fonts/tree/main/ofl/patrickhand
+
+## Japanese font: Noto Sans JP (Plan 6, 2026-11-01)
+
+- File: `tools/kit/fonts/NotoSansJP-Variable.ttf` (variable weight 100–900; renamed from `NotoSansJP[wght].ttf`), used for ja on-screen text and thumbnails.
+- Downloaded from https://github.com/google/fonts/raw/main/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf (folder https://github.com/google/fonts/tree/main/ofl/notosansjp) on 2026-11-01.
+- SHA-256: `c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f`
+- Licence: SIL Open Font License 1.1 (`OFL.txt` in the same folder: "Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'"). Commercial use and embedding in videos/images allowed; the font itself must not be sold alone. Status: OK.

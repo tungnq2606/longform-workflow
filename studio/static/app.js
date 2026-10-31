@@ -2,6 +2,7 @@
 import {mountScript} from './script_view.js';
 import {mountImages} from './images_view.js';
 import {mountLibrary} from './library_view.js';
+import {mountLangs} from './langs_view.js';
 import {route, stateIcon, kindIcon, jobLine, runState, pauseButton, nextTheme, clock, stateLabel, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
 
 const $ = (id) => document.getElementById(id);
@@ -160,7 +161,7 @@ function renderProject(d, tab) {
   const tabs = h('nav', {class: 'tabs'}, Object.entries(TABS).map(([k, label]) =>
     h('a', {href: `#/p/${p.id}/${k}`, class: k === tab ? 'cur' : ''}, label)));
   const head = [h('h1', {}, `${p.id.slice(0, 3)} · ${p.title}`), h('section', {class: 'card phead'}, steps, langs), tabs];
-  if (tab === 'script' || tab === 'images') return head;  // these screens are mounted once below the header (mounted())
+  if (tab === 'script' || tab === 'images' || tab === 'langs') return head;  // these screens are mounted once below the header (mounted())
   const body = tab === 'overview'
     ? h('section', {class: 'card'}, h('h2', {}, `🔔 Cần bạn (${d.inbox.length})`), inboxList(d.inbox, false))
     : h('p', {class: 'soon'}, `Màn hình ${TABS[tab]} làm ở Phần ${TAB_PLAN[tab]}.`);
@@ -171,9 +172,9 @@ let mount = null;  // {key, el}: a screen with its own polling, kept across poll
 
 function mounted() {
   let key = null, make = null;
-  if (current.screen === 'project' && viewData && viewData.project && (current.tab === 'script' || current.tab === 'images')) {
+  if (current.screen === 'project' && viewData && viewData.project && (current.tab === 'script' || current.tab === 'images' || current.tab === 'langs')) {
     key = `${current.tab}:${current.id}`;
-    make = () => (current.tab === 'script' ? mountScript : mountImages)(current.id, {h, api});
+    make = () => ({script: mountScript, images: mountImages, langs: mountLangs})[current.tab](current.id, {h, api});
   } else if (current.screen === 'library') {
     key = 'library';
     make = () => mountLibrary({h, api});
