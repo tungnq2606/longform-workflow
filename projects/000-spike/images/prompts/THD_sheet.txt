@@ -1,6 +1,0 @@
-STYLE: Same ink-and-watercolor comic style. Cartoon proportions about 4 heads tall, large round head, simple face: dot eyes, simple brows, small line mouth. Fully clothed in period-accurate clothing. Full body, feet visible, standing on nothing. Plain flat chroma green background #00B140 filling the whole frame, no floor, no shadow, no text.
-
-SHOT: character model sheet, 16:9, one character shown three times side by side at the same size with equal gaps: front view (left), three-quarter view facing left (centre), side view facing left (right). Each figure fills 85% of the frame height, feet fully visible.
-CHARACTER: a 13th-century Vietnamese Trần dynasty general, middle-aged man, calm and confident; short black beard and moustache; black hair in a topknot covered by a dark brown cloth head wrap; long dark red robe reaching the shins; brown leather lamellar vest armour over the robe; wide dark sash at the waist; black cloth boots. Hands empty, arms relaxed at the sides.
-LIGHT: flat even light, no cast shadows.
-MUST NOT: background scenery, floor, shadows, text, labels, weapons, extra characters, cropped feet, any green on the clothing.

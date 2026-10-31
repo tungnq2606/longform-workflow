@@ -1,9 +1,0 @@
-STYLE: Same ink-and-watercolor comic style. Cartoon proportions about 4 heads tall, large round head, simple face: dot eyes, simple brows, small line mouth. Fully clothed in period-accurate clothing. Full body, feet visible, standing on nothing. Plain flat chroma green background #00B140 filling the whole frame, no floor, no shadow, no text.
-
-REFERENCE: Image 1 is the approved model sheet of this character. Keep his identity exactly: face, beard, head wrap and topknot, dark red robe, brown lamellar vest, dark sash, black boots, colours, line weight and proportions. Draw ONE figure only, not a sheet.
-
-SHOT: 16:9, one full-body figure centred, filling 85% of the frame height, feet fully visible with green space below them.
-POSE: three-quarter view facing image left; feet apart in a firm stance; right arm fully extended toward image left at shoulder height, index finger pointing; left hand resting on the sash at his waist.
-EXPRESSION: determined: brows lowered and drawn together, eyes looking along the pointing arm, mouth closed in a firm line.
-LIGHT: flat even light, no cast shadows.
-MUST NOT: a second figure, background scenery, floor, shadow, text, weapons, cropped feet, any green on the clothing.
