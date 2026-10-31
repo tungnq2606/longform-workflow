@@ -311,6 +311,9 @@ def review_end(job):
               screen="script", key="script:%s" % pid)
 
 
+# Image kinds (agy_image, agy_image_review) live with their worker; importing it registers them.
+from tools.longform import image_worker  # noqa: E402,F401
+
 jobs.register(jobs.Kind("agy_research", "agy", research_build, cwd=_cwd, on_end=_guarded(research_end)))
 jobs.register(jobs.Kind("claude_verify", "claude", verify_build, cwd=_cwd, on_line=claude_box.on_line, on_end=_guarded(verify_end)))
 jobs.register(jobs.Kind("agy_draft", "agy", draft_build, cwd=_cwd, on_end=_guarded(draft_end)))
