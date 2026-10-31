@@ -29,9 +29,9 @@ DIGIT_GROUP = re.compile(r"\d(?:[\d.,'’\u00a0\u202f]*\d)?")
 _CJK_NUM = "一二三四五六七八九十百千万億"
 _CJK = re.compile(r"[%s]{2,}|[%s](?:年|月|日|人|名|隻|艘|歳|岁|騎|骑|里|世紀|世纪|個|个)" % (_CJK_NUM, _CJK_NUM))
 # Number words of the other languages (digits are caught separately). German compounds ("dreihundert") need no word
-# boundaries; single small numbers ("ein", "un") are too common to count, except English one…twenty.
+# boundaries; single small numbers ("ein", "un", English "one") are too common to count; English two…twenty do.
 LANG_NUM_WORDS = {
-    "en": re.compile(r"\b(hundreds?|thousands?|millions?|billions?|one|two|three|four|five|six|seven|eight|nine|ten|"
+    "en": re.compile(r"\b(hundreds?|thousands?|millions?|billions?|two|three|four|five|six|seven|eight|nine|ten|"
                      r"eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|"
                      r"fifty|sixty|seventy|eighty|ninety)\b", re.IGNORECASE),
     "de": re.compile(r"(hundert|tausend|million|milliarde|zwanzig|dreißig|dreissig|vierzig|fünfzig|sechzig|siebzig|"

@@ -101,7 +101,7 @@ class ScriptTest(unittest.TestCase):
         f = self.script.is_factual
         for lang, yes, no in [
                 ("en", ["Four hundred ships were taken.", "Thirty ships sank.", "Twelve men rowed.", "A million arrows flew."],
-                 ["The river was calm.", "Someone shouted."]),
+                 ["The river was calm.", "Someone shouted.", "No one knew.", "One day the river rose.", "He was the one."]),
                 ("ja", ["三百隻の船が来た。", "兵は二十万人いた。", "十年後に戻った。"], ["川は静かだった。", "みんなで行こう。"]),
                 ("zh", ["三百艘船来了。"], ["河水很平静。"]),
                 ("de", ["Dreihundert Schiffe kamen.", "Zwanzig Boote sanken.", "Eine Million Pfeile.", "Tausende Krieger."],
