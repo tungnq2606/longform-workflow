@@ -1,5 +1,5 @@
 // Studio UI: hash router, polling, job bar, Claude box. User text only ever goes in via textContent.
-import {route, stateIcon, kindIcon, progressBar, jobLine, TABS, TAB_PLAN} from './lib.js';
+import {route, stateIcon, kindIcon, progressBar, jobLine, runState, TABS, TAB_PLAN} from './lib.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -28,6 +28,13 @@ async function api(path, body) {
 let current = route(location.hash);
 let claudeProject = undefined;
 let openLog = null;          // {id, offset}
+let isPaused = false;
+let lastJobs = [];
+
+function showRunState() {
+  $('runstate').textContent = runState(isPaused, lastJobs);
+  $('runstate').classList.toggle('paused', isPaused);
+}
 let lastClaudeJobs = '';
 
 // ---------------------------------------------------------------- views
@@ -102,8 +109,8 @@ async function refresh() {
   }
   $('view').replaceChildren(...nodes.flat());
   if (paused) {
-    $('runstate').textContent = paused.on ? '🟡 Đang tạm dừng' : '🟢 Đang chạy';
-    $('runstate').classList.toggle('paused', paused.on);
+    isPaused = paused.on;
+    showRunState();
     $('pause').textContent = paused.on ? 'Chạy tiếp' : 'Tạm dừng';
     $('pause').dataset.on = paused.on ? '1' : '';
     $('pausebar').hidden = !paused.on;
@@ -117,6 +124,8 @@ async function refresh() {
 async function refreshJobs() {
   let list;
   try { list = await api('/api/jobs'); } catch { return; }
+  lastJobs = list;
+  showRunState();
   const live = list.filter((j) => j.status === 'running' || j.status === 'queued');
   const ended = list.filter((j) => j.status !== 'running' && j.status !== 'queued').slice(0, 5);
   const rows = [...live, ...ended].map((j) => h('li', {onclick: () => showLog(j.id)},

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {route, stateIcon, kindIcon, progressBar, jobLine} from './lib.js';
+import {route, stateIcon, kindIcon, progressBar, jobLine, runState} from './lib.js';
 
 test('route', () => {
   assert.deepEqual(route(''), {screen: 'home'});
@@ -43,4 +43,13 @@ test('jobLine', () => {
     const line = jobLine({label: 'Claude: x', status});
     assert.ok(line.endsWith(`Claude: x · ${vi}`), line);
   }
+});
+
+test('runState', () => {
+  const j = (status) => ({status});
+  assert.equal(runState(false, []), '⚪ Rảnh: không có job nào');
+  assert.equal(runState(false, [j('running'), j('done')]), '▶ 1 job đang chạy');
+  assert.equal(runState(false, [j('running'), j('queued'), j('queued')]), '▶ 1 job đang chạy · 2 job chờ');
+  assert.equal(runState(true, []), '🟡 Tạm dừng');
+  assert.equal(runState(true, [j('running'), j('queued')]), '🟡 Tạm dừng · 1 job làm nốt · 1 job chờ');
 });

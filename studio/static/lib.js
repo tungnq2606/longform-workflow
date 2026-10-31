@@ -30,3 +30,15 @@ export function progressBar(done, total, width = 7) {
 export const STATUS_VI = {queued: 'chờ', running: 'đang chạy', done: 'xong', failed: 'hỏng', stopped: 'đã dừng', interrupted: 'bị ngắt'};
 const STATUS_ICONS = {queued: '⏳', running: '▶', done: '✅', failed: '❌', stopped: '⏹', interrupted: '⚠️'};
 export const jobLine = (job) => `${STATUS_ICONS[job.status] || '•'} ${job.label} · ${STATUS_VI[job.status] || job.status}`;
+
+// Top-bar status: what the queue is actually doing right now.
+export function runState(paused, jobs) {
+  const running = jobs.filter((j) => j.status === 'running').length;
+  const queued = jobs.filter((j) => j.status === 'queued').length;
+  const parts = [];
+  if (running) parts.push(paused ? `${running} job làm nốt` : `${running} job đang chạy`);
+  if (queued) parts.push(`${queued} job chờ`);
+  if (paused) return ['🟡 Tạm dừng', ...parts].join(' · ');
+  if (!running && !queued) return '⚪ Rảnh: không có job nào';
+  return '▶ ' + parts.join(' · ');
+}
