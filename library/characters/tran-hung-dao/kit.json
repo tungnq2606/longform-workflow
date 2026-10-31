@@ -1,0 +1,30 @@
+{
+ "id": "tran-hung-dao",
+ "images": {
+  "stand.calm": {
+   "file": "stand_calm.png",
+   "anchor": [
+    308,
+    1405
+   ],
+   "size": [
+    553,
+    1422
+   ]
+  },
+  "point.determined": {
+   "file": "point_determined.png",
+   "anchor": [
+    620,
+    1404
+   ],
+   "size": [
+    886,
+    1421
+   ]
+  }
+ },
+ "name": "Trần Hưng Đạo",
+ "height": 620,
+ "model_sheet": "model_sheet.png"
+}

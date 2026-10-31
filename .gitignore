@@ -17,3 +17,4 @@ projects/*/render/
 __pycache__/
 .DS_Store
 **/agy_workspace/
+tools/upscale/vendor/

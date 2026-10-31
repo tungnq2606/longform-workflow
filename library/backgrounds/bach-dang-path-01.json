@@ -1,0 +1,8 @@
+{
+ "note": "Bạch Đằng riverbank with a winding path (spike BG01, agy + Real-ESRGAN animevideov3). Coordinates are 2560x1440 frame pixels with the image fitted to the frame (camera scale 1). path runs from the near-right foreground to the far end at the horizon.",
+ "image": "library/backgrounds/bach-dang-path-01.png",
+ "horizonY": 588,
+ "groundY": 1440,
+ "path": [[2620, 1050], [1400, 1045], [500, 1035], [260, 1010], [320, 960], [500, 900], [660, 840], [720, 790], [600, 740], [500, 690], [640, 625], [765, 588]],
+ "heroGround": 1320
+}

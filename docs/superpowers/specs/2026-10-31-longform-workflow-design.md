@@ -95,11 +95,11 @@ Luật chống bịa (chạy tự động sau mỗi lượt AI):
 1. AI viết chỉ được dùng dữ kiện đã có trong ngân hàng. Văn thì viết lại tự do; dữ kiện mới phải vào ngân hàng và qua kiểm trước khi được dùng.
 2. Không có trích nguyên văn thì không phải dữ kiện.
 3. Hạng nguồn: A = bài khoa học, bảo tàng, cơ quan di sản, bản dịch chính sử đã xuất bản; B = báo lớn, bách khoa; C = blog, trang du lịch, wiki. Con số cần 1 nguồn A hoặc 2 nguồn B độc lập; nguồn C không đủ một mình.
-4. Kiểm độc lập: một model khác với model viết (**[Claude quyết]** Claude viết, tìm nguồn và dịch; Gemini kiểm) tự mở lại nguồn và trả lời "nguồn có nói đúng điều này không".
+4. Kiểm độc lập: một model khác với model viết. **Chia việc (chủ kênh, 2026-10-31):** agy (Gemini) tìm nguồn và viết bản kịch bản đầu; Claude review lại kịch bản: đối chiếu từng dữ kiện với nguồn, nội dung và văn phong tự mở lại nguồn và trả lời "nguồn có nói đúng điều này không".
 5. Mức chắc chắn phải hiện trong lời: "tương truyền" cho truyền thuyết, "có ý kiến cho rằng" cho chỗ tranh cãi, "cho thấy" chứ không "chứng minh" cho khảo cổ.
 6. Khi các ghi chép vênh nhau: nêu cả hai, nói rõ bên nào ghi gì, bằng giọng kể chuyện (biến chỗ vênh thành câu hỏi mở, một ý một câu, số tròn khi đọc, số chính xác hiện trên thẻ hai cột trên màn hình). Không tự giải thích vì sao khác, trừ khi có nguồn. **[Claude quyết]** Mỗi video chỉ đưa 1–3 chỗ vênh quan trọng nhất; chỗ vênh không cần cho câu chuyện thì bỏ dữ kiện đó.
 
-**Claude chạy trên gói Claude hiện tại** (Claude Code headless, như ô Claude trên dashboard), không dùng API key (chủ kênh chọn 2026-10-31). Vì quota gói có hạn, việc kiểm độc lập và lọc đơn giản giao cho Gemini (gói Ultra) và code; khi chạm giới hạn quota, việc Claude dừng ở trạng thái lưu được và tiếp tục sau, không mất phần đã làm.
+**Claude chạy trên gói Claude hiện tại** (Claude Code headless, như ô Claude trên dashboard), không dùng API key (chủ kênh chọn 2026-10-31). Phần việc nặng (tìm nguồn, viết nháp, toàn bộ hình ảnh) do agy (gói Ultra) làm; Claude làm review kịch bản và Remotion; khi chạm giới hạn quota, việc Claude dừng ở trạng thái lưu được và tiếp tục sau, không mất phần đã làm.
 
 Chủ kênh hiểu hệ thống này giảm mạnh rủi ro sai nhưng không bảo đảm 100%; chủ kênh là người chốt ở câu vàng và đỏ.
 
@@ -111,9 +111,11 @@ Kịch bản video dài cần mạch chương (ví dụ cho đề tài Mông–N
 
 ### 4.5 Hình ảnh
 
-**Chia việc**: AI (Gemini qua agy cho mọi ảnh; chủ kênh bỏ hẳn gflow/Flow ngày 2026-10-31) vẽ **nền, ngoại cảnh, đạo cụ và bộ ảnh nhân vật quan trọng**. Mọi chuyển động, chữ, bản đồ, nhãn là việc của Remotion.
+**Chia việc**: agy đảm nhận **toàn bộ phần hình ảnh** (tạo và review; chủ kênh bỏ hẳn gflow/Flow ngày 2026-10-31) vẽ **nền, ngoại cảnh, đạo cụ và bộ ảnh nhân vật quan trọng**. Mọi chuyển động, chữ, bản đồ, nhãn là việc của Remotion.
 
 **Style**: theo video mẫu: nét mực đen kiểu truyện tranh châu Âu, màu phẳng nhạt như màu nước, nền chi tiết hơn nhân vật, góc nhìn ngang tầm mắt. Mẫu animation chủ kênh đưa: `/Users/quoctung/Downloads/march.mp4` (nền AI không người; đoàn lính người que vẽ bằng code đi theo đường cong, nhỏ dần theo chiều sâu; tiêu đề và ngày bằng chữ Remotion; camera mở từ màn đen rồi zoom, lia chậm).
+
+**Chất lượng ảnh** (chủ kênh, 2026-10-31: phải đạt chất lượng video YouTube): công cụ tạo ảnh của agy không có tùy chọn độ phân giải và trả ảnh khoảng 1376x768, nên mọi ảnh qua một bước **phóng to bằng AI chạy trên máy** trước khi dùng, sao cho nền đạt tối thiểu 2560x1440 thật (cộng dư cho camera zoom) và nét mực không nhòe; ảnh không đạt thì bị loại ở bước kiểm máy.
 
 **Nền**: không người, không chữ, có đường mặt đất hoặc con đường để nhân vật đứng/đi, rộng hơn khung 16:9 để camera lia. Review đánh trượt nền có người hoặc chữ. Nền dùng lại được thì vào `library/`.
 
@@ -137,13 +139,14 @@ Kịch bản video dài cần mạch chương (ví dụ cho đề tài Mông–N
 - Chữ: tiêu đề chương, ngày, nhãn tên, thẻ so sánh hai nguồn, chữ chạy, tất cả theo ngôn ngữ đang render.
 - Bản đồ: Remotion vẽ từ đường bờ biển thật (Natural Earth, public domain) với lớp tô kiểu vẽ tay; mũi tên hành quân chạy; biên giới lịch sử phải có nguồn trong ngân hàng dữ kiện. Không dùng bản đồ do AI vẽ.
 
-Cảnh gắn theo **số thứ tự câu** (như bộ `tools/anim` hiện có), nên cùng một file cảnh dùng cho mọi ngôn ngữ; thời lượng mỗi cảnh tự theo giọng của ngôn ngữ đang render.
+Phần Remotion cần AI (viết cảnh, ghép phân cảnh, chỉnh chuyển động) do **Claude** làm (chủ kênh, 2026-10-31). Cảnh gắn theo **mã cảnh (beat)**, không theo số câu, nên cùng một file cảnh dùng cho mọi ngôn ngữ; thời lượng mỗi cảnh tự theo giọng của ngôn ngữ đang render.
 
 ### 4.7 Đa ngôn ngữ
 
 - Danh sách ngôn ngữ chọn được theo dự án; bộ đầu: vi (gốc), en, ja, de, es; thêm ngôn ngữ chỉ cần khai báo.
-- **Dịch đúng 1 câu ra 1 câu.** Câu đùa và tiếng lóng không dịch từng chữ: chuyển sang kiểu tự nhiên của ngôn ngữ đích theo sổ văn phong ngôn ngữ đó, không thêm dữ kiện.
-- Kiểm tự động mỗi bản dịch: đủ số câu, đủ con số, tên riêng khớp bảng thuật ngữ, không câu mới; model khác với model dịch so lại với bản gốc.
+- **Không dịch, mà viết lại kịch bản bằng từng ngôn ngữ** (chủ kênh, 2026-10-31), để văn phong tự nhiên với khán giả nước đó. agy viết bản mỗi ngôn ngữ từ **ngân hàng dữ kiện + dàn ý theo cảnh** (không dịch từ câu tiếng Việt), dùng một skill viết lại/bản địa hóa riêng cho agy, sổ văn phong và bảng thuật ngữ của ngôn ngữ đó; Claude review như bản tiếng Việt (dữ kiện, nội dung, văn phong).
+- **Đơn vị khớp hình là cảnh (beat), không phải câu** [Claude quyết, hệ quả của việc viết lại]: mỗi cảnh có danh sách dữ kiện và hình cố định; bản mỗi ngôn ngữ viết lại cảnh đó bằng số câu tùy ý nhưng chỉ dùng đúng các dữ kiện của cảnh; thời lượng cảnh theo giọng của ngôn ngữ đó.
+- Kiểm tự động mỗi bản ngôn ngữ: đủ cảnh, mỗi cảnh không có dữ kiện ngoài danh sách của nó, đủ con số, tên riêng khớp bảng thuật ngữ.
 - `library/` có bảng thuật ngữ lịch sử và bảng phiên âm tên riêng cho từng ngôn ngữ (ví dụ Trần Hưng Đạo trong tiếng Nhật: チャン・フン・ダオ), dùng chung mọi video.
 - Giọng: tiếng Việt Vbee (tốc độ đã đo 1.13); en/ja/de/es ElevenLabs đa ngôn ngữ (gói trả phí). Cấu hình giọng, tốc độ theo ngôn ngữ.
 - **Chủ kênh tự tạo giọng trên web** (chọn 2026-10-31), không qua API. Workflow chuẩn bị sẵn text từng phần theo giới hạn của mỗi công cụ (Vbee chèn câu hệ thống khi một file dài hơn ~1 phút, nên cắt dưới mức đó; ElevenLabs dùng extension Edge `tools/edge-tts-batch` như hiện có), đặt tên file sẵn, hiện thành việc trong "Cần bạn" cho từng ngôn ngữ; chủ kênh kéo thả mp3 vào là workflow tự nhận, tự kiểm đủ phần, tự dò thời điểm từng câu bằng khoảng lặng như hiện có.
@@ -181,7 +184,6 @@ Cộng màn hình **Kịch bản** dạng chat ở mục 4.4.
 ## 5. Các quyết định Claude đã tự đưa ra (chủ kênh xem lại)
 
 - Bố cục thư mục `projects/` + `lang/<mã>/` + `library/` + cấu hình ngôn ngữ chung.
-- Claude viết và tìm nguồn, Gemini kiểm độc lập.
 - Mỗi video chỉ nêu 1–3 chỗ các nguồn vênh nhau.
 - Nhân vật quan trọng do AI vẽ thành bộ ảnh rời (không vẽ bằng code); ranh giới hạng = có tên và xuất hiện từ 2 cảnh.
 - Review bắt đầu với agy, sẵn đường đổi sang Gemini API.
