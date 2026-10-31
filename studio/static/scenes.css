@@ -1,0 +1,44 @@
+/* Scene board (Plan 5). Uses the colour tokens of style.css, so light and dark themes both work. */
+.scb { display: flex; flex-direction: column; gap: 12px; }
+.scb-bar { display: flex; flex-direction: column; gap: 10px; }
+.scb-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.scb-head .grow { flex: 1; }
+.scb-count { font-size: 13px; font-weight: 600; padding: 2px 10px; border-radius: 999px; }
+.scb-count.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+.scb-count.ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.scb-renders { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.scb-render { display: inline-flex; align-items: center; gap: 6px; }
+.scb-file { max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.scb-notes { display: flex; flex-direction: column; gap: 6px; }
+.scb-warn { background: var(--warnbar); color: var(--warnbar-ink); border-radius: 10px; padding: 8px 12px; }
+.scb-err { color: var(--bad); padding: 2px 4px; }
+.scb-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.scb-table { border-collapse: collapse; width: 100%; min-width: 1180px; font-size: 13.5px; }
+.scb-table th { text-align: left; font-weight: 600; color: var(--muted); padding: 10px; border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; background: var(--card); }
+.scb-table td { padding: 10px; border-top: 1px solid var(--line); vertical-align: top; }
+.scb-table tr.bad td:first-child { box-shadow: inset 4px 0 0 var(--bad); }
+.scb-id { min-width: 110px; }
+.scb-sent { min-width: 240px; max-width: 360px; }
+.scb-sent div { margin-bottom: 3px; }
+.scb-bg img, .scb-pv img { display: block; width: 150px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--card-2); }
+.scb-pv { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.scb-chips { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.chip.bad { border-color: var(--bad); color: var(--bad); }
+.scb-x { background: transparent; color: var(--muted); padding: 0 0 0 6px; font-weight: 500; }
+.scb-x:hover { color: var(--bad); }
+.scb-add { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.scb-add select { max-width: 190px; padding: 4px 8px; font-size: 13px; }
+.scb-music { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 13px; }
+.scb-music select { padding: 4px 8px; font-size: 13px; }
+.scb-sound { min-width: 200px; }
+.scb-status { font-weight: 600; font-size: 13px; }
+.scb-status.bad { color: var(--bad); }
+.scb-status.ok { color: var(--ok); }
+.scb-status.todo { color: var(--muted); }
+.scb-probs { margin: 6px 0 0; padding-left: 16px; color: var(--bad); font-size: 12.5px; max-width: 260px; }
+@media (max-width: 700px) {
+  .scb-head .grow { display: none; }
+  .scb-file { max-width: 200px; }
+}

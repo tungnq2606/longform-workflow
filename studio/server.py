@@ -428,6 +428,7 @@ ROUTES = [
     ("GET", r"/api/library/kits", library_kits),
     ("POST", r"/api/library/kits/([^/]+)/new_pose", new_pose),
 ]
+from studio import routes_scenes; ROUTES += routes_scenes.ROUTES  # noqa: E402,E702  Plan 5 scene board
 
 
 class Handler(BaseHTTPRequestHandler):
