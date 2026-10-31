@@ -19,3 +19,13 @@ Status key: OK = cleared for commercial use on the evidence below; ACTION = must
 | Remotion 4.0.537 (`tools/anim/`) | Animated video renderer (React) | CHECK | Remotion License (in `tools/anim/node_modules/remotion/LICENSE.md`): free, including commercial videos, for an individual or a for-profit company with up to 3 employees; larger companies need a paid Company License (remotion.pro). OK if the channel is run by the owner personally; if it is run by or for a company with more than 3 employees, buy the Company License before publishing videos made with it. |
 
 Evidence links: ElevenLabs pricing https://elevenlabs.io/pricing ; Microsoft font FAQ https://learn.microsoft.com/en-us/typography/fonts/font-faq ; YouTube disclosure https://support.google.com/youtube/answer/14328491 ; Patrick Hand https://github.com/google/fonts/tree/main/ofl/patrickhand
+
+# Long-form workflow (2026-11-01, Plan 5)
+
+| Item | What we use | Status | Evidence / action |
+|---|---|---|---|
+| Font | Be Vietnam Pro ExtraBold (`tools/kit/fonts/BeVietnamPro-ExtraBold.ttf`): on-screen text in vi/en/de/es | OK | SIL Open Font License 1.1 (`tools/kit/fonts/LICENSE_BeVietnamPro.txt`), https://github.com/bettergui/BeVietnamPro |
+| Remotion 4.0.537 (`tools/anim/`) | Renders every long-form video | CHECK | Free for an individual or a company with up to 3 employees (`tools/anim/node_modules/remotion/LICENSE.md`); a larger company needs the Company License (remotion.pro). |
+| Real-ESRGAN ncnn-vulkan v0.2.5.0 + realesr-animevideov3 (`tools/upscale/vendor/`) | Upscales agy images | OK | BSD-3-Clause, https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan ; no claim on output images. |
+| Natural Earth (`library/maps/vn_region.json`) | Coastline and land drawn by code on maps | OK | Public domain, https://www.naturalearthdata.com/about/terms-of-use/ (download URL and SHA-256 below). |
+| Music and SFX (`library/audio/`) | Chapter music and light sound effects | per file | Each file needs a licence for monetised YouTube; `python -m tools.longform.audio_lib add` refuses a file without one and lists it in the table below. |
