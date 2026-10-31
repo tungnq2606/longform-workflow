@@ -18,7 +18,8 @@ def fact(fid, src, status="verified", **kw):
     return f
 
 
-FACTS = {f["id"]: f for f in [fact("F1", "S1"), fact("F2", "S2"), fact("F3", "S3"), fact("F4", "S2", "weak"),
+FACTS = {f["id"]: f for f in [fact("F1", "S1", claim="400 chiến thuyền bị bắt", quote="bắt được 400 chiến thuyền"),
+                              fact("F2", "S2", claim="400 chiến thuyền"), fact("F3", "S3", claim="có 400 chiếc"), fact("F4", "S2", "weak"),
                               fact("F5", "S1", "conflict"), fact("F6", "S1", "rejected"), fact("F7", "S1", legend=True),
                               fact("F8", "S4")]}
 
@@ -30,7 +31,7 @@ def s(text, facts=(), kind="narration"):
 def sample_script():
     return {"lang": "vi", "chapters": [{"id": "C01", "title": "Mở đầu", "beats": [{"id": "B01", "goal": "hook", "sentences": [
         {"id": "s001", "text": "Bạn có biết chuyện này không?", "facts": [], "kind": "question", "note": ""},
-        {"id": "s002", "text": "Năm 1288, quân Nguyên đến sông Bạch Đằng.", "facts": ["F1"], "kind": "fact", "note": ""},
+        {"id": "s002", "text": "Rồi quân Nguyên đến sông Bạch Đằng.", "facts": ["F1"], "kind": "fact", "note": ""},
     ]}]}]}
 
 
@@ -87,6 +88,73 @@ class ScriptTest(unittest.TestCase):
         self.assertEqual(self.colour(s("Có 400 chiếc thuyền.", ["F1"]))["colour"], "green")
         self.assertEqual(self.colour(s("Có 400 chiếc thuyền.", ["F2"]))["colour"], "red")
         self.assertEqual(self.colour(s("Có 400 chiếc thuyền.", ["F2", "F3"]))["colour"], "green")
+
+    def test_number_words_are_numbers(self):
+        self.assertTrue(self.script.is_factual(s("Ba mươi vạn quân tràn sang biên giới.")))
+        self.assertTrue(self.script.is_factual(s("Quân giặc có năm trăm chiến thuyền.")))
+        self.assertEqual(self.colour(s("Quân giặc có năm trăm chiến thuyền."))["colour"], "red")
+        c = self.colour(s("Quân giặc có bốn trăm chiến thuyền.", ["F1"]))
+        self.assertEqual(c["colour"], "yellow")  # cannot compare words with the fact: the owner checks
+        self.assertEqual(self.colour(s("Quân giặc có bốn trăm chiến thuyền.", ["F2"]))["colour"], "red")  # one B
+
+    def test_number_must_match_fact(self):
+        self.assertEqual(self.colour(s("Có 999.999 chiếc thuyền.", ["F1"]))["colour"], "red")
+        self.assertEqual(self.colour(s("Có 400 chiếc thuyền.", ["F1"]))["colour"], "green")
+        self.assertEqual(self.colour(s("Năm 1288 có 400 chiếc thuyền.", ["F1"]))["colour"], "red")  # 1288 not in F1
+
+    def test_unreviewed_sentence_yellow(self):
+        x = s("Rồi Trần Hưng Đạo nhìn ra sông.", ["F1"])
+        x["reviewed"] = False
+        c = self.colour(x)
+        self.assertEqual(c["colour"], "yellow")
+        self.assertIn("chưa soát", " ".join(c["reasons"]))
+
+    def test_approval_cleared_when_fact_turns_bad(self):
+        from tools.longform import factbank
+        self.script.save(self.pdir, sample_script(), "agy")
+        self.script.approve(self.pdir, "owner")
+        with open(os.path.join(self.pdir, "research", "facts.jsonl"), "w") as f:
+            for x in FACTS.values():
+                f.write(json.dumps(dict(x, status="rejected") if x["id"] == "F1" else x) + "\n")
+        self.assertTrue(self.script.recheck_approval(self.pdir))
+        self.assertFalse(self.script.load(self.pdir)["approved"])
+        self.assertEqual([i["kind"] for i in self.inbox.open_items()], ["script_approve"])
+
+    def test_approve_refused_while_review_runs(self):
+        from tools.longform import jobs
+        self.script.save(self.pdir, sample_script(), "agy")
+        kinds = dict(jobs.KINDS)
+        try:
+            jobs.register(jobs.Kind("claude_review", "claude", lambda p: ["true"]))
+            jobs.enqueue("claude_review", {"project": "001-a"}, "001-a", "review")
+            with self.assertRaisesRegex(ValueError, "Claude đang soát"):
+                self.script.approve(self.pdir, "owner")
+        finally:
+            jobs.KINDS.clear()
+            jobs.KINDS.update(kinds)
+
+    def test_save_refuses_stale_base(self):
+        self.script.save(self.pdir, sample_script(), "agy")
+        d = self.script.load(self.pdir)
+        self.script.save(self.pdir, d, "owner")  # v2
+        with self.assertRaisesRegex(ValueError, "đã đổi"):
+            self.script.save(self.pdir, d, "claude", base=1)
+        self.assertEqual(self.script.load(self.pdir)["version"], 2)
+
+    def test_update_is_locked_read_modify_write(self):
+        import threading
+        self.script.save(self.pdir, sample_script(), "agy")
+
+        def bump(data):
+            data["chapters"][0]["title"] += "x"
+            return data
+        ts = [threading.Thread(target=self.script.update, args=(self.pdir, bump, "t")) for _ in range(8)]
+        for t in ts:
+            t.start()
+        for t in ts:
+            t.join()
+        d = self.script.load(self.pdir)
+        self.assertEqual((d["version"], d["chapters"][0]["title"]), (9, "Mở đầu" + "x" * 8))
 
     def test_yellow_conflict(self):
         self.assertEqual(self.colour(s("Rồi Ô Mã Nhi bị bắt.", ["F5"]))["colour"], "yellow")

@@ -2,7 +2,10 @@ import json
 import os
 import shutil
 import tempfile
+import threading
 import unittest
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from unittest import mock
 
 from tools.longform import factbank
 
@@ -27,8 +30,12 @@ class FactbankTest(unittest.TestCase):
         os.makedirs(os.path.join(self.run, "pages"))
         open(os.path.join(self.run, "pages", "001.txt"), "w").write(PAGE1)
         open(os.path.join(self.run, "pages", "002.txt"), "w").write(PAGE2)
+        self.web = {"https://example.org/toan-thu": PAGE1.split("\n", 1)[1], "https://news.example/coc": PAGE2.split("\n", 1)[1]}
+        self.fetch = mock.patch.object(factbank, "fetch", lambda url: self.web[url] if url in self.web else None)
+        self.fetch.start()
 
     def tearDown(self):
+        self.fetch.stop()
         shutil.rmtree(self.root)
 
     def write_run(self, claims):
@@ -42,6 +49,11 @@ class FactbankTest(unittest.TestCase):
     def test_quote_in_page_exact(self):
         self.assertTrue(factbank.quote_in_page("quân Nguyên đến sông Bạch Đằng", PAGE1))
         self.assertFalse(factbank.quote_in_page("quân Nguyên thua ở sông Hồng", PAGE1))
+
+    def test_quote_too_short(self):
+        self.assertFalse(factbank.quote_in_page("1288", "năm 1288 quân Nguyên đến"))
+        self.assertFalse(factbank.quote_in_page("quân Nguyên đến", "năm 1288 quân Nguyên đến sông"))  # 3 words
+        self.assertTrue(factbank.quote_in_page("1288 quân Nguyên đến sông", "năm 1288 quân Nguyên đến sông"))
 
     def test_quote_in_page_with_ellipsis(self):
         self.assertTrue(factbank.quote_in_page("Năm Mậu Tý, mùa xuân … Hưng Đạo Vương đã cho cắm cọc", PAGE1))
@@ -57,7 +69,57 @@ class FactbankTest(unittest.TestCase):
         self.assertEqual(f["status"], "rejected")
         self.assertEqual(f["check_note"], "trích không có trong trang đã lưu")
 
+    def test_agy_page_invented_rejected_against_studio_fetch(self):
+        # agy saved a page that contains its quote, but the real page (fetched by Studio) does not
+        self.web["https://example.org/toan-thu"] = "Một trang khác hẳn, không nói gì về trận đánh này cả."
+        self.write_run([claim("S001", "quân Nguyên đến sông Bạch Đằng", "https://example.org/toan-thu", "pages/001.txt")])
+        factbank.import_research(self.pdir, self.run, "run-1")
+        f = factbank.load(self.pdir)[1]["F001"]
+        self.assertEqual((f["status"], f["quote_ok"], f["page_by"]), ("rejected", False, "studio"))
+        page = open(os.path.join(self.pdir, f["page_file"])).read()
+        self.assertIn("trang khác hẳn", page)  # the saved page is Studio's download, not agy's copy
+
+    def test_fetch_failed_needs_claude_to_reopen(self):
+        del self.web["https://example.org/toan-thu"]
+        self.write_run([claim("S001", "quân Nguyên đến sông Bạch Đằng", "https://example.org/toan-thu", "pages/001.txt")])
+        factbank.import_research(self.pdir, self.run, "run-1")
+        f = factbank.load(self.pdir)[1]["F001"]
+        self.assertEqual((f["status"], f["quote_ok"], f["page_by"]), ("pending", None, "agy"))
+        self.assertIn("mở lại", f["check_note"])
+
+    def test_owner_cannot_verify_quote_failed_fact(self):
+        self.write_run([claim("S001", "Quân Nguyên bị đánh tan hoàn toàn trên sông", "https://example.org/toan-thu", "pages/001.txt")])
+        factbank.import_research(self.pdir, self.run, "run-1")
+        for st in ("verified", "weak", "conflict"):
+            with self.assertRaises(ValueError):
+                factbank.set_status(self.pdir, "F001", st, "owner", "")
+        self.assertEqual(factbank.load(self.pdir)[1]["F001"]["status"], "rejected")
+
+    def test_duplicate_keeps_conflict_link(self):
+        self.write_run([claim("S001", "quân Nguyên đến sông Bạch Đằng", "https://example.org/toan-thu", "pages/001.txt")])
+        factbank.import_research(self.pdir, self.run, "run-1")
+        self.write_run([claim("S001", "quân Nguyên đến sông Bạch Đằng", "https://example.org/toan-thu", "pages/001.txt"),
+                        claim("S002", "bãi cọc Yên Giang năm 1958", "https://news.example/coc", "pages/002.txt", conflicts_with=["S001"])])
+        factbank.import_research(self.pdir, self.run, "run-2")
+        _, facts = factbank.load(self.pdir)
+        self.assertEqual(facts["F002"]["conflicts_with"], ["F001"])
+        self.assertEqual(facts["F001"]["conflicts_with"], ["F002"])  # mirrored onto the old fact
+
+    def test_one_sided_conflict_mirrored(self):
+        self.write_run([claim("S010", "quân Nguyên đến sông Bạch Đằng", "https://example.org/toan-thu", "pages/001.txt", conflicts_with=["S011"]),
+                        claim("S011", "bãi cọc Yên Giang năm 1958", "https://news.example/coc", "pages/002.txt")])
+        factbank.import_research(self.pdir, self.run, "run-1")
+        _, facts = factbank.load(self.pdir)
+        self.assertEqual(facts["F002"]["conflicts_with"], ["F001"])
+
+    def test_non_object_line_refused(self):
+        with open(os.path.join(self.run, "sources.jsonl"), "w") as f:
+            f.write("[1, 2]\n")
+        with self.assertRaises(ValueError):
+            factbank.import_research(self.pdir, self.run, "run-1")
+
     def test_missing_page_rejected(self):
+        del self.web["https://example.org/toan-thu"]  # Studio cannot download it and agy saved no page
         self.write_run([claim("S001", "quân Nguyên đến sông Bạch Đằng", "https://example.org/toan-thu", "pages/404.txt")])
         factbank.import_research(self.pdir, self.run, "run-1")
         self.assertEqual(factbank.load(self.pdir)[1]["F001"]["status"], "rejected")
@@ -119,6 +181,33 @@ class FactbankTest(unittest.TestCase):
             factbank.set_status(self.pdir, "F001", "great", "x", "")
         with self.assertRaises(KeyError):
             factbank.set_status(self.pdir, "F999", "verified", "x", "")
+
+    def test_fetch_strips_html(self):
+        body = "<html><head><style>x{}</style><script>var a=1</script></head><body><h1>Toàn thư</h1><p>Quân Nguyên&nbsp;đến <b>sông</b> Bạch Đằng.</p></body></html>"
+
+        class H(BaseHTTPRequestHandler):
+            def log_message(self, *a):
+                pass
+
+            def do_GET(self):
+                raw = body.encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(raw)))
+                self.end_headers()
+                self.wfile.write(raw)
+        srv = ThreadingHTTPServer(("127.0.0.1", 0), H)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        self.fetch.stop()
+        try:
+            text = factbank.fetch("http://127.0.0.1:%d/x" % srv.server_address[1])
+            self.assertIn("Quân Nguyên đến sông Bạch Đằng.", " ".join(text.split()))
+            self.assertNotIn("var a", text)
+            self.assertIsNone(factbank.fetch("http://127.0.0.1:1/nothing"))
+        finally:
+            self.fetch.start()
+            srv.shutdown()
+            srv.server_close()
 
     def test_supports_number(self):
         S = {"S1": {"grade": "A"}, "S2": {"grade": "B"}, "S3": {"grade": "B"}, "S4": {"grade": "C"}}

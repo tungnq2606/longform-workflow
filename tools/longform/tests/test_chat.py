@@ -50,6 +50,25 @@ class ChatTest(tw.Base):
         self.assertEqual([(m["role"], m["text"]) for m in h[-3:]],
                          [("owner", "viết lại câu s002"), ("agy", "Đã sửa."), ("system", "Đã lưu kịch bản v2.")])
 
+    def test_chat_edits_marked_unreviewed(self):
+        self.send({"reply": "Ok.", "edits": [
+            {"op": "set", "id": "s002", "text": "Rồi quân Nguyên kéo đến sông Bạch Đằng.", "facts": ["F001"]}]})
+        ss = {x["id"]: x for _, x in self.script.sentences(self.script.load(self.pdir))}
+        self.assertIs(ss["s002"]["reviewed"], False)
+
+    def test_bad_shapes_refused_with_message(self):
+        self.send({"reply": "Ok.", "edits": [{"op": "set", "id": ["s002"], "text": "x", "facts": [["F001"]]}]})
+        self.assertEqual(self.script.load(self.pdir)["version"], 1)
+        self.assertEqual(self.chat.history(self.pdir)[-1]["role"], "system")
+
+    def test_stale_chat_edit_refused(self):
+        self.fixture({"result.json": {"reply": "Ok.", "edits": [{"op": "delete", "id": "s001"}]}})
+        j = self.jobs.enqueue("agy_chat", {"project": "001-a", "message": "bỏ câu 1"}, "001-a", "chat")
+        self.script.save(self.pdir, self.script.load(self.pdir), "owner")  # v2 while agy works on v1
+        self.run_job(j)
+        self.assertEqual(self.script.load(self.pdir)["version"], 2)
+        self.assertIn("đã đổi", self.chat.history(self.pdir)[-1]["text"])
+
     def test_edit_with_rejected_fact_refused_whole(self):
         self.send({"reply": "Đã sửa.", "edits": [
             {"op": "set", "id": "s001", "text": "Bạn đoán thử?", "facts": []},

@@ -17,7 +17,8 @@ $request
 ## Rules
 
 1. **Use only the facts in `facts.json`.** You may phrase freely, but add nothing that is not in a fact.
-2. Legend facts: the sentence says "tương truyền". Archaeology: "cho thấy", never "chứng minh".
+2. Write every number as digits (1288, 400), and only numbers that appear in the linked facts.
+   Legend facts: the sentence says "tương truyền". Archaeology: "cho thấy", never "chứng minh".
 3. Conflict facts: tell both versions in plain words ("sử nhà Trần chép…, còn sử nhà Nguyên lại ghi…"); at most 1–3
    such places in the whole video. Never explain why they differ unless a fact says why.
 4. Never say a source name (author, museum, website) in the voice-over.

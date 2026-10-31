@@ -19,7 +19,7 @@ $message
 1. Never state or write a fact that is not in `facts.json`. If the owner asks for something the bank does not have,
    do not write it: put a research request in `"research"` instead and say so in the reply.
 2. Every sentence you add or change that states an event, number, name or date lists its fact ids in `facts`.
-3. Legend → "tương truyền"; archaeology → "cho thấy", never "chứng minh"; conflicting records → both versions in
+3. Numbers as digits, and only numbers that appear in the linked facts. Legend → "tương truyền"; archaeology → "cho thấy", never "chứng minh"; conflicting records → both versions in
    plain words; never say a source name.
 4. If the owner corrects the voice or style, write the general rule you learned in `"rule"` (one sentence).
 5. **Do not run shell commands and never call MCP tools.** Use only your file read/write tools.

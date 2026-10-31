@@ -170,14 +170,12 @@ def get_script(q, body, pid):
 
 def set_sentence(q, body, pid):
     pdir = project_dir(pid)
-    data = script.load(pdir)
-    fids = body.get("facts") or []
+    edit = [{"op": "set", "id": body.get("id"), "text": body.get("text"), "facts": body.get("facts") or []}]
     allowed = {f["id"] for f in factbank.load(pdir)[1].values() if f["status"] != "rejected"}  # pending shows red
     try:
-        new = chat.apply_edits(data, [{"op": "set", "id": body.get("id"), "text": body.get("text"), "facts": fids}], allowed)
+        return {"version": script.update(pdir, lambda cur: chat.apply_edits(cur, edit, allowed, reviewed=None), "owner")}
     except ValueError as e:
         raise HttpError(400, str(e))
-    return {"version": script.save(pdir, new, "owner")}
 
 
 def approve_script(q, body, pid):
@@ -219,8 +217,11 @@ def get_chat(q, body, pid):
 
 
 def fact_status(q, body, pid, fid):
+    pdir = project_dir(pid)
     try:
-        return factbank.set_status(project_dir(pid), fid, body.get("status"), "owner", str(body.get("note") or ""))
+        f = factbank.set_status(pdir, fid, body.get("status"), "owner", str(body.get("note") or ""))
+        script.recheck_approval(pdir)
+        return f
     except KeyError:
         raise HttpError(404, "không có dữ kiện %s" % fid)
     except ValueError as e:

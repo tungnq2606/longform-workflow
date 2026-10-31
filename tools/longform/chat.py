@@ -51,11 +51,13 @@ def build(params):
     workers._task(run, "CHAT.md", "chat.md", pdir, message=message.strip())
     _append(pdir, "owner", message.strip())
     params["run"] = run
+    params["base_version"] = (cur or {}).get("version", 0)
     return agy.argv("Read CHAT.md in the current folder and do exactly what it says. " + agy.NO_TOOLS)
 
 
-def apply_edits(data, edits, allowed):
-    """A new script with all edits applied, or ValueError (then nothing is applied)."""
+def apply_edits(data, edits, allowed, reviewed=False):
+    """A new script with all edits applied, or ValueError (then nothing is applied). Sentences agy writes are marked
+    reviewed=False (yellow until Claude checks them); the owner's own edits pass reviewed=None."""
     if not isinstance(edits, list):
         raise ValueError("edits phải là danh sách")
     if not data:
@@ -68,24 +70,29 @@ def apply_edits(data, edits, allowed):
         if not isinstance(e, dict):
             raise ValueError("một chỗ sửa không hợp lệ")
         op, fids = e.get("op"), e.get("facts") or []
+        for key in ("id", "beat", "after"):
+            if e.get(key) is not None and not isinstance(e[key], str):
+                raise ValueError("%s phải là chuỗi" % key)
         if op in ("set", "add"):
             if not isinstance(e.get("text"), str) or not e["text"].strip():
                 raise ValueError("câu mới trống")
+            if not isinstance(fids, list) or not all(isinstance(f, str) for f in fids):
+                raise ValueError("facts phải là danh sách mã")
             bad = [f for f in fids if f not in allowed]
-            if not isinstance(fids, list) or bad:
-                raise ValueError("dữ kiện không được phép: %s" % ", ".join(map(str, bad)))
+            if bad:
+                raise ValueError("dữ kiện không được phép: %s" % ", ".join(bad))
         if op == "set":
             b = where.get(e.get("id"))
             if b is None:
                 raise ValueError("không có câu %s" % e.get("id"))
             s = next(s for s in b["sentences"] if s["id"] == e["id"])
-            s.update(text=e["text"].strip(), facts=list(fids))
+            s.update(text=e["text"].strip(), facts=list(fids), reviewed=reviewed)
         elif op == "add":
             b = beats.get(e.get("beat"))
             if b is None:
                 raise ValueError("không có cảnh %s" % e.get("beat"))
             top += 1
-            new = {"id": "s%03d" % top, "text": e["text"].strip(), "facts": list(fids),
+            new = {"id": "s%03d" % top, "text": e["text"].strip(), "facts": list(fids), "reviewed": reviewed,
                    "kind": "fact" if fids else "narration", "note": ""}
             ids = [s["id"] for s in b["sentences"]]
             at = ids.index(e["after"]) + 1 if e.get("after") in ids else len(ids)
@@ -102,6 +109,13 @@ def apply_edits(data, edits, allowed):
 
 
 def on_end(job):
+    try:
+        _on_end(job)
+    except Exception as e:  # noqa: BLE001  never a silent failure
+        _append(workers._project(job["params"])[1], "system", "Lỗi khi nhận câu trả lời của agy: %s" % e)
+
+
+def _on_end(job):
     pid, pdir = workers._project(job["params"])
     if job["status"] != "done":
         return _append(pdir, "system", "agy không trả lời được (job %s)." % job["status"])
@@ -117,12 +131,13 @@ def on_end(job):
         return _append(pdir, "system", "Không dùng được câu trả lời của agy: %s" % why)
     _append(pdir, "agy", str(res.get("reply") or "(agy không viết trả lời)"))
     if res.get("edits"):
+        allowed = workers._usable_ids(pdir)
         try:
-            new = apply_edits(script.load(pdir), res["edits"], workers._usable_ids(pdir))
+            v = script.update(pdir, lambda cur: apply_edits(cur, res["edits"], allowed), "agy-chat",
+                              base=job["params"].get("base_version"))
         except ValueError as e:
             _append(pdir, "system", "Không áp dụng chỗ sửa nào của agy: %s" % e)
         else:
-            v = script.save(pdir, new, "agy-chat")
             _append(pdir, "system", "Đã lưu kịch bản v%d." % v)
     for key, kind in (("research", "agy_research"), ("draft", "agy_draft")):
         req = res.get(key)

@@ -1,11 +1,13 @@
 # Review the script for "$title"
 
 You are the reviewer (agy wrote this draft; you did not). Read `script.json`, `facts.json` and `style.md` in this
-folder. Page files of the sources are under `$project_dir` if you need to re-read a quote.
+folder. Each fact's page is in this folder at its `page_file` if you need to re-read a quote. Do not read or write
+anywhere else.
 
 Check every sentence:
 1. Each event, number, name or date is backed by the listed facts, and says no more than the facts say.
-2. Numbers: one grade-A fact or two grade-B facts from different sources; otherwise reword without the number.
+2. Numbers: write them as digits; each number must appear in a linked fact; one grade-A fact or two grade-B facts
+   from different sources; otherwise reword without the number.
 3. Legend → "tương truyền"; debated → "có ý kiến cho rằng"; archaeology → "cho thấy", never "chứng minh".
 4. Conflicting records: both versions in plain words, who wrote what; 1–3 places per video at most.
 5. Voice: every rule in `style.md`.

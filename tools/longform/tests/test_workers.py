@@ -52,7 +52,8 @@ class Base(unittest.TestCase):
         os.environ["LONGFORM_ROOT"] = self.root
         from tools.longform import agy, factbank, inbox, jobs, project, script, workers
         self.agy, self.fb, self.inbox, self.jobs, self.script, self.w = agy, factbank, inbox, jobs, script, workers
-        self.patches = [mock.patch.object(inbox.notify, "send", lambda t: True)]
+        self.patches = [mock.patch.object(inbox.notify, "send", lambda t: True),
+                        mock.patch.object(factbank, "fetch", lambda url: None)]  # offline: Studio cannot download pages
         fakes = []
         for name in ("fake_agy.py", "fake_claude.py"):  # two files, so a test can tell which binary a job runs
             fake = os.path.join(self.root, name)
@@ -197,6 +198,70 @@ class WorkersTest(Base):
         self.run_job(self.jobs.enqueue("claude_verify", {"project": "001-a", "facts": ["F001"]}, "001-a", "v"))
         self.assertEqual(self.fb.load(self.pdir)[1]["F001"]["status"], "pending")
         self.assertEqual(len([i for i in self.inbox.open_items() if "không dùng được" in i["text"]]), 2)
+
+    def test_claude_worker_sandboxed_to_run_folder(self):
+        self.seed_bank(claim("S1", "quân Nguyên đến sông Bạch Đằng"))
+        j = self.jobs.enqueue("claude_verify", {"project": "001-a", "facts": ["F001"]}, "001-a", "v")
+        self.assertNotIn("--add-dir", j["argv"])
+        self.assertIn("WebFetch", j["argv"])
+        run = j["params"]["run"]
+        rows = json.load(open(os.path.join(run, "facts.json")))
+        self.assertFalse(os.path.isabs(rows[0]["page_file"]))
+        self.assertTrue(os.path.isfile(os.path.join(run, rows[0]["page_file"])))
+        self.assertEqual(rows[0]["source"]["url"], "https://example.org/a")
+        r = self.jobs.enqueue("claude_review", {"project": "001-a"}, "001-a", "rv") if self.script.load(self.pdir) else None
+        self.assertIsNone(r)
+
+    def test_malformed_shapes_reach_inbox(self):
+        self.seed_bank(claim("S1", "quân Nguyên đến sông Bạch Đằng"))
+        self.fb.set_status(self.pdir, "F001", "verified", "claude", "")
+        bad = script_doc()
+        bad["chapters"][0]["beats"][0]["sentences"][1]["facts"] = [["F001"]]
+        self.fixture({"result.json": bad})
+        self.assertEqual(self.run_job(self.jobs.enqueue("agy_draft", {"project": "001-a", "request": "x"}, "001-a", "d")), "done")
+        self.assertIsNone(self.script.load(self.pdir))
+        self.assertTrue(any("không dùng được" in i["text"] for i in self.inbox.open_items()))
+
+    def test_on_end_crash_goes_to_inbox(self):
+        self.fixture({"sources.jsonl": json.dumps(claim("S1", "quân Nguyên đến sông Bạch Đằng"), ensure_ascii=False) + "\n",
+                      "pages/001.txt": PAGE})
+        with mock.patch.object(self.fb, "import_research", side_effect=RuntimeError("boom")):
+            self.run_job(self.jobs.enqueue("agy_research", {"project": "001-a", "request": "x"}, "001-a", "r"))
+        self.assertTrue(any("boom" in i["text"] for i in self.inbox.open_items()))
+
+    def test_draft_unreviewed_until_review(self):
+        self.seed_bank(claim("S1", "quân Nguyên đến sông Bạch Đằng"))
+        self.fb.set_status(self.pdir, "F001", "verified", "claude", "")
+        self.fixture({"result.json": script_doc()})
+        self.run_job(self.jobs.enqueue("agy_draft", {"project": "001-a", "request": "x"}, "001-a", "d"))
+        ss = [x for _, x in self.script.sentences(self.script.load(self.pdir))]
+        self.assertEqual({x["reviewed"] for x in ss}, {False})
+        self.fixture({"result.json": script_doc()})
+        self.run_job(self.queued("claude_review")[0])
+        ss = [x for _, x in self.script.sentences(self.script.load(self.pdir))]
+        self.assertEqual({x["reviewed"] for x in ss}, {True})
+
+    def test_review_on_stale_script_refused(self):
+        self.seed_bank(claim("S1", "quân Nguyên đến sông Bạch Đằng"))
+        self.fb.set_status(self.pdir, "F001", "verified", "claude", "")
+        self.script.save(self.pdir, script_doc(), "agy")
+        j = self.jobs.enqueue("claude_review", {"project": "001-a"}, "001-a", "rv")
+        d = self.script.load(self.pdir)
+        d["chapters"][0]["beats"][0]["sentences"][0]["text"] = "Bạn đoán xem?"
+        self.script.save(self.pdir, d, "owner")  # v2 while the review of v1 waits
+        self.fixture({"result.json": script_doc()})
+        self.run_job(j)
+        self.assertEqual(self.script.load(self.pdir)["version"], 2)
+        self.assertTrue(any("đã đổi" in i["text"] for i in self.inbox.open_items()))
+
+    def test_verify_rechecks_approval(self):
+        self.seed_bank(claim("S1", "quân Nguyên đến sông Bạch Đằng"))
+        self.fb.set_status(self.pdir, "F001", "verified", "claude", "")
+        self.script.save(self.pdir, script_doc(), "owner")
+        self.script.approve(self.pdir, "owner")
+        self.fixture({"result.json": [{"id": "F001", "status": "rejected", "grade": "A", "note": "sai"}]})
+        self.run_job(self.jobs.enqueue("claude_verify", {"project": "001-a", "facts": ["F001"]}, "001-a", "v"))
+        self.assertFalse(self.script.load(self.pdir)["approved"])
 
     def test_build_rejects_bad_project(self):
         with self.assertRaises(ValueError):
