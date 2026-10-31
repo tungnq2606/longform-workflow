@@ -90,6 +90,12 @@ def enqueue(kind, params, project, label):
     return job
 
 
+def live(kinds, **params):
+    """Queued or running jobs of these kinds whose params include all of `params`."""
+    return [j for j in _all() if j["kind"] in kinds and j["status"] in ("queued", "running")
+            and all(j["params"].get(k) == v for k, v in params.items())]
+
+
 def list_jobs(limit=50):
     jobs = _all()
     running = sorted((j for j in jobs if j["status"] == "running"), key=lambda j: j["seq"])
@@ -153,12 +159,17 @@ def stop(job_id):
         if not job:
             return False
         if job["status"] == "queued":
-            _update(job_id, status="stopped", ended=time.strftime("%Y-%m-%dT%H:%M:%S"))
-            return True
-        if job["status"] != "running":
+            job = _update(job_id, status="stopped", ended=time.strftime("%Y-%m-%dT%H:%M:%S"))
+            queued = True
+        elif job["status"] != "running":
             return False
-        _stopping.add(job_id)  # _run checks this right after it starts the process, so an early stop is not lost
-        p = _procs.get(job_id)
+        else:
+            queued = False
+            _stopping.add(job_id)  # _run checks this right after it starts the process, so an early stop is not lost
+            p = _procs.get(job_id)
+    if queued:  # outside the lock: on_end may enqueue
+        _end(job)
+        return True
     if p is not None:
         _terminate(p)
     return True
@@ -222,24 +233,32 @@ def _run(job):
         job = _execute(job, k, log)
     except Exception as e:  # noqa: BLE001  any crash ends the job as failed, so its lane never stays blocked
         job = _fail(job, error="lỗi trong Studio: %s" % e)
-    if k.on_end:
-        try:
-            k.on_end(job)
-        except Exception as e:  # noqa: BLE001  a broken callback must not kill the runner
-            with open(log, "a", encoding="utf-8") as fh:
-                fh.write("[on_end lỗi: %s]\n" % e)
+    _end(job)
     return job
 
 
+def _end(job):
+    """The kind's on_end, for every way a job ends (done, failed, stopped, interrupted)."""
+    k = KINDS.get(job["kind"])
+    if k is None or not k.on_end:
+        return
+    try:
+        k.on_end(job)
+    except Exception as e:  # noqa: BLE001  a broken callback must not kill the runner
+        with open(os.path.join(_dir(), job["id"] + ".log"), "a", encoding="utf-8") as fh:
+            fh.write("[on_end lỗi: %s]\n" % e)
+
+
 def recover():
-    n = 0
+    ended = []
     for job in _all():
         if job["status"] == "running":
-            _update(job["id"], status="interrupted", ended=time.strftime("%Y-%m-%dT%H:%M:%S"))
+            ended.append(_update(job["id"], status="interrupted", ended=time.strftime("%Y-%m-%dT%H:%M:%S")))
             inbox.add(job["project"], "job_interrupted", "Job bị ngắt (Studio tắt giữa chừng): %s" % job["label"],
                       key="job:%s" % job["id"])
-            n += 1
-    return n
+    for job in ended:  # after all are marked, so no callback sees another dead job as still running
+        _end(job)
+    return len(ended)
 
 
 class Runner:

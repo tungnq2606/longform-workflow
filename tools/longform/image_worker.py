@@ -300,7 +300,7 @@ def job_end(job):
         it = images.get(pdir, job["params"].get("item"))
     except (KeyError, ValueError):
         return
-    if it["state"] in ("generating", "reviewing"):
+    if it["state"] in images.RUNNING and not images.busy(pdir, it):
         images.update(pdir, it["id"], state="failed", problems=it.get("problems") or ["job %s dừng giữa chừng" % job["kind"]],
                       note="job %s" % job["status"])
 

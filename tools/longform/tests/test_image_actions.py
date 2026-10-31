@@ -83,6 +83,29 @@ class ImageActionsTest(ImgBase):
         with self.assertRaises(ValueError):  # already queued
             self.images.redo(self.pdir, "BG01", "x")
 
+    def test_redo_reject_running_state_without_live_job(self):
+        """A worker that died left the item generating/reviewing with no job: the owner can still redo or reject it."""
+        self.bg_done(state="generating")
+        it = self.images.redo(self.pdir, "BG01", "vẽ lại")
+        self.assertEqual(it["state"], "queued")
+        self.images.update(self.pdir, "BG01", state="generating")
+        with self.assertRaises(ValueError):  # now a live agy_image job holds it
+            self.images.reject(self.pdir, "BG01")
+        with self.assertRaises(ValueError):
+            self.images.redo(self.pdir, "BG01", "x")
+        self.jobs.stop(self.queued("agy_image")[0]["id"])
+        self.assertEqual(self.images.get(self.pdir, "BG01")["state"], "failed")  # on_end of the stopped job
+        self.images.update(self.pdir, "BG01", state="reviewing")
+        self.assertEqual(self.images.reject(self.pdir, "BG01")["state"], "rejected")
+
+    def test_recover_marks_image_failed(self):
+        self.bg_done(state="generating")
+        j = self.jobs.enqueue("agy_image", {"project": self.pid, "item": "BG01"}, self.pid, "agy vẽ BG01")
+        self.jobs._write(dict(self.jobs.get(j["id"]), status="running", pid=999999))
+        self.jobs.recover()
+        self.assertEqual(self.images.get(self.pdir, "BG01")["state"], "failed")
+        self.assertEqual(self.images.approve(self.pdir, "BG01")["state"], "approved")
+
     def test_reject_and_approve_many(self):
         self.bg_done()
         self.images.add(self.pdir, "bg", bg_spec())  # BG02 still queued: cannot be approved

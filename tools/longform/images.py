@@ -29,6 +29,7 @@ KIT_ID = re.compile(r"^[a-z0-9-]+$")
 CUTOUT_VI = {"no transparency": "không tách được nền xanh", "touches edge": "nhân vật chạm mép ảnh",
              "key colour left on figure": "còn màu xanh nền trên người nhân vật"}
 DECIDABLE = ("pass", "wait", "failed")  # the owner may approve, redo or reject these
+JOB_KINDS = ("agy_image", "agy_image_review")
 
 
 def _now():
@@ -231,12 +232,17 @@ def approve_many(pdir, ids):
     return out
 
 
+def busy(pdir, it):
+    """True while the item is mid-way and a queued or running image job still holds it (a dead job leaves it free)."""
+    return it["state"] in RUNNING and bool(jobs.live(JOB_KINDS, project=os.path.basename(pdir), item=it["id"]))
+
+
 def redo(pdir, item_id, note):
     """Redraw with the owner's note as the fix. Attempts stay as they are: the owner's redo is not an auto redo."""
     it = get(pdir, item_id)
     if it.get("reuse"):
         raise ValueError("%s là nền dùng lại từ thư viện" % item_id)
-    if it["state"] in RUNNING:
+    if busy(pdir, it):
         raise ValueError("%s đang được làm" % item_id)
     pid = os.path.basename(pdir)
     it = update(pdir, item_id, state="queued", fix=str(note or "").strip(), note="bạn yêu cầu vẽ lại: %s" % (note or ""))
@@ -247,7 +253,7 @@ def redo(pdir, item_id, note):
 
 def reject(pdir, item_id):
     it = get(pdir, item_id)
-    if it["state"] in ("generating", "reviewing"):
+    if it["state"] in ("generating", "reviewing") and busy(pdir, it):
         raise ValueError("%s đang được làm" % item_id)
     it = update(pdir, item_id, state="rejected", note="bạn bỏ")
     inbox.resolve_key(_key(pdir, item_id))

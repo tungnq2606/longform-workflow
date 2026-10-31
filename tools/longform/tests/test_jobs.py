@@ -136,6 +136,26 @@ class JobsTest(unittest.TestCase):
         self.assertEqual(jobs.get(j["id"])["status"], "interrupted")
         self.assertEqual([i["kind"] for i in inbox.open_items()], ["job_interrupted"])
 
+    def test_recover_calls_on_end(self):
+        ended = []
+        jobs.register(jobs.Kind("ends", "x", py("print(1)"), on_end=lambda job: ended.append((job["id"], job["status"]))))
+        jobs.register(jobs.Kind("ends_boom", "x", py("print(1)"), on_end=mock.Mock(side_effect=RuntimeError("boom"))))
+        j = jobs.enqueue("ends", {}, "001-a", "đang chạy dở")
+        b = jobs.enqueue("ends_boom", {}, "001-a", "đang chạy dở 2")
+        for x in (j, b):
+            jobs._write(dict(jobs.get(x["id"]), status="running", pid=999999))
+        self.assertEqual(jobs.recover(), 2)  # a broken on_end does not stop recover
+        self.assertEqual(ended, [(j["id"], "interrupted")])
+        self.assertIn("on_end lỗi", jobs.read_log(b["id"])[0])
+
+    def test_stop_queued_calls_on_end(self):
+        ended = []
+        jobs.register(jobs.Kind("ends", "x", py("print(1)"), on_end=lambda job: ended.append(job["status"])))
+        jobs.set_paused(True)
+        j = jobs.enqueue("ends", {}, None, "s")
+        self.assertTrue(jobs.stop(j["id"]))
+        self.assertEqual(ended, ["stopped"])
+
     def test_on_line_filters(self):
         j = jobs.enqueue("comments", {}, None, "c")
         self.wait(j["id"], "done")
