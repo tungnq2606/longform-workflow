@@ -1,10 +1,11 @@
 {
-  "name": "median-worker-anim",
+  "name": "longform-anim",
   "private": true,
-  "description": "Remotion toolkit for The Median Worker: animated stick-figure scenes timed to the voice files",
+  "description": "Remotion toolkit for the long-form history videos",
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render"
+    "render": "remotion render",
+    "test": "node --test src/longform/"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.537",

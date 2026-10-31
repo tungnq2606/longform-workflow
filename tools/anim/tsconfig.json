@@ -9,8 +9,23 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"],
-    "paths": {"@kit": ["src/kit/index.ts"], "remotion": ["node_modules/remotion"], "react": ["node_modules/@types/react"]}
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "@kit": [
+        "src/kit/index.ts"
+      ],
+      "remotion": [
+        "node_modules/remotion"
+      ],
+      "react": [
+        "node_modules/@types/react"
+      ]
+    },
+    "allowImportingTsExtensions": true
   },
-  "include": ["src", "../../videos/*/anim/*.tsx"]
+  "include": [
+    "src"
+  ]
 }
