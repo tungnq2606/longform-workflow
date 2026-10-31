@@ -396,3 +396,4 @@ jobs.register(jobs.Kind("claude_review", "claude", review_build, cwd=_cwd, on_li
 # Plan 5 kinds register themselves on import.
 from tools.longform import timing  # noqa: E402,F401
 from tools.longform import scenes  # noqa: E402,F401
+from tools.longform import render  # noqa: E402,F401
