@@ -1,0 +1,35 @@
+{
+ "port": 8765,
+ "lanes": {
+  "claude": 1,
+  "agy": 4,
+  "render": 1,
+  "cpu": 2
+ },
+ "claude": {
+  "permission_mode": "acceptEdits",
+  "models": [
+   "opus",
+   "sonnet"
+  ],
+  "allowed_tools": [
+   "Read",
+   "Edit",
+   "Write",
+   "Glob",
+   "Grep",
+   "WebSearch",
+   "WebFetch",
+   "Bash(python3 tools/*)",
+   "Bash(tools/*)",
+   "Bash(ls *)",
+   "Bash(cat *)",
+   "Bash(head *)",
+   "Bash(wc *)",
+   "Bash(yt-dlp *)",
+   "Bash(npx remotion *)",
+   "Bash(.venv/bin/python *)",
+   "Bash(npx tsc *)"
+  ]
+ }
+}

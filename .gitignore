@@ -1,10 +1,7 @@
 node_modules/
 .venv/
 tools/youtube/.venv/
-dashboard/secrets/
 config/secrets/
-dashboard/jobs/
-dashboard/agy_work/
 tmp/
 .superpowers/
 *.lock
@@ -18,3 +15,5 @@ __pycache__/
 .DS_Store
 **/agy_workspace/
 tools/upscale/vendor/
+projects/*/.studio/
+studio/state/

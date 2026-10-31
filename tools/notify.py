@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Send a short message to the owner's Telegram bot. Does nothing (returns False) when not configured.
 
-Config: dashboard/secrets/telegram.json {"token": "...", "chat_id": "..."} (chmod 600, never printed),
+Config: config/secrets/telegram.json {"token": "...", "chat_id": "..."} (chmod 600, never printed),
 or the environment variables TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID.
 
 Usage:
@@ -9,7 +9,7 @@ Usage:
   notify.py --setup         after you sent any message to the bot: find your chat id and save it
   notify.py --test          send a test message
 
-From Python:  sys.path.insert(0, "<WS>/tools"); import notify; notify.send("text")
+From Python:  from tools import notify; notify.send("text"); notify.link("001-bach-dang", "images")
 """
 import json
 import os
@@ -18,8 +18,8 @@ import urllib.parse
 import urllib.request
 
 WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONF = os.path.join(WS, "dashboard", "secrets", "telegram.json")
-DASH_URL = "http://127.0.0.1:8765"
+CONF = os.path.join(WS, "config", "secrets", "telegram.json")
+STUDIO = os.path.join(WS, "config", "studio.json")
 
 
 def _conf():
@@ -40,13 +40,20 @@ def _call(token, method, params):
         return json.load(r)
 
 
-def video_link(vdir, tab="shots"):
-    """Dashboard link for a video folder channels/<id>/videos?/<slug>."""
-    parts = os.path.abspath(vdir).split(os.sep)
-    if "channels" in parts:
-        i = parts.index("channels")
-        return "%s/#v/%s/%s/%s" % (DASH_URL, parts[i + 1], parts[-1], tab)
-    return DASH_URL
+def studio_url():
+    try:
+        with open(STUDIO, encoding="utf-8") as f:
+            port = json.load(f).get("port", 8765)
+    except (OSError, ValueError):
+        port = 8765
+    return "http://127.0.0.1:%d" % port
+
+
+def link(project_id=None, screen=""):
+    """Studio link for a project screen (or the home page when project_id is None)."""
+    if not project_id:
+        return studio_url() + "/#/"
+    return "%s/#/p/%s%s" % (studio_url(), project_id, "/" + screen if screen else "")
 
 
 def send(text):
@@ -92,7 +99,7 @@ if __name__ == "__main__":
     if a[:1] == ["--setup"]:
         sys.exit(setup())
     if a[:1] == ["--test"]:
-        sys.exit(0 if send("Studio dashboard: Telegram notifications are working.") else 1)
+        sys.exit(0 if send("Studio: Telegram notifications are working.") else 1)
     if a:
         sys.exit(0 if send(" ".join(a)) else 1)
     print(__doc__)
