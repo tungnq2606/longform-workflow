@@ -315,6 +315,19 @@ def _write(path, data):
     os.replace(path + ".tmp", path)
 
 
+def _merge_labels(old, new):
+    """New labels over old ones: a key whose vi text is unchanged keeps its translations; a key whose vi text changed
+    keeps only vi (agy_labels writes the other languages again, so a stale translation is never rendered)."""
+    out = {}
+    for k, v in new.items():
+        o = old.get(k)
+        if isinstance(v, dict) and isinstance(o, dict) and "vi" in v:
+            out[k] = dict(o, **v) if o.get("vi") == v["vi"] else {"vi": v["vi"]}
+        else:
+            out[k] = v
+    return out
+
+
 def save(pdir, data, by, base=None, labels=None):
     """Save a new version (and, when given, the labels); returns the version number. base: the version this edit
     started from; a newer file on disk refuses the save."""
@@ -328,7 +341,7 @@ def save(pdir, data, by, base=None, labels=None):
         data = dict(data, version=cur + 1, updated_by=by, updated_at=time.strftime("%Y-%m-%dT%H:%M:%S"))
         _write(_dir(pdir, "scenes.json"), data)
         if labels is not None:
-            _write(_dir(pdir, "labels.json"), labels)
+            _write(_dir(pdir, "labels.json"), _merge_labels(own_labels(pdir), labels))
     return cur + 1
 
 

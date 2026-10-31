@@ -83,6 +83,16 @@ class ScenesTest(SceneBase):
         d["beats"]["B01"]["sfx"] = [{"sentence": "s001", "id": "oar-01", "offset": 0, "gain": 0.9}]
         self.assertTrue(any("gain" in p for p in self.problems(d)))
 
+    def test_changed_vi_label_drops_old_translations(self):
+        self.scenes.save(self.pdir, self.doc(), "claude", labels=labels_doc())
+        self.scenes.set_lang_labels(self.pdir, "en", {"date_1288": "Year 1288", "place_bd": "Bach Dang River"})
+        self.scenes.save(self.pdir, self.doc(), "claude",
+                         labels={"date_1288": {"vi": "Mùa xuân 1288", "en": "Year 1288"},  # Claude echoes the old en
+                                 "place_bd": {"vi": "Sông Bạch Đằng"}})
+        lbl = self.scenes.own_labels(self.pdir)
+        self.assertEqual(lbl["date_1288"], {"vi": "Mùa xuân 1288"})  # stale "Year 1288" never rendered
+        self.assertEqual(lbl["place_bd"], {"vi": "Sông Bạch Đằng", "en": "Bach Dang River"})  # same vi: kept
+
     def test_malformed_never_crashes(self):
         for bad in (None, [], {"beats": []}, {"chapters": [], "beats": {"B01": "x"}},
                     {"chapters": [], "beats": {"B01": {"heroes": "x", "background": 3}}}):
