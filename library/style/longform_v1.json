@@ -1,0 +1,10 @@
+{
+ "id": "longform-v1",
+ "aspect": "16:9",
+ "approved": false,
+ "background": "2D hand-drawn European comic illustration: clean dark ink outlines, flat muted watercolor fills, light aged-paper texture, warm earth palette, eye-level camera, detailed scenery. Empty of people and animals. No text, no letters, no signs with writing.",
+ "character": "Same ink-and-watercolor comic style. Cartoon proportions about 4 heads tall, large round head, simple face: dot eyes, simple brows, small line mouth. Fully clothed in period-accurate clothing. Full body, feet visible, standing on nothing. Plain flat chroma green background #00B140 filling the whole frame, no floor, no shadow, no text.",
+ "negative": "photorealistic, 3D render, anime, stick figure body, text, letters, watermark, extra people, cropped feet",
+ "chroma": "#00B140",
+ "notes": ""
+}

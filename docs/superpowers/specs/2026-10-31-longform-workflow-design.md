@@ -25,7 +25,7 @@ Thành công nghĩa là: chủ kênh làm được một video 10–15 phút t�
 6. Review ảnh chạy song song, ảnh nào xong chấm ngay; mọi việc cần chủ kênh gom về một chỗ.
 
 **Không làm (lúc này)**
-- Short, video dọc, Veo/gflow cho clip, bìa 9:16. Bỏ hẳn.
+- Short, video dọc, Veo, gflow/Google Flow (cả cho ảnh), bìa 9:16. Bỏ hẳn.
 - Quản lý kênh YouTube trong workflow (brand, handle, nhiều kênh).
 - Animation nói (khớp môi), rối có khớp tay chân kiểu cutout rig.
 - Upload tự động lên YouTube (API chưa audit sẽ khóa video ở private); chủ kênh vẫn tự upload.
@@ -111,7 +111,7 @@ Kịch bản video dài cần mạch chương (ví dụ cho đề tài Mông–N
 
 ### 4.5 Hình ảnh
 
-**Chia việc**: AI (Gemini qua agy; ảnh key qua Flow/Nano Banana Pro như hiện có) vẽ **nền, ngoại cảnh, đạo cụ và bộ ảnh nhân vật quan trọng**. Mọi chuyển động, chữ, bản đồ, nhãn là việc của Remotion.
+**Chia việc**: AI (Gemini qua agy cho mọi ảnh; chủ kênh bỏ hẳn gflow/Flow ngày 2026-10-31) vẽ **nền, ngoại cảnh, đạo cụ và bộ ảnh nhân vật quan trọng**. Mọi chuyển động, chữ, bản đồ, nhãn là việc của Remotion.
 
 **Style**: theo video mẫu: nét mực đen kiểu truyện tranh châu Âu, màu phẳng nhạt như màu nước, nền chi tiết hơn nhân vật, góc nhìn ngang tầm mắt. Mẫu animation chủ kênh đưa: `/Users/quoctung/Downloads/march.mp4` (nền AI không người; đoàn lính người que vẽ bằng code đi theo đường cong, nhỏ dần theo chiều sâu; tiêu đề và ngày bằng chữ Remotion; camera mở từ màn đen rồi zoom, lia chậm).
 

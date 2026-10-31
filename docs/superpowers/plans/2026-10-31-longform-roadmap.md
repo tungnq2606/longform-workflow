@@ -17,4 +17,4 @@ Each plan ends with working, testable software.
 
 Rules that carry across all plans: spec section 3 (1440p, no invented facts, sources not spoken except conflicting
 records, licences, review thresholds 4–5 pass / 3 owner / 1–2 auto-redo ×2, prompt standard, disk queue, nothing blocks,
-Telegram), and no new macOS-only dependencies (use Pillow, not `sips`; Python, not new `.sh`).
+Telegram), every image through agy (no gflow/Flow, owner 2026-10-31), and no new macOS-only dependencies (use Pillow, not `sips`; Python, not new `.sh`).

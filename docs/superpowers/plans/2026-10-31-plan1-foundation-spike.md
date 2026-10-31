@@ -6,7 +6,7 @@
 
 **Architecture:** Python tools live in a new package `tools/longform/` (stdlib + Pillow, unittest). Remotion work lives in `tools/anim/src/longform/` (pure math in `.ts` tested with `node --test`, components in `.tsx`). Hero kits are folders in `library/characters/<id>/` with a `kit.json`; a generator writes `kits.generated.ts` so an unknown pose is a TypeScript error. Each project renders from its own staged `public/` folder so Remotion never copies the workspace.
 
-**Tech Stack:** Python 3.9 (system) + venv with Pillow 11.3.0; Node 26 (`node --test` strips types); Remotion 4.0.537 (already in `tools/anim`); agy CLI (`~/.local/bin/agy`) and gflow via `tools/flowcli.py` for images.
+**Tech Stack:** Python 3.9 (system) + venv with Pillow 11.3.0; Node 26 (`node --test` strips types); Remotion 4.0.537 (already in `tools/anim`); agy CLI (`~/.local/bin/agy`) for every image (gflow removed by the owner 2026-10-31).
 
 **Spec:** `docs/superpowers/specs/2026-10-31-longform-workflow-design.md` · Roadmap: `docs/superpowers/plans/2026-10-31-longform-roadmap.md`
 
@@ -67,7 +67,7 @@ Expected: the grep prints nothing; commit succeeds.
 - Modify: `dashboard/server.py:1409-1416` (remove the `/office` and `/vendor/` routes), `tools/anim/src/kit/index.ts` (drop the `Video` type re-export), `tools/anim/src/Root.tsx` (register no old compositions; Task 5 adds `Spike`)
 - Rewrite: `CLAUDE.md`
 
-Keep: `tools/kit/storyboard.py` (its `sentence_starts` is reused in Plan 5), `tools/gemini/*`, `tools/imageprompts/*`, `tools/research/scout.py`, `tools/notify.py`, `tools/workqueue.py`, `tools/flowcli.py`, `tools/edge-tts-batch/`, `channels/vn-history/` (until Plan 2 moves brand out), `dashboard/` (until Plan 2 replaces it).
+Keep: `tools/kit/storyboard.py` (its `sentence_starts` is reused in Plan 5), `tools/gemini/*` (except `agy_images.py`/`auto_images.py`, archived with `tools/flowcli.py` when gflow was dropped), `tools/imageprompts/*`, `tools/research/scout.py`, `tools/notify.py`, `tools/workqueue.py`, `tools/edge-tts-batch/`, `channels/vn-history/` (until Plan 2 moves brand out), `dashboard/` (until Plan 2 replaces it).
 
 - [ ] **Step 1: Move the folders and files** with `mv` (create parents first). Add a line per moved item to `/Users/quoctung/Documents/AI/archive/2026-10-31/README.md`.
 
@@ -297,7 +297,7 @@ def test_write_ts_lists_keys(self):
 - Consumes: `paths`, `project.create_project`, `kit.add_image`, `kit.write_ts`
 - Produces:
   - `imagegen.agy_task(prompt: str, refs: list[str], name: str, aspect: str) -> str` — same preamble/`ImagePaths` contract as `tools/gemini/agy_images.py` `PREAMBLE`.
-  - `imagegen.generate(prompt: str, refs: list[str], out_dir: str, name: str, route: str = "agy", aspect: str = "16:9") -> list[str]` — `route="agy"` runs `agy -p` (model `gemini-4-argon-high`, timeout 900 s, 3 attempts, quota stop words as in `agy_images.py`) and collects outputs like `find_outputs`; `route="flow"` calls `flowcli.call(["image", "i2i"|"t2i", prompt, --ref..., "--model", "nano-pro", "--aspect", aspect, "--out", out_dir, "--json"])`. Returns saved file paths in `out_dir`. Uses Pillow for size checks (no `sips`).
+  - `imagegen.generate(prompt: str, refs: list[str], out_dir: str, name: str, aspect: str = "16:9") -> list[str]` — runs `agy -p` (model `gemini-4-argon-high`, timeout 900 s, 3 attempts, quota stop words as in `agy_images.py`) and collects outputs like `find_outputs`. Returns saved file paths in `out_dir`. Uses Pillow for size checks (no `sips`).
   - `stage.stage(project_dir: str, files: list[str]) -> str` — copies the listed workspace-relative files (backgrounds, kit folders) into `<project>/public/` keeping their relative paths; returns the public dir. Never links or copies the whole workspace.
 
 `library/style/longform_v1.json` (draft; the owner's spike verdict finalises it):
@@ -310,8 +310,8 @@ def test_write_ts_lists_keys(self):
 ```
 
 Spike prompts (structured spec per the prompt standard: shot, angle, layout top/middle/bottom, setting, props with size against the body, light, must_not):
-- `BG01`: wide eye-level view of a 13th-century Đại Việt riverbank at the Bạch Đằng estuary; a pale dirt path enters bottom-left and curves to the horizon at right-centre (path at least as wide as three people side by side in the foreground); river and low limestone hills behind; reeds, a few wooden stakes stored by the path; must_not: people, boats with crews, text, modern objects. Route `flow` (key image).
-- `THD_sheet`: model sheet of the hero (Trần dynasty general, simplified period armour and robe, front view, full body) — route `flow`.
+- `BG01`: wide eye-level view of a 13th-century Đại Việt riverbank at the Bạch Đằng estuary; a pale dirt path enters bottom-left and curves to the horizon at right-centre (path at least as wide as three people side by side in the foreground); river and low limestone hills behind; reeds, a few wooden stakes stored by the path; must_not: people, boats with crews, text, modern objects.
+- `THD_sheet`: model sheet of the hero (Trần dynasty general, simplified period armour and robe, front view, full body).
 - `THD_stand_calm`, `THD_point_determined`: edits of the approved sheet (attach it as ref), same character, one pose each, front 3/4 view, full body, chroma background.
 - `THD_stand_calm_blink`: edit of `THD_stand_calm` with only the eyes closed; must_not: any other change.
 
@@ -328,7 +328,7 @@ def test_stage_copies_only_listed(self):
 ```
 
 - [ ] **Step 2: Run** → FAIL. **Step 3: Implement** `imagegen.py`, `stage.py`. **Step 4: Run** → PASS.
-- [ ] **Step 5: Generate spike assets** (live, uses Flow/agy quota): `BG01` and `THD_sheet` via `route="flow"`; show both to the owner; on approval generate the three pose images from the sheet; run `python -m tools.longform.kit add tran-hung-dao stand.calm <raw> --blink <raw_blink>` and `... point.determined <raw>`; then `python -m tools.longform.kit validate tran-hung-dao` → no problems; `python -m tools.longform.kit ts`. Copy BG01 to `library/backgrounds/bach-dang-path-01.png` with a sidecar `bach-dang-path-01.json` `{"horizonY": <px>, "groundY": 1440, "path": [[x,y],...]}` measured on the 2560x1440 version (path points traced by eye in Remotion Studio or an image viewer).
+- [ ] **Step 5: Generate spike assets** (live, uses Flow/agy quota): `BG01` and `THD_sheet` via agy; show both to the owner; on approval generate the three pose images from the sheet; run `python -m tools.longform.kit add tran-hung-dao stand.calm <raw> --blink <raw_blink>` and `... point.determined <raw>`; then `python -m tools.longform.kit validate tran-hung-dao` → no problems; `python -m tools.longform.kit ts`. Copy BG01 to `library/backgrounds/bach-dang-path-01.png` with a sidecar `bach-dang-path-01.json` `{"horizonY": <px>, "groundY": 1440, "path": [[x,y],...]}` measured on the 2560x1440 version (path points traced by eye in Remotion Studio or an image viewer).
 - [ ] **Step 6: Commit** — `git add tools/longform library projects/000-spike && git commit -m "feat: image wrapper, style lock draft and spike assets"`
 
 ---

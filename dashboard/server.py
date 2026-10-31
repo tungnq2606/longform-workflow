@@ -32,7 +32,8 @@ JOBS = {}
 LOCK = threading.Lock()
 sys.path.insert(0, os.path.join(WS, "tools"))
 import notify  # noqa: E402  Telegram, no-op until dashboard/secrets/telegram.json exists
-import flowcli  # noqa: E402  gflow-cli present = key images (route "manual") are made in Flow automatically
+class flowcli:  # gflow removed 2026-10-31 (all images via agy); old dashboard kept until Plan 2 replaces it
+    available = staticmethod(lambda: False)
 import workqueue  # noqa: E402  per-video queue on disk: owner requests are never lost
 PASS = 4  # lowest Gemini review score accepted without the owner (2026-10-29; was 5): 3 asks, 1-2 redo
 NOTIFY_DONE = {"render", "review_render", "generate", "review", "review_clips"}  # also report these when they finish
