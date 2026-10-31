@@ -6,16 +6,21 @@ Listens on 127.0.0.1 only. Every request must carry our own Host (blocks DNS reb
 when the browser sends an Origin, our own Origin (blocks other sites from starting jobs). The browser never sends a
 command: it names a job kind, and the kind builds the argv.
 """
+import base64
+import binascii
 import json
 import os
 import re
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from tools.longform import claude_box, inbox, jobs, languages, library_index, paths, progress, project
+from tools.longform import (chat, claude_box, factbank, inbox, jobs, languages, library_index, paths, progress, project,
+                            script, stylebook, workers)
 
 STATIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 HEX_ID = re.compile(r"^[0-9a-f]{32}$")
+MAX_UPLOAD = 30 * 1024 * 1024
+UPLOAD_TYPES = (".pdf", ".jpg", ".jpeg", ".png", ".txt")
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
          ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".json": "application/json"}
 
@@ -125,6 +130,10 @@ class FileReply:
         self.path = path
 
 
+class TextReply(FileReply):
+    pass
+
+
 def thumb(q, body, kind, item):
     try:
         return FileReply(library_index.thumb(kind, item))
@@ -136,6 +145,129 @@ def inbox_done(q, body, iid):
     if not HEX_ID.match(iid):
         raise HttpError(404, "không có việc này")
     return {"ok": inbox.resolve(iid)}
+
+
+# ---------------------------------------------------------------- script step (Plan 3)
+def get_facts(q, body, pid):
+    sources, facts = factbank.load(project_dir(pid))
+    return {"sources": sources, "facts": facts}
+
+
+def get_page(q, body, pid, num):
+    pdir = project_dir(pid)
+    rel = "research/pages/%s.txt" % num
+    sources, facts = factbank.load(pdir)
+    known = {s.get("page_file") for s in sources.values()} | {f.get("page_file") for f in facts.values()}
+    if not re.fullmatch(r"\d{3}", num) or rel not in known or not os.path.isfile(os.path.join(pdir, rel)):
+        raise HttpError(404, "không có trang này")
+    return TextReply(os.path.join(pdir, rel))
+
+
+def get_script(q, body, pid):
+    pdir = project_dir(pid)
+    return {"script": script.load(pdir), "report": script.report(pdir)}
+
+
+def set_sentence(q, body, pid):
+    pdir = project_dir(pid)
+    data = script.load(pdir)
+    fids = body.get("facts") or []
+    allowed = {f["id"] for f in factbank.load(pdir)[1].values() if f["status"] != "rejected"}  # pending shows red
+    try:
+        new = chat.apply_edits(data, [{"op": "set", "id": body.get("id"), "text": body.get("text"), "facts": fids}], allowed)
+    except ValueError as e:
+        raise HttpError(400, str(e))
+    return {"version": script.save(pdir, new, "owner")}
+
+
+def approve_script(q, body, pid):
+    try:
+        return script.approve(project_dir(pid), "owner")
+    except ValueError as e:
+        raise HttpError(400, str(e))
+
+
+def _enqueue(kind, params, pid, label):
+    try:
+        return jobs.enqueue(kind, params, pid, label)
+    except ValueError as e:
+        raise HttpError(400, str(e))
+
+
+def start_research(q, body, pid):
+    project_dir(pid)
+    return _enqueue("agy_research", {"project": pid, "request": body.get("request")}, pid, "agy tìm tư liệu: %s" % str(body.get("request"))[:60])
+
+
+def start_draft(q, body, pid):
+    project_dir(pid)
+    return _enqueue("agy_draft", {"project": pid, "request": body.get("request")}, pid, "agy viết nháp: %s" % str(body.get("request"))[:60])
+
+
+def start_review(q, body, pid):
+    project_dir(pid)
+    return _enqueue("claude_review", {"project": pid}, pid, "Claude soát kịch bản")
+
+
+def post_chat(q, body, pid):
+    project_dir(pid)
+    return _enqueue("agy_chat", {"project": pid, "message": body.get("message")}, pid, "agy chat: %s" % str(body.get("message"))[:60])
+
+
+def get_chat(q, body, pid):
+    return chat.history(project_dir(pid))
+
+
+def fact_status(q, body, pid, fid):
+    try:
+        return factbank.set_status(project_dir(pid), fid, body.get("status"), "owner", str(body.get("note") or ""))
+    except KeyError:
+        raise HttpError(404, "không có dữ kiện %s" % fid)
+    except ValueError as e:
+        raise HttpError(400, str(e))
+
+
+def upload_source(q, body, pid):
+    pdir = project_dir(pid)
+    name = os.path.basename(str(body.get("name") or ""))
+    ext = os.path.splitext(name)[1].lower()
+    if ext not in UPLOAD_TYPES:
+        raise HttpError(400, "chỉ nhận PDF, JPG, PNG, TXT")
+    try:
+        data = base64.b64decode(body.get("data") or "", validate=True)
+    except (binascii.Error, TypeError):
+        raise HttpError(400, "dữ liệu file hỏng")
+    if not data or len(data) > MAX_UPLOAD:
+        raise HttpError(400, "file trống hoặc lớn quá 30 MB")
+    up = os.path.join(pdir, "research", "uploads")
+    os.makedirs(up, exist_ok=True)
+    stem = project.ascii_slug(os.path.splitext(name)[0]) or "file"
+    target, n = os.path.join(up, stem + ext), 1
+    while os.path.exists(target):
+        n += 1
+        target = os.path.join(up, "%s-%d%s" % (stem, n, ext))
+    with open(target, "wb") as f:
+        f.write(data)
+    request = ("Rút dữ kiện từ file chủ kênh tải lên: %s (đọc file này; url = 'file:%s'; page_file = bản chép lại nội dung "
+               "trang có đoạn trích, ghi số trang vào location)." % (target, os.path.basename(target)))
+    return _enqueue("agy_research", {"project": pid, "request": request}, pid, "agy đọc file %s" % os.path.basename(target))
+
+
+def lang_or_404(lang):
+    if lang not in languages.load_languages():
+        raise HttpError(404, "không có ngôn ngữ %s" % lang)
+    return lang
+
+
+def get_stylebook(q, body, lang):
+    return stylebook.load(lang_or_404(lang))
+
+
+def decide_rule(q, body, lang, rid):
+    try:
+        return stylebook.decide(lang_or_404(lang), rid, bool(body.get("keep")))
+    except KeyError:
+        raise HttpError(404, "không có quy tắc %s" % rid)
 
 
 ROUTES = [
@@ -152,6 +284,20 @@ ROUTES = [
     ("GET", r"/api/claude/models", claude_models),
     ("POST", r"/api/inbox/([^/]+)/done", inbox_done),
     ("GET", r"/api/thumb/([a-z]+)/([^/]+)", thumb),
+    ("GET", r"/api/projects/([^/]+)/facts", get_facts),
+    ("GET", r"/api/projects/([^/]+)/pages/([^/]+)", get_page),
+    ("GET", r"/api/projects/([^/]+)/script", get_script),
+    ("POST", r"/api/projects/([^/]+)/script/sentence", set_sentence),
+    ("POST", r"/api/projects/([^/]+)/script/approve", approve_script),
+    ("POST", r"/api/projects/([^/]+)/research", start_research),
+    ("POST", r"/api/projects/([^/]+)/draft", start_draft),
+    ("POST", r"/api/projects/([^/]+)/review", start_review),
+    ("POST", r"/api/projects/([^/]+)/chat", post_chat),
+    ("GET", r"/api/projects/([^/]+)/chat", get_chat),
+    ("POST", r"/api/projects/([^/]+)/facts/([^/]+)/status", fact_status),
+    ("POST", r"/api/projects/([^/]+)/sources/upload", upload_source),
+    ("GET", r"/api/stylebook/([^/]+)", get_stylebook),
+    ("POST", r"/api/stylebook/([^/]+)/([^/]+)/decide", decide_rule),
 ]
 
 
@@ -216,6 +362,9 @@ class Handler(BaseHTTPRequestHandler):
             if method == self.command and m:
                 try:
                     out = fn(q, body, *[urllib.parse.unquote(g) for g in m.groups()])
+                    if isinstance(out, TextReply):
+                        with open(out.path, "rb") as f:
+                            return self._send(200, f.read(), "text/plain; charset=utf-8")
                     if isinstance(out, FileReply):
                         with open(out.path, "rb") as f:
                             return self._send(200, f.read(), TYPES.get(os.path.splitext(out.path)[1], "application/octet-stream"),

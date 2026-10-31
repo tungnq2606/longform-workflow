@@ -208,6 +208,100 @@ class ServerTest(unittest.TestCase):
         self.assertEqual(self.jobs.get(j["id"])["status"], "running")
         self.assertEqual(self.inbox.open_items(), [])
 
+    def make_project_with_bank(self):
+        from tools.longform import factbank, project
+        project.create_project(1, "a", "A", [])
+        pdir = os.path.join(self.root, "projects", "001-a")
+        run = os.path.join(self.root, "run")
+        os.makedirs(os.path.join(run, "pages"))
+        open(os.path.join(run, "pages", "001.txt"), "w").write("https://x.org\nQuân Nguyên đến sông Bạch Đằng năm ấy.")
+        c = {"id": "S1", "claim_vi": "Quân Nguyên đến Bạch Đằng", "quote": "Quân Nguyên đến sông Bạch Đằng", "url": "https://x.org",
+             "page_file": "pages/001.txt", "grade": "A", "kind": "primary_record"}
+        open(os.path.join(run, "sources.jsonl"), "w").write(json.dumps(c, ensure_ascii=False) + "\n")
+        factbank.import_research(pdir, run, "seed")
+        factbank.set_status(pdir, "F001", "verified", "claude", "")
+        return pdir
+
+    def test_facts_endpoint(self):
+        self.make_project_with_bank()
+        st, out = self.req("GET", "/api/projects/001-a/facts")
+        self.assertEqual(st, 200)
+        self.assertEqual(list(out["facts"]), ["F001"])
+        self.assertEqual(out["sources"]["S001"]["url"], "https://x.org")
+
+    def test_page_endpoint_only_bank_pages(self):
+        self.make_project_with_bank()
+        st, body = self.req("GET", "/api/projects/001-a/pages/001")
+        self.assertEqual(st, 200)
+        self.assertIn("Bạch Đằng".encode(), body)
+        self.assertEqual(self.req("GET", "/api/projects/001-a/pages/002")[0], 404)
+        self.assertEqual(self.req("GET", "/api/projects/001-a/pages/..%2F..%2Fproject")[0], 404)
+
+    def test_script_endpoint_report(self):
+        from tools.longform import script
+        pdir = self.make_project_with_bank()
+        st, out = self.req("GET", "/api/projects/001-a/script")
+        self.assertEqual((st, out["script"]), (200, None))
+        script.save(pdir, {"chapters": [{"id": "C01", "title": "", "beats": [{"id": "B01", "goal": "", "sentences": [
+            {"id": "s001", "text": "Rồi Trần Hưng Đạo ra sông.", "facts": [], "kind": "fact", "note": ""}]}]}]}, "agy")
+        st, out = self.req("GET", "/api/projects/001-a/script")
+        self.assertEqual(out["report"]["red"], 1)
+        st, out = self.req("POST", "/api/projects/001-a/script/sentence", {"id": "s001", "text": "Rồi Trần Hưng Đạo ra sông.", "facts": ["F001"]})
+        self.assertEqual(st, 200)
+        self.assertEqual(self.req("GET", "/api/projects/001-a/script")[1]["report"]["green"], 1)
+        self.assertEqual(self.req("POST", "/api/projects/001-a/script/sentence", {"id": "s404", "text": "x", "facts": []})[0], 400)
+
+    def test_approve_refused_with_red(self):
+        from tools.longform import script
+        pdir = self.make_project_with_bank()
+        script.save(pdir, {"chapters": [{"id": "C01", "title": "", "beats": [{"id": "B01", "goal": "", "sentences": [
+            {"id": "s001", "text": "Có 400 thuyền.", "facts": [], "kind": "fact", "note": ""}]}]}]}, "agy")
+        st, out = self.req("POST", "/api/projects/001-a/script/approve", {})
+        self.assertEqual(st, 400)
+        self.assertIn("1 câu đỏ", out["error"])
+
+    def test_ai_job_endpoints(self):
+        from tools.longform import script
+        pdir = self.make_project_with_bank()
+        self.assertEqual(self.req("POST", "/api/projects/001-a/research", {"request": "Vân Đồn"})[1]["kind"], "agy_research")
+        self.assertEqual(self.req("POST", "/api/projects/001-a/draft", {"request": "10 phút"})[1]["kind"], "agy_draft")
+        self.assertEqual(self.req("POST", "/api/projects/001-a/review", {})[0], 400)  # no script yet
+        st, job = self.req("POST", "/api/projects/001-a/chat", {"message": "chào"})
+        self.assertEqual((st, job["kind"]), (200, "agy_chat"))
+        self.assertEqual(self.req("GET", "/api/projects/001-a/chat")[1][-1]["text"], "chào")
+
+    def test_fact_status_override(self):
+        self.make_project_with_bank()
+        st, f = self.req("POST", "/api/projects/001-a/facts/F001/status", {"status": "weak", "note": "nghi"})
+        self.assertEqual((st, f["status"], f["checked_by"]), (200, "weak", "owner"))
+        self.assertEqual(self.req("POST", "/api/projects/001-a/facts/F404/status", {"status": "weak"})[0], 404)
+        self.assertEqual(self.req("POST", "/api/projects/001-a/facts/F001/status", {"status": "great"})[0], 400)
+
+    def test_upload_type_and_size_checked(self):
+        import base64
+        self.make_project_with_bank()
+        ok = {"name": "toan thu q5.pdf", "data": base64.b64encode(b"%PDF-1.4 x").decode()}
+        st, job = self.req("POST", "/api/projects/001-a/sources/upload", ok)
+        self.assertEqual((st, job["kind"]), (200, "agy_research"))
+        saved = os.listdir(os.path.join(self.root, "projects", "001-a", "research", "uploads"))
+        self.assertEqual(len(saved), 1)
+        self.assertIn(saved[0], job["params"]["request"])
+        self.assertEqual(self.req("POST", "/api/projects/001-a/sources/upload", {"name": "x.exe", "data": ok["data"]})[0], 400)
+        self.assertEqual(self.req("POST", "/api/projects/001-a/sources/upload", {"name": "../../x.pdf", "data": ok["data"]})[0], 200)
+        self.assertFalse(os.path.exists(os.path.join(self.root, "projects", "x.pdf")))
+        from studio import server
+        with mock.patch.object(server, "MAX_UPLOAD", 4):
+            self.assertEqual(self.req("POST", "/api/projects/001-a/sources/upload", ok)[0], 400)
+
+    def test_stylebook_decide(self):
+        from tools.longform import stylebook
+        r = stylebook.propose("vi", "Không dùng từ siêu", "test")
+        st, book = self.req("GET", "/api/stylebook/vi")
+        self.assertEqual(book["rules"][-1]["status"], "proposed")
+        self.assertEqual(self.req("POST", "/api/stylebook/vi/%s/decide" % r["id"], {"keep": True})[1]["status"], "kept")
+        self.assertEqual(self.req("POST", "/api/stylebook/vi/R99/decide", {"keep": True})[0], 404)
+        self.assertEqual(self.req("GET", "/api/stylebook/xx")[0], 404)
+
     def test_claude_history(self):
         st, h = self.req("GET", "/api/claude/history")
         self.assertEqual((st, h), (200, []))
