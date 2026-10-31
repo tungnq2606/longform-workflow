@@ -1,5 +1,7 @@
 // Studio UI: hash router, polling, job bar, Claude box. User text only ever goes in via textContent.
 import {mountScript} from './script_view.js';
+import {mountImages} from './images_view.js';
+import {mountLibrary} from './library_view.js';
 import {route, stateIcon, kindIcon, jobLine, runState, pauseButton, nextTheme, clock, stateLabel, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
 
 const $ = (id) => document.getElementById(id);
@@ -158,22 +160,33 @@ function renderProject(d, tab) {
   const tabs = h('nav', {class: 'tabs'}, Object.entries(TABS).map(([k, label]) =>
     h('a', {href: `#/p/${p.id}/${k}`, class: k === tab ? 'cur' : ''}, label)));
   const head = [h('h1', {}, `${p.id.slice(0, 3)} · ${p.title}`), h('section', {class: 'card phead'}, steps, langs), tabs];
-  if (tab === 'script') return head;  // the script screen itself is mounted once below the header (mountScript)
+  if (tab === 'script' || tab === 'images') return head;  // these screens are mounted once below the header (mounted())
   const body = tab === 'overview'
     ? h('section', {class: 'card'}, h('h2', {}, `🔔 Cần bạn (${d.inbox.length})`), inboxList(d.inbox, false))
     : h('p', {class: 'soon'}, `Màn hình ${TABS[tab]} làm ở Phần ${TAB_PLAN[tab]}.`);
   return [...head, body];
 }
 
-let scriptMount = null;  // {pid, el}: kept across polls so typing and editing are never interrupted
+let mount = null;  // {key, el}: a screen with its own polling, kept across polls so typing and open views are never interrupted
 
-function scriptRoot(pid) {
-  if (!scriptMount || scriptMount.pid !== pid) scriptMount = {pid, el: mountScript(pid, {h, api})};
-  return scriptMount.el;
+function mounted() {
+  let key = null, make = null;
+  if (current.screen === 'project' && viewData && viewData.project && (current.tab === 'script' || current.tab === 'images')) {
+    key = `${current.tab}:${current.id}`;
+    make = () => (current.tab === 'script' ? mountScript : mountImages)(current.id, {h, api});
+  } else if (current.screen === 'library') {
+    key = 'library';
+    make = () => mountLibrary({h, api});
+  }
+  if (!key) { mount = null; return null; }
+  if (!mount || mount.key !== key) mount = {key, el: make()};
+  if (current.item && mount.el.openItem && mount.item !== current.item) mount.el.openItem(current.item);
+  mount.item = current.item;
+  return mount.el;
 }
 
 function renderLibrary() {
-  return [h('h1', {}, 'Thư viện'), h('p', {class: 'soon'}, 'Nhân vật, đám đông, nền dùng lại: làm ở Phần 4.')];
+  return [h('h1', {}, 'Thư viện'), h('p', {class: 'muted lv-lead'}, 'Dùng chung cho mọi video: nhân vật quan trọng, nền dùng lại, đám đông, style.')];
 }
 
 async function refresh() {
@@ -195,19 +208,17 @@ async function refresh() {
     nodes = [h('p', {class: 'error'}, `Không tải được: ${e.message}`), h('a', {href: '#/'}, '← Trang chủ')];
   }
   const key = JSON.stringify([location.hash, viewData, current.screen === 'home' ? lastJobs.map((j) => j.id + j.status) : 0]);
-  const onScript = current.screen === 'project' && current.tab === 'script' && viewData && viewData.project;
-  if (onScript) {
-    // header re-renders when its data changes; the mounted script screen is never torn down
-    if (!$('phead') || key !== lastViewKey) {
+  const sv = mounted();
+  if (sv) {
+    // header re-renders when its data changes; the mounted screen is never torn down
+    const headEl = $('phead') || h('div', {id: 'phead'});
+    if (key !== lastViewKey || $('view').firstChild !== headEl || headEl.nextSibling !== sv) {
       lastViewKey = key;
-      const headEl = $('phead') || h('div', {id: 'phead'});
       headEl.replaceChildren(...nodes.flat());
-      const sv = scriptRoot(current.id);
       if ($('view').firstChild !== headEl || headEl.nextSibling !== sv) $('view').replaceChildren(headEl, sv);
     }
   } else if (key !== lastViewKey) {
     lastViewKey = key;
-    scriptMount = null;
     $('view').replaceChildren(...nodes.flat());
   }
   if (paused) {

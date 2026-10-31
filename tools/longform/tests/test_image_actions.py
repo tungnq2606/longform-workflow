@@ -90,6 +90,7 @@ class ImageActionsTest(ImgBase):
         self.assertEqual(out["approved"], ["BG01"])
         self.assertEqual(sorted(out["errors"]), ["BG02", "BG09"])
         self.assertEqual(self.images.reject(self.pdir, "BG02")["state"], "rejected")
+        self.assertIn("đã duyệt rồi", self.images.approve_many(self.pdir, ["BG01"])["errors"]["BG01"])
 
     def test_save_background(self):
         self.bg_done(state="approved")

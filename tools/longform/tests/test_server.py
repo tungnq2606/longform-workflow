@@ -397,6 +397,21 @@ class ServerTest(unittest.TestCase):
         queued = [j["params"]["item"] for j in self.jobs.list_jobs() if j["kind"] == "agy_image"]
         self.assertEqual(sorted(queued), ["BG01", "H01"])
 
+    def test_library_factions(self):
+        from studio import server
+        ts = os.path.join(self.root, "factions.ts")
+        with open(ts, "w") as f:
+            f.write("export const FACTIONS: Record<Faction, FactionLook> = {\n"
+                    "  daiviet: {skin: '#b9773f', tunic: '#7a4e2d', helmet: 'round', weapon: 'spear', shield: true},\n"
+                    "  nguyen: {skin: '#c58a52', tunic: '#3f6b73', helmet: 'cone', weapon: 'sword', shield: false},\n"
+                    "};\nexport const INK = '#2b2118';\n")
+        with mock.patch.object(server, "FACTIONS_TS", ts):
+            st, out = self.req("GET", "/api/library/factions")
+        self.assertEqual(st, 200)
+        self.assertEqual(out, [{"id": "daiviet", "skin": "#b9773f", "tunic": "#7a4e2d", "helmet": "round", "weapon": "spear", "shield": "true"},
+                               {"id": "nguyen", "skin": "#c58a52", "tunic": "#3f6b73", "helmet": "cone", "weapon": "sword", "shield": "false"}])
+        self.assertEqual(self.req("GET", "/api/library/factions")[0], 200)  # the real file parses too
+
 
 if __name__ == "__main__":
     unittest.main()

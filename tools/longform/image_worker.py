@@ -150,7 +150,7 @@ def check_raw(item, path, pdir=None):
 def _wait(pdir, item_id, problems, text):
     pid = os.path.basename(pdir)
     it = images.update(pdir, item_id, state="wait", problems=problems, note=text)
-    inbox.add(pid, "image_review", "%s %s" % (item_id, text), screen="images", key="img:%s:%s" % (pid, item_id))
+    inbox.add(pid, "image_review", "%s %s" % (item_id, text), screen="images/" + item_id, key="img:%s:%s" % (pid, item_id))
     return it
 
 
@@ -278,12 +278,12 @@ def review_item(pdir, item_id):
         lessons.add(r["problems"] or problems, "%s/%s" % (pid, item_id))
     images.update(pdir, item_id, score=score, problems=problems)
     if score >= 4:
-        return images.update(pdir, item_id, state="pass", note="%d/5" % score)
+        return images.update(pdir, item_id, state="pass", note="agy chấm đạt")
     if score == 3:
         return _wait(pdir, item_id, problems, "được 3/5: %s" % "; ".join(problems))
     if it["attempts"] < MAX_REDOS:
         it = images.update(pdir, item_id, state="queued", attempts=it["attempts"] + 1, fix=r["fix"] or "; ".join(problems),
-                           note="%d/5, vẽ lại" % score)
+                           note="agy chấm thấp, tự vẽ lại lần %d" % (it["attempts"] + 1))
         jobs.enqueue("agy_image", {"project": pid, "item": item_id}, pid, "agy vẽ lại %s (%d/5)" % (item_id, score))
         return it
     return _wait(pdir, item_id, problems, "được %d/5 sau %d lần vẽ lại: %s" % (score, it["attempts"], "; ".join(problems)))

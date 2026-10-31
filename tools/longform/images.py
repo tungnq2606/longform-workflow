@@ -198,6 +198,8 @@ def _cutout_problems(it):
 def approve(pdir, item_id):
     it = get(pdir, item_id)
     final = (it.get("files") or {}).get("final")
+    if it["state"] == "approved":
+        raise ValueError("%s đã duyệt rồi" % item_id)
     if it["state"] not in DECIDABLE or not final or not os.path.isfile(abspath(final)):
         raise ValueError("%s chưa có ảnh để duyệt" % item_id)
     if it["type"] == "pose":

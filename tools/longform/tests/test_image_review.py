@@ -64,7 +64,7 @@ class ImageReviewTest(ImgBase):
         self.assertEqual(len(items), 1)
         self.assertEqual(items[0]["kind"], "image_review")
         self.assertEqual(items[0]["key"], "img:001-a:BG01")
-        self.assertEqual(items[0]["screen"], "images")
+        self.assertEqual(items[0]["screen"], "images/BG01")  # the inbox line opens this image
         self.assertIn("BG01 được 3/5: Nét mực hơi nhòe", items[0]["text"])
         self.assertEqual(self.queued("agy_image"), [])
 

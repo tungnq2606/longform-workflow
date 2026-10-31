@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock, factIcon, colourClass, summaryLine, canApprove, stateLabel} from './lib.js';
+import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock, factIcon, colourClass, summaryLine, canApprove, stateLabel,
+  imageStateLabel, scoreClass, nextIndex, needsOwner, filterImages, IMAGE_FILTERS, imageSrc} from './lib.js';
 
 test('route', () => {
   assert.deepEqual(route(''), {screen: 'home'});
@@ -8,6 +9,8 @@ test('route', () => {
   assert.deepEqual(route('#/p/001-x'), {screen: 'project', id: '001-x', tab: 'overview'});
   assert.deepEqual(route('#/p/001-x/images'), {screen: 'project', id: '001-x', tab: 'images'});
   assert.deepEqual(route('#/p/001-x/nope'), {screen: 'project', id: '001-x', tab: 'overview'});
+  assert.deepEqual(route('#/p/001-x/images/BG07'), {screen: 'project', id: '001-x', tab: 'images', item: 'BG07'});
+  assert.deepEqual(route('#/p/001-x/images/..'), {screen: 'project', id: '001-x', tab: 'images'});
   assert.deepEqual(route('#/library'), {screen: 'library'});
   assert.deepEqual(route('#/p/../etc'), {screen: 'home'});
   assert.deepEqual(route('#/whatever'), {screen: 'home'});
@@ -105,4 +108,53 @@ test('stateLabel', () => {
   assert.equal(stateLabel('wait'), 'chờ bạn');
   assert.equal(stateLabel('done'), 'xong');
   assert.equal(stateLabel('x'), 'chưa làm');
+});
+
+test('imageStateLabel', () => {
+  assert.equal(imageStateLabel('queued'), 'chờ vẽ');
+  assert.equal(imageStateLabel('generating'), 'đang vẽ');
+  assert.equal(imageStateLabel('reviewing'), 'đang chấm');
+  assert.equal(imageStateLabel('pass'), 'đạt, chờ duyệt');
+  assert.equal(imageStateLabel('wait'), 'cần bạn');
+  assert.equal(imageStateLabel('approved'), 'đã duyệt');
+  assert.equal(imageStateLabel('rejected'), 'đã bỏ');
+  assert.equal(imageStateLabel('failed'), 'hỏng');
+  assert.equal(imageStateLabel('??'), '??');
+});
+
+test('scoreClass', () => {
+  assert.equal(scoreClass(5), 'score-good');
+  assert.equal(scoreClass(4), 'score-good');
+  assert.equal(scoreClass(3), 'score-mid');
+  assert.equal(scoreClass(2), 'score-bad');
+  assert.equal(scoreClass(1), 'score-bad');
+  assert.equal(scoreClass(null), 'score-none');
+  assert.equal(scoreClass(undefined), 'score-none');
+});
+
+test('nextIndex wraps with arrows', () => {
+  assert.equal(nextIndex(0, 3, 'ArrowRight'), 1);
+  assert.equal(nextIndex(2, 3, 'ArrowRight'), 0);
+  assert.equal(nextIndex(0, 3, 'ArrowLeft'), 2);
+  assert.equal(nextIndex(1, 3, 'ArrowLeft'), 0);
+  assert.equal(nextIndex(1, 3, 'a'), 1);
+  assert.equal(nextIndex(0, 0, 'ArrowRight'), -1);
+});
+
+test('needsOwner and filterImages', () => {
+  const items = [{id: 'BG01', state: 'wait'}, {id: 'BG02', state: 'pass'}, {id: 'BG03', state: 'generating'},
+    {id: 'BG04', state: 'approved'}, {id: 'BG05', state: 'failed'}, {id: 'BG06', state: 'queued'}];
+  assert.equal(needsOwner(items[0]), true);
+  assert.equal(needsOwner(items[1]), false);
+  assert.deepEqual(Object.keys(IMAGE_FILTERS), ['all', 'owner', 'doing', 'approved']);
+  assert.deepEqual(filterImages(items, 'all').map((i) => i.id), ['BG01', 'BG02', 'BG03', 'BG04', 'BG05', 'BG06']);
+  assert.deepEqual(filterImages(items, 'owner').map((i) => i.id), ['BG01']);
+  assert.deepEqual(filterImages(items, 'doing').map((i) => i.id), ['BG03', 'BG06']);
+  assert.deepEqual(filterImages(items, 'approved').map((i) => i.id), ['BG04']);
+});
+
+test('imageSrc busts the cache when the item changes', () => {
+  const it = {id: 'BG01', history: [1, 2, 3], files: {final: 'x'}};
+  assert.equal(imageSrc('001-a', it, 'thumb'), '/api/projects/001-a/images/BG01/thumb?v=3');
+  assert.equal(imageSrc('001-a', {id: 'BG02', history: [], files: {}}, 'thumb'), null);
 });

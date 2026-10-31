@@ -22,6 +22,9 @@ HEX_ID = re.compile(r"^[0-9a-f]{32}$")
 MAX_UPLOAD = 30 * 1024 * 1024
 UPLOAD_TYPES = (".pdf", ".jpg", ".jpeg", ".png", ".txt")
 MAX_LANE = 8
+FACTIONS_TS = os.path.join(paths.WS, "tools", "anim", "src", "longform", "factions.ts")
+FACTION_LINE = re.compile(r"^\s*([a-z][a-z0-9_]*):\s*\{(.*)\},?\s*$")
+FACTION_FIELD = re.compile(r"([a-z]+):\s*'?([^,'}]*)'?")
 RUNNER = None  # the live jobs.Runner (set by main), so lane changes apply at once
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
          ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".json": "application/json"}
@@ -358,6 +361,22 @@ def set_lanes(q, body):
     return {"agy": n}
 
 
+def library_factions(q, body):
+    """Crowd factions, read-only, parsed from the Remotion source (the only place they are defined)."""
+    out, inside = [], False
+    with open(FACTIONS_TS, encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("export const FACTIONS"):
+                inside = True
+                continue
+            if inside and line.startswith("}"):
+                break
+            m = FACTION_LINE.match(line) if inside else None
+            if m:
+                out.append(dict([("id", m.group(1))] + [(k, v.strip()) for k, v in FACTION_FIELD.findall(m.group(2))]))
+    return out
+
+
 def library_kits(q, body):
     return library_index.kits()
 
@@ -426,6 +445,7 @@ ROUTES = [
     ("GET", r"/api/projects/([^/]+)/cast_sheet", get_cast_sheet),
     ("POST", r"/api/lanes", set_lanes),
     ("GET", r"/api/library/kits", library_kits),
+    ("GET", r"/api/library/factions", library_factions),
     ("POST", r"/api/library/kits/([^/]+)/new_pose", new_pose),
 ]
 

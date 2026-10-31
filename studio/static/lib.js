@@ -1,14 +1,17 @@
 // Pure helpers for the Studio UI (no DOM), tested with `node --test studio/static/`.
 
 export const TABS = {overview: 'Tổng quan', script: 'Kịch bản', images: 'Hình ảnh', scenes: 'Cảnh', langs: 'Ngôn ngữ'};
-export const TAB_PLAN = {images: 4, scenes: 5, langs: 6};
+export const TAB_PLAN = {scenes: 5, langs: 6};
 const PROJECT_ID = /^\d{3}-[a-z0-9-]+$/;
+const ITEM_ID = /^[A-Z]+\d+$/;
 
 export function route(hash) {
   const parts = (hash || '').replace(/^#\/?/, '').split('/').filter(Boolean);
   if (parts[0] === 'library' && parts.length === 1) return {screen: 'library'};
   if (parts[0] === 'p' && PROJECT_ID.test(parts[1] || '')) {
-    return {screen: 'project', id: parts[1], tab: parts[2] in TABS ? parts[2] : 'overview'};
+    const r = {screen: 'project', id: parts[1], tab: parts[2] in TABS ? parts[2] : 'overview'};
+    if (r.tab === 'images' && ITEM_ID.test(parts[3] || '')) r.item = parts[3];  // deep link to one image
+    return r;
   }
   return {screen: 'home'};
 }
@@ -18,7 +21,7 @@ export const stateIcon = (s) => STATE_ICONS[s] || '⬜';
 
 const KIND_ICONS = {
   job_failed: '❌', job_interrupted: '⚠️', image_review: '🖼️', script_approve: '✍️', missing_voice: '🎙️',
-  name_pronunciation: '🔤',
+  name_pronunciation: '🔤', quota: '⛽',
 };
 export const kindIcon = (k) => KIND_ICONS[k] || '🔔';
 
@@ -77,3 +80,40 @@ export const canApprove = (r) => Boolean(r && r.sentences && r.sentences.length 
 
 const STATE_LABEL = {todo: 'chưa làm', doing: 'đang làm', wait: 'chờ bạn', done: 'xong'};
 export const stateLabel = (s) => STATE_LABEL[s] || STATE_LABEL.todo;
+
+// Images screen (Plan 4).
+const IMAGE_STATE = {queued: 'chờ vẽ', generating: 'đang vẽ', reviewing: 'đang chấm', pass: 'đạt, chờ duyệt', wait: 'cần bạn',
+  approved: 'đã duyệt', rejected: 'đã bỏ', failed: 'hỏng'};
+export const imageStateLabel = (s) => IMAGE_STATE[s] || s;
+export const RUNNING_IMAGE = ['queued', 'generating', 'reviewing'];
+
+export function scoreClass(score) {
+  if (score == null) return 'score-none';
+  return score >= 4 ? 'score-good' : score === 3 ? 'score-mid' : 'score-bad';
+}
+
+// ←/→ through n images with wrap; any other key keeps the index; -1 when there is nothing to show.
+export function nextIndex(i, n, key) {
+  if (!n) return -1;
+  if (key === 'ArrowRight') return (i + 1) % n;
+  if (key === 'ArrowLeft') return (i - 1 + n) % n;
+  return i;
+}
+
+export const needsOwner = (item) => item.state === 'wait';
+
+export const IMAGE_FILTERS = {
+  all: ['Tất cả', () => true],
+  owner: ['Cần bạn', needsOwner],
+  doing: ['Đang làm', (it) => RUNNING_IMAGE.includes(it.state)],
+  approved: ['Đã duyệt', (it) => it.state === 'approved'],
+};
+export const filterImages = (items, f) => items.filter((IMAGE_FILTERS[f] || IMAGE_FILTERS.all)[1]);
+
+// URL of an item's file, versioned by its history so the browser never shows a stale image after a redo.
+export function imageSrc(pid, item, which) {
+  const files = item.files || {};
+  const has = which === 'thumb' ? files.cutout || files.final || files.raw : files[which];
+  if (!has) return null;
+  return `/api/projects/${pid}/images/${encodeURIComponent(item.id)}/${which}?v=${(item.history || []).length}`;
+}
