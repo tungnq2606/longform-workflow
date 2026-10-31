@@ -242,6 +242,8 @@ def verify_end(job):
         except ValueError as e:  # e.g. Claude says verified for a quote Studio could not find in the page
             _refuse(job, str(e))
     script.recheck_approval(pdir)
+    for code in project.load_project(pdir)["languages"][1:]:  # Plan 6: language scripts use the same facts
+        script.recheck_approval(pdir, code)
 
 
 # ---------------------------------------------------------------- agy_draft
@@ -387,6 +389,7 @@ jobs.register(jobs.Kind("agy_shotlist", "agy", shotlist_build, cwd=_cwd, on_end=
 
 # Image kinds (agy_image, agy_image_review) live with their worker; importing it registers them.
 from tools.longform import image_worker  # noqa: E402,F401
+from tools.longform import langscript  # noqa: E402,F401  Plan 6: agy_rewrite, claude_review_lang
 
 jobs.register(jobs.Kind("agy_research", "agy", research_build, cwd=_cwd, on_end=_guarded(research_end)))
 jobs.register(jobs.Kind("claude_verify", "claude", verify_build, cwd=_cwd, on_line=claude_box.on_line, on_end=_guarded(verify_end)))
