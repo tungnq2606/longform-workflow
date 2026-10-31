@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock} from './lib.js';
+import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock, factIcon, colourClass, summaryLine, canApprove} from './lib.js';
 
 test('route', () => {
   assert.deepEqual(route(''), {screen: 'home'});
@@ -73,4 +73,28 @@ test('pauseButton hidden when idle', () => {
   assert.equal(pauseButton(false, [j('queued')]), 'Tạm dừng');
   assert.equal(pauseButton(false, [j('running')]), 'Tạm dừng');
   assert.equal(pauseButton(true, []), 'Chạy tiếp');
+});
+
+test('factIcon', () => {
+  assert.equal(factIcon('pending'), '⏳');
+  assert.equal(factIcon('verified'), '✅');
+  assert.equal(factIcon('weak'), '⚠️');
+  assert.equal(factIcon('conflict'), '⛔');
+  assert.equal(factIcon('rejected'), '✖');
+  assert.equal(factIcon('??'), '•');
+});
+
+test('colourClass', () => {
+  assert.equal(colourClass('red'), 'c-red');
+  assert.equal(colourClass('plain'), 'c-plain');
+  assert.equal(colourClass(undefined), 'c-plain');
+});
+
+test('summaryLine and canApprove', () => {
+  const r = {red: 2, yellow: 5, green: 40, sentences: new Array(60)};
+  assert.equal(summaryLine(r), 'đỏ 2 · vàng 5 · xanh 40 · 60 câu');
+  assert.equal(canApprove(r), false);
+  assert.equal(canApprove({red: 0, yellow: 3, green: 1, sentences: [1]}), true);
+  assert.equal(canApprove({red: 0, yellow: 0, green: 0, sentences: []}), false);
+  assert.equal(canApprove(null), false);
 });

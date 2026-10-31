@@ -168,3 +168,56 @@ fieldset label { display: inline-flex; gap: 6px; margin: 0 14px 6px 0; }
   .bottom { grid-template-columns: minmax(0, 1fr); padding: 10px 16px; max-height: 50vh; }
   .bottom .jobs #jobs { max-height: 15vh; }
 }
+
+/* script screen (Plan 3) */
+.sv-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; }
+.sv-bar .row { margin: 0; flex-wrap: wrap; }
+.sv-rules .sv-rule { display: flex; gap: 8px; align-items: center; padding: 10px 14px; border-color: var(--warn); }
+.sv-rule .grow { flex: 1; }
+.sv-coltabs { display: none; gap: 4px; margin-bottom: 10px; }
+.sv-coltabs a { padding: 6px 12px; border-radius: 8px; color: var(--muted); border: 1px solid var(--line); }
+.sv-coltabs a.cur { color: var(--ink); border-color: var(--accent); }
+.sv-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.5fr); gap: var(--gap); align-items: start; }
+.sv-col { display: flex; flex-direction: column; max-height: calc(100vh - 330px); min-height: 360px; margin: 0; }
+.sv-chatlist { flex: 1; overflow: auto; font-size: 14px; }
+.msg { margin: 0 0 10px; padding: 8px 10px; border-radius: 10px; background: var(--card-2); white-space: pre-wrap; }
+.msg.owner { background: var(--accent-soft); }
+.msg.system { background: transparent; border: 1px dashed var(--line); font-size: 13px; color: var(--muted); }
+.sv-chatform { margin-top: 8px; }
+.sv-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.chip { font-size: 12.5px; font-weight: 500; padding: 2px 9px; border-radius: 999px; background: var(--card-2);
+  color: var(--ink); border: 1px solid var(--line); }
+.chip.on { border-color: var(--accent); color: var(--accent); }
+.sv-facts { overflow: auto; flex: 1; font-size: 13.5px; }
+.sv-facts li.sel { background: var(--hover); }
+.fid { font-variant-numeric: tabular-nums; }
+.sv-fact { border: 1px solid var(--accent); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; font-size: 14px; }
+.sv-fact p { margin: 6px 0; }
+blockquote { margin: 8px 0; padding: 6px 12px; border-left: 3px solid var(--accent); background: var(--card-2); border-radius: 0 8px 8px 0; }
+a.btnlink { border: 1px solid var(--line); border-radius: 9px; padding: 4px 10px; font-size: 13px; color: var(--ink); }
+label.upload { border: 1px solid var(--line); border-radius: 9px; padding: 7px 14px; cursor: pointer; }
+.sv-script { overflow: auto; flex: 1; }
+.sv-chapter h3 { margin-top: 12px; }
+.sv-beat { margin-bottom: 12px; }
+.sv-beathead { font-size: 12px; margin: 6px 0 4px; }
+.sv-s { padding: 6px 10px; border-left: 4px solid var(--line); margin: 3px 0; border-radius: 0 8px 8px 0; cursor: pointer; }
+.sv-s:hover { background: var(--hover); }
+.sv-s.c-red { border-left-color: var(--bad); background: color-mix(in srgb, var(--bad) 9%, transparent); }
+.sv-s.c-yellow { border-left-color: var(--warn); background: color-mix(in srgb, var(--warn) 10%, transparent); }
+.sv-s.c-green { border-left-color: var(--ok); }
+.sv-s .sid { font-size: 11px; }
+.sv-s .chips { margin-left: 6px; display: inline-flex; gap: 4px; flex-wrap: wrap; }
+.sv-s .reasons { font-size: 12px; color: var(--bad); margin-top: 2px; }
+.sv-s.c-yellow .reasons { color: var(--warn); }
+.sv-edit { margin: 6px 0; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.sv-edit input { width: 100%; }
+
+@media (max-width: 1100px) {
+  .sv-coltabs { display: flex; }
+  .sv-cols { grid-template-columns: minmax(0, 1fr); }
+  .sv .sv-col { display: none; max-height: none; }
+  .sv[data-col="chat"] .sv-col[data-col="chat"], .sv[data-col="facts"] .sv-col[data-col="facts"],
+  .sv[data-col="script"] .sv-col[data-col="script"] { display: flex; }
+}
+
+main:has(.sv) { max-width: 1680px; }

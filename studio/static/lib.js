@@ -1,7 +1,7 @@
 // Pure helpers for the Studio UI (no DOM), tested with `node --test studio/static/`.
 
 export const TABS = {overview: 'Tổng quan', script: 'Kịch bản', images: 'Hình ảnh', scenes: 'Cảnh', langs: 'Ngôn ngữ'};
-export const TAB_PLAN = {script: 3, images: 4, scenes: 5, langs: 6};
+export const TAB_PLAN = {images: 4, scenes: 5, langs: 6};
 const PROJECT_ID = /^\d{3}-[a-z0-9-]+$/;
 
 export function route(hash) {
@@ -66,3 +66,11 @@ export function pauseButton(paused, jobs) {
   if (paused) return 'Chạy tiếp';
   return jobs.some((j) => j.status === 'running' || j.status === 'queued') ? 'Tạm dừng' : null;
 }
+
+// Script screen (Plan 3).
+const FACT_ICONS = {pending: '⏳', verified: '✅', weak: '⚠️', conflict: '⛔', rejected: '✖'};
+export const factIcon = (s) => FACT_ICONS[s] || '•';
+export const FACT_LABEL = {pending: 'đang kiểm', verified: 'đã kiểm', weak: 'nguồn yếu', conflict: 'vênh nhau', rejected: 'bị loại'};
+export const colourClass = (c) => `c-${['red', 'yellow', 'green', 'plain'].includes(c) ? c : 'plain'}`;
+export const summaryLine = (r) => `đỏ ${r.red} · vàng ${r.yellow} · xanh ${r.green} · ${r.sentences.length} câu`;
+export const canApprove = (r) => Boolean(r && r.sentences && r.sentences.length && r.red === 0);
