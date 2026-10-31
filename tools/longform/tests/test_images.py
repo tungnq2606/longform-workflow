@@ -22,6 +22,18 @@ class ImagesTest(ImgBase):
         self.assertEqual([i["id"] for i in self.images.load(self.pdir)], ["BG01", "BG02", "P01", "H01"])
         self.assertEqual(self.images.counts(self.pdir), {"queued": 4})
 
+    def test_bg_must_not_always_has_people_and_text(self):
+        line = "people, human figures, animals, text, letters"
+        spec = bg_spec()
+        a = self.images.add(self.pdir, "bg", spec)
+        self.assertEqual(a["spec"]["must_not"], ["boats with sails", line])
+        self.assertIn("- " + line, a["prompt"])
+        self.assertEqual(spec["must_not"], ["boats with sails"])  # the caller's spec is not changed
+        b = self.images.add(self.pdir, "bg", bg_spec(must_not=[line]))
+        self.assertEqual(b["spec"]["must_not"], [line])  # never twice
+        p = self.images.add(self.pdir, "prop", prop_spec())
+        self.assertNotIn(line, p["spec"]["must_not"])
+
     def test_add_validates_spec(self):
         with self.assertRaises(ValueError) as cm:
             self.images.add(self.pdir, "bg", bg_spec(people="two soldiers"))

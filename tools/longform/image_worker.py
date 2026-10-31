@@ -11,6 +11,7 @@ import collections
 import hashlib
 import json
 import os
+import re
 import shutil
 import string
 import subprocess
@@ -33,6 +34,7 @@ KIND_NAME = {"bg": "background", "prop": "prop", "pose": "hero pose"}
 RUBRIC = {
     "bg": ["No people and no animals anywhere, not even far away or as silhouettes.",
            "No text, letters, numbers or writing-like marks anywhere.",
+           "MUST NOT anywhere: %s. Any one of them seen means a score of 3 or lower." % images.BG_MUST_NOT,
            "Matches the style lock: ink outlines, flat muted watercolour fills, eye-level camera.",
            "A clear ground line or path where figures can stand or walk.",
            "Buildings, boats, clothes and objects fit the period and place in the spec."],
@@ -45,6 +47,8 @@ RUBRIC = {
              "Matches the style lock: ink outlines, flat muted watercolour fills."],
 }
 NOT_SCORED = "agy không chấm được ảnh này"
+# a background problem that names any of these caps the score at 3, even when agy scored it higher
+BG_BANNED = re.compile(r"\b(persons?|people|humans?|figures?|animals?|texts?|letters?)\b|người|chữ|động vật", re.IGNORECASE)
 
 
 def _pdir(pid):
@@ -275,6 +279,8 @@ def review_item(pdir, item_id):
         why = NOT_SCORED + ((" (agy bị chặn quyền: %s)" % ", ".join(blocked)) if blocked else "")
         return _wait(pdir, item_id, [NOT_SCORED], why)
     score = min(r["score"], 3) if r["must_not_hits"] else r["score"]
+    if it["type"] == "bg" and any(BG_BANNED.search(x) for x in r["problems"] + r["must_not_hits"]):
+        score = min(score, 3)
     problems = r["problems"] + ["có thứ bị cấm: %s" % h for h in r["must_not_hits"]]
     if score <= 3:
         lessons.add(r["problems"] or problems, "%s/%s" % (pid, item_id))

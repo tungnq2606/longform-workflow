@@ -30,6 +30,7 @@ CUTOUT_VI = {"no transparency": "không tách được nền xanh", "touches edg
              "key colour left on figure": "còn màu xanh nền trên người nhân vật"}
 DECIDABLE = ("pass", "wait", "failed")  # the owner may approve, redo or reject these
 JOB_KINDS = ("agy_image", "agy_image_review")
+BG_MUST_NOT = "people, human figures, animals, text, letters"  # owner rule: backgrounds have no people, no text
 
 
 def _now():
@@ -141,6 +142,8 @@ def _check_new(kind, spec, kit, pose_key, reuse):
 
 def add(pdir, type, spec, beat=None, kit=None, pose_key=None, reuse=None):
     _check_new(type, spec, kit, pose_key, reuse)
+    if type == "bg" and isinstance(spec, dict) and BG_MUST_NOT not in (spec.get("must_not") or []):
+        spec = dict(spec, must_not=list(spec.get("must_not") or []) + [BG_MUST_NOT])
     with _locked(pdir):
         items = load(pdir)
         prefix = PREFIX[type]

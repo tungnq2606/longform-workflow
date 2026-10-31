@@ -56,6 +56,18 @@ class ImageReviewTest(ImgBase):
         self.assertIn("boats with sails", task)  # the item's MUST NOT list
         self.assertIn("Never run shell commands", task)
 
+    def test_bg_person_or_text_in_problems_caps_score(self):
+        self.assertTrue(any("people, human figures, animals, text, letters" in r for r in self.w.RUBRIC["bg"]))
+        for problems in (["Có một người nhỏ đứng xa trên bờ"], ["A tiny human figure on the far bank"],
+                         ["Có chữ trên lá cờ"], ["Một con động vật ở góc trái"], ["Letters on the sail"]):
+            self.images.update(self.pdir, "BG01", state="reviewing", score=None)
+            self.answer(5, problems)
+            it = self.w.review_item(self.pdir, "BG01")
+            self.assertEqual((it["state"], it["score"]), ("wait", 3), problems)
+        self.images.update(self.pdir, "BG01", state="reviewing", score=None)
+        self.answer(5, ["Nét mực hơi nhòe"])
+        self.assertEqual(self.w.review_item(self.pdir, "BG01")["state"], "pass")
+
     def test_score_3_waits_with_inbox(self):
         self.answer(3, ["Nét mực hơi nhòe"])
         it = self.w.review_item(self.pdir, "BG01")
