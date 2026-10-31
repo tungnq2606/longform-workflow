@@ -1,0 +1,1227 @@
+{
+ "style_anatomy_first": {
+  "overall_style": "Flat 2D digital cartoon character-sheet style that puts a bare stick-figure head and limbs on a fully costumed, solid-filled body. Every figure has a large, perfectly round, pure-white head with a bold, even black outline. The face is minimal: two small solid-black vertical-oval dot eyes and one thin line mouth. Brows are short strokes added only when an emotion needs them, and there is no hair, nose or ears. Arms are single thick black lines with sharp angular elbow bends, ending in white oval mitten hands with no fingers. The torso is not a stick. It is a solid clothing silhouette about as wide as the head, sitting on short trouser legs and rounded soft shoes, which makes a stocky figure about 3.7 heads tall. In walking, running and lunging poses the legs become single black stick lines that still end in the cuffed shoes. Clothing and props use flat, muted, desaturated earth tones (taupe, olive-grey, khaki, camel) with bold black outlines, jagged torn hems, and a few small clusters of dark-brown tick marks for texture. There are no gradients and no cast shadows, and everything floats on a pure white background. Overall it reads as a clean, lightly hand-inked explainer illustration: comic-simple faces with believable, practical costumes and tools.",
+  "head": "A perfect geometric circle that never squashes, stretches or changes shape in any view or pose. Fill is pure white (#FEFEFE, the same as the paper). The outline is solid black and even, about 4.4% of the head diameter (4 px on a 90 px head). The head diameter is about 27% of standing height (90 px of a 332 px figure in the turnaround) and about the same as shoulder width. There is no hair, no scalp line, no ears, no nose bump and no jaw or chin; the profile and back views are the same plain circle. The head sits directly on the collar with almost no neck. Turning, tilting or looking down is shown only by sliding the facial marks around inside the circle. It is the largest, brightest single shape on the figure.",
+  "face": "Front view: two solid black vertical-oval eye dots, about 7-8% of head diameter (D) wide and 10-11% D tall (about 6-8 x 10 px). They are level, about 35-36% D apart centre to centre, and sit at the head's vertical centre (50% from the top on the body heads, about 46% on the expression heads). The mouth is a single thin stroke about 3% D thick and 35-45% D wide, centred at about 67-72% of head height. The neutral body face uses a very slight upward curve. Features sit as a small cluster in the middle to lower part of the circle, with lots of empty white forehead above. No nose, cheeks, blush, eyelashes, pupils, highlights or teeth (except the open grins).\n\n3/4 view: the whole eye-and-mouth group slides about 15-20% D toward the facing side and slightly down. Eye spacing compresses about 15% (27 px instead of 31.5 px), and the far eye sits close to the outline.\n\nProfile: one eye dot about two-thirds of the radius from the centre toward the facing edge, at mid-height. The mouth is a tiny upward hook stroke at about 70% height that runs into the outline. No nose.\n\nBack: completely blank circle.\n\nLooking down (sitting and working): eyes drop to about 60-65% height and the mouth sits just above the bottom outline.",
+  "eyebrows": "Absent in neutral, smiling and happy faces and in most calm body poses: Front View, side views, Sitting, Stretching, Walking and Holding up. When used, brows are short separate strokes about 20-25% D long, about one eye-height above the eyes. They are as thick as or slightly thicker than the mouth line and have rounded ends. Their shape alone carries the emotion:\n- Angry: straight bars slanting steeply down toward the centre (\\ /).\n- Inspecting Quality (focused or critical): gentler inward-down slant, slightly curved.\n- Sad: curved arcs with inner ends raised and outer ends drooping.\n- Worried: wavy tilde strokes with raised inner ends.\n- Scared and Surprised: small round arches lifted high on the forehead.\n- Confused: asymmetric, one low and flat, one high and arched.\n- Determined: flat horizontal bars pressed right onto the tops of the eyes.\n- Laughing: thin raised arcs.\n- 3/4 Front View: thin arched brows even in a neutral expression (inconsistent with the Front View).",
+  "neck_torso": "Neck: essentially none. The bottom of the head touches the collar. In front views a small white V of skin (paper white) shows inside the V-neck between the apron straps. In profile there is only a few-pixel sliver with one short vertical line. In the back view the head sits straight on the tunic.\n\nTorso: a solid costume block, not a stick and with no body line visible under the clothes.\n- Shoulders: about 0.95-1.0 D wide, gently sloped, with frayed cap-like flaps of the sleeveless tunic sticking out past where the arms start.\n- Chest: about 0.75-0.8 D wide.\n- Hem: a slight A-line flare back to about 1.0 D.\n- Length: head bottom to tunic hem is about 1.9 D (about 51% of total height). The tunic reaches mid-thigh or knee.\n- Arm sockets: in side and 3/4 views, a darker outlined oval \"armhole\" patch on the shoulder (#6E6758) is where the stick arm comes out.\nPosture is upright and relaxed, with a slight forward lean in action poses (about 15-30 degrees when running or lunging).",
+  "arms_hands": "Arms: single solid black lines, heavier than the outlines, about 6-7% D (about 1.5x the head outline). They have round caps and come out from under the shoulder flap or armhole patch. Shoulder to wrist is about 1.1 D; upper arm and forearm are roughly equal. Hanging arms form a narrow A, about 10 degrees out from vertical with a very gentle outward bow, leaving a clear white gap of about 0.15 D beside the torso. The hands then reach mid-thigh, about 0.25 D above the tunic hem. Bent arms make a crisp angular V at the elbow, with no rounded joint and no thickening. In side views the near arm is drawn on top of the torso, straight down.\n\nHands: white (#FEFEFE) vertical egg-shaped ovals, about 0.19 D wide x 0.31 D tall, with a black outline the same weight as the head outline. The arm line joins at the top centre. There are no fingers, at most a barely visible thumb notch on the inner side. When gripping, the oval is drawn on top of the prop at the grip point: the middle of a bone shaft, the top corner of a hide, the shoulders of a garment, or a pole. The same oval clamps over an edge, sometimes turned horizontal.",
+  "legs_feet": "Static poses (standing, inspecting, holding up, sitting):\n- Legs: two separate trouser tubes in dark taupe (#766B56) with black outlines. Each is about 0.33 D wide with a gap of about 0.18 D. The visible length from tunic hem to sole is only about 0.75-0.8 D (about 21% of height). They carry small pairs of short dark crease dashes.\n- Ankle wraps: about 0.13 D tall, drawn as two rolled bands with a pale seam line between.\n- Shoes: rounded soft moccasin-boots (#74654F), about 0.34 D long x 0.22 D tall with flat soles. In front view the toes turn slightly outward; in profile they point the way the figure faces.\n- Sitting: the legs cross in front as trouser tubes with the shoes visible.\n\nDynamic poses (Stretching Hide, Running, Walking):\n- The trousers disappear. Each leg is a single black stick line, the same weight as the arms, coming out from under the tunic hem.\n- Knees bend with crisp angles: running has a rear leg kicked up behind and a front leg reaching forward; stretching has a long straight rear leg and a bent front leg.\n- The legs still end in the same cuffed boots.\n- There is never a ground line or floor shadow.",
+  "proportions": "All measurements are from the 1644x910 source; D = head diameter.\n- Overall height: about 3.7 D (turnaround: 332 px tall with a 90 px head; Inspecting Quality: 268 px with a 73 px head). The head is about 27% of height.\n- Vertical split: head 1 D; head bottom to tunic hem about 1.9 D; hem to sole about 0.8 D, so the legs are very short and stubby.\n- Widths: shoulders about 1.0 D, chest about 0.75-0.8 D, hem about 1.0 D. Each trouser leg is about 0.33 D. Shoes are about 0.34 x 0.22 D.\n- Arm: shoulder to wrist about 1.1 D, about 1.4 D including the hand. Hand oval about 0.19 x 0.31 D.\n- Line weights: head outline about 4.4% D (4 px). Garment and prop outlines about the same. Limb lines about 6-7% D, about 1.5x the outline. Mouth and brow strokes about 3% D. Interior texture lines about 2% D.\n- Eyes: about 0.07-0.08 x 0.10-0.11 D, spaced about 0.35 D apart. Mouth width 0.35-0.5 D.\n- Scale across the sheet: action-pose figures are about 0.8x the turnaround scale (heads 68-74 px against 88-90 px). Expression heads are about 1.17x (105 px).",
+  "costume_rendering": "Each garment piece is one flat fill with a bold black outline, layered so the parts read by value: light apron over a mid-tone tunic over dark legs and shoes. The reference costume, generalised:\n- Tunic: sleeveless, knee-length, hide or coarse cloth in warm grey-olive taupe (#908268). It has a V-neck, frayed cap flaps at the shoulders and a ragged, scalloped, torn hem.\n- Bib apron: lighter (#BBAF92). A rectangular bib with a straight top edge sits just under the V-neck. Narrow straps run up beside the neck. The skirt ends a little above the tunic hem with its own torn bottom edge.\n- Waist cord / apron tie: pale grey-beige (#CAC4BA), two outlines with a pale fill. At the centre back it has a round knot and two short dangling tails.\n- Pouch: rounded leather (#7C6954) with a flap outline, a stitch line and a short pale highlight streak, hung from the cord on the character's right hip. In walking it holds a bone poking out.\n- Legs and feet: dark taupe trousers (#766B56), rolled ankle wraps, rounded soft boots (#74654F).\nMaterial and wear are suggested only with line marks:\n- deliberately wobbly, irregular contours\n- jagged tears and frayed tufts along hems and shoulder edges\n- sparse groups of 2-3 short parallel dark olive-brown ticks (#61543B), like hide grain\n- a single vertical seam line down the centre back\n- 1-3 thin crease strokes for folds, such as diagonal creases on the apron skirt and paired dashes on the trousers\n- stitched seams drawn as short dark dashes\nThere are no patterns, prints, logos, metal, jewellery or saturated colours. Costume fit is boxy and simple, with no anatomy showing through.",
+  "props_rendering": "Props use the same bold black outline weight as the figure, flat muted earth-tone fills, simple readable silhouettes and only a few interior strokes. They are realistically scaled to the 3.7-head figure. Wherever a prop is gripped, the white oval hand is drawn on top of it.\n\nSpecific props on the sheet:\n- Cartoon bone tools: a straight shaft with double-lobed knobs at both ends, ivory (#EBE4D4). One is held across the chest, one is swung in hand, one sticks out of the pouch.\n- Bone needle: a thin pale shaft.\n- Thread: a long thin pale line with a dark outline, trailing out in a loose curve.\n- Raw animal hides: irregular splayed pelt silhouettes with lobes like legs, warm camel (#B39A7D), almost flat with one or two faint fold strokes.\n- Hide being sewn: carries a seam of short dark stitch dashes.\n- Stack of folded hides (running): 3-4 stacked folded layers, each edge outlined, with darker tan inner folds (#8A7D67).\n- Draped hide bundle (walking): hung over the far hip.\n- Stretching frame: two straight leaning poles in grey-taupe wood (#828079) with forked Y tips and tight 2-3-ring rope lashings. The pelt is laced to the poles with thin black cords running from its points, plus thin cross-cords along the top and bottom.\n- Finished garments: a T-shaped short-sleeve tunic with a V-slit neck (darker inside back of the neckline) and a ragged hem, and a held-up cloth piece, both in tan (#AF997C).\nSmall effect marks: 3-4 short radiating tension ticks where a hand pulls the hide. No other motion lines, sound effects or speed lines.",
+  "line_work": "One bold, constant-width outline around everything, with no tapering, brush calligraphy, sketchy double strokes or hatching.\n- Main contours: pure black (#000000-#0F0F0F) for the head, hands, tunic and props. The apron and pouch outlines are a very dark warm brown-black (#140C06).\n- Weight: head outline about 4.4% of head diameter (4 px on a 90 px head). Garment and prop contours are similar at about 4 px.\n- Limb lines (stick arms and stick legs): the heaviest strokes at about 6-7% D, roughly 1.5x the outline, with round caps and crisp angular bends at elbows and knees.\n- Face: eyes are solid black fills. Mouth and brow strokes are about 3% D with round ends; angry and determined brows are a bit thicker.\n- Interior details (creases, seams, texture ticks, stitch dashes, fold lines): about 2% D, in dark olive-brown (#61543B) rather than black.\nGeometric parts (the circle head and oval hands) are perfectly smooth and vector-clean. Organic parts (garment silhouettes, hems, hides) are lightly wobbly and hand-inked, with jagged, scalloped, torn edges. All strokes are anti-aliased, clean digital ink, comic or webcomic in feel.",
+  "shading_and_texture": "Flat colour only:\n- no gradients\n- no cel-shading shadow shapes\n- no highlights or rim light\n- no ambient occlusion\n- no cast or contact shadows\n- no implied light direction\nTexture comes entirely from small drawn marks:\n- sparse clusters of 2-3 short dark ticks on hide and cloth (more on the rough tunic, fewer on the apron)\n- frayed tufts and torn scallops along edges\n- a few thin crease and seam lines\n- stitch dashes\n- a very faint, low-contrast mottled grain inside the garment fills, only a few percent of value variation (possibly compression noise)\nDarker flat patches appear only for inner or under surfaces: the shoulder armhole patch (#6E6758) and the inside back of a neckline. The head, the neck V and the hands are pure white and are never shaded or tinted.",
+  "palette": [
+   {
+    "hex": "#FEFEFE",
+    "use": "Paper-white page background; also the fill of the head, neck V and hands (characters have no skin colour)"
+   },
+   {
+    "hex": "#000000",
+    "use": "Main outlines, solid eye dots, mouths, brows, stick arms and stick legs"
+   },
+   {
+    "hex": "#908268",
+    "use": "Main tunic / outer garment, warm grey-olive taupe (largest clothing mass)"
+   },
+   {
+    "hex": "#BBAF92",
+    "use": "Apron / lighter over-layer, pale khaki-sand"
+   },
+   {
+    "hex": "#766B56",
+    "use": "Trousers, darker olive-taupe"
+   },
+   {
+    "hex": "#74654F",
+    "use": "Soft boots and ankle wraps, dark taupe-brown"
+   },
+   {
+    "hex": "#7C6954",
+    "use": "Leather pouch, medium warm leather brown"
+   },
+   {
+    "hex": "#CAC4BA",
+    "use": "Waist cord, apron ties, thread, pale seam line on the ankle wraps (pale warm grey)"
+   },
+   {
+    "hex": "#B39A7D",
+    "use": "Raw hides, leather pieces and garments being made, warm camel tan"
+   },
+   {
+    "hex": "#8A7D67",
+    "use": "Darker inner folds on stacked or draped hides"
+   },
+   {
+    "hex": "#EBE4D4",
+    "use": "Bone tools and bone needle, ivory cream"
+   },
+   {
+    "hex": "#828079",
+    "use": "Wooden poles of the stretching frame, neutral grey-taupe wood"
+   },
+   {
+    "hex": "#6E6758",
+    "use": "Inner or under surfaces: armhole patch at the shoulder, inside of necklines"
+   },
+   {
+    "hex": "#61543B",
+    "use": "Interior texture ticks, crease lines, seam and stitch dashes"
+   },
+   {
+    "hex": "#140C06",
+    "use": "Very dark brown-black outline on the apron and pouch"
+   },
+   {
+    "hex": "#B8B8B8",
+    "use": "Upper-teeth band inside the black-filled open grin"
+   },
+   {
+    "hex": "#111111",
+    "use": "All typography (thin caption strokes read as charcoal, about #333333, at small size)"
+   }
+  ],
+  "background": "Pure flat white (#FEFEFE) across the whole sheet, the same white used inside the heads and hands. There is no ground line, no floor or contact shadow, no scenery, no paper texture, no vignette, no panel boxes, frames or dividers, and no tinted bands. Figures float on white, with their feet resting on an invisible common baseline for each row. The only non-white edge element is an 11 px solid black vertical strip down the far left edge, a screenshot or cropping artifact that is not part of the design.",
+  "sheet_layout": "The canvas is landscape, 1644x910 px (about 1.81:1, close to 16:9), white, with no borders. It is three stacked horizontal bands. Section labels are left-aligned and every item has a centred caption directly below it. The sheet has exactly 24 illustrated panels (6 + 6 + 12) plus the title block and 2 section labels.\n\nBand 1, turnaround (y about 40-402, about 40% of height):\n- Column 0 holds the title block (x about 35-310, y about 45-172): a 2-line bold all-caps title, then a smaller all-caps subtitle line and a lowercase tagline, both indented about 35 px. The white space below it is empty.\n- Columns 1-6 hold six full-body views at the same scale. Heads are 88-90 px, head tops aligned at y about 40, soles on a shared baseline at y about 371.\n- Figure head centres are at x about 396, 607, 819, 1031, 1254 and 1492. The pitch is about 212 px, widening to about 222-238 px for the two prop or 3/4 views.\n- Captions are centred at x about 394, 602, 831, 1034, 1252 and 1496, at y about 384-402.\n\nBand 2, action poses (y about 413-737, about 36%):\n- A bold label sits top-left at x about 60-195, y about 417-432.\n- Six action poses span the full width at about 0.8x the band 1 scale (heads 68-74 px), feet at y about 655-683.\n- Caption centres are at x about 169, 457, 750, 998, 1257 and 1495. Line 1 is at y about 688-712. Captions with a parenthetical continue on line 2 at y about 713-737.\n\nBand 3, expressions (y about 730-893, about 18%):\n- A bold label at x about 57-232, y about 730-750, just under the first band 2 caption.\n- One row of 12 equal head-only circles, 105 px in diameter, at an exact 130 px pitch: centres x = 113 + 130*i (i = 0..11), y about 812. Gaps are about 25 px and the row spans x about 60-1596.\n- A one-word caption sits under each face at y about 873-893.\n\nMargins are about 40 px top, about 35-60 px left, about 48 px right and only about 15 px bottom. Spacing is airy and nothing overlaps.",
+  "typography": "All text is a condensed grotesque sans-serif, similar to Roboto Condensed, Helvetica Neue Condensed or Arial Narrow. It is solid near-black (#111111) on white, with no outlines, shadows, colour or decoration. Hierarchy:\n1. Title block, top-left: two lines of bold condensed all caps, cap height about 27 px (about 3% of canvas height), tight leading at a line pitch of about 37 px, left-aligned at x about 35.\n2. Subtitle line: regular-weight condensed all caps, cap height about 19 px, indented about 35 px.\n3. Tagline: regular lowercase, smaller (x-height about 12 px), same indent. Its thin strokes read grey.\n4. Section labels \"Action Poses\" and \"Expression Sheet\": bold condensed, Title Case, cap height about 16-20 px, left-aligned at x about 55-60.\n5. Item captions: regular condensed, Title Case or sentence case, cap height about 19 px (about 2% of canvas height), centred under each item. Long captions break onto 2 lines, with the parenthetical detail on line 2.\n\nCaptions read exactly:\n- Band 1: \"Front View\", \"Left Side\", \"Right Side View\", \"Back View\", \"3/4 Front View\", \"3/4 Back View\".\n- Band 2: \"Sitting and Working\", \"Stretching Hide\", \"Inspecting Quality\", \"Running / (and protecting the hide)\", \"Walking / (carrying tools)\", \"Holding up finished / finished clothing\" (the word is duplicated in the source).\n- Band 3: \"Neutral\", \"Smiling\", \"Happy\", \"Angry\", \"Sad\", \"Worried\", \"Scared\", \"Surprised\", \"Confused\", \"Determined\", \"Tired\", \"Laughing\".\n\nThe title-block words are third-party branding: \"ANCIENT HUMAN / CLOTHING MAKER\", \"TRUE STICKMAN\" and \"survival documentary\". Never reproduce them; replace them with our own script or character title.",
+  "turnaround_views": [
+   {
+    "label": "Front View",
+    "description": "Square to the viewer, symmetrical, upright and relaxed. Arms hang in a narrow A, about 10 degrees out with a slight bow, and the white oval hands sit at mid-thigh just above the hem. Face: two dot eyes exactly at the head's vertical centre and a soft, very slightly curved smile line about 35% D wide; no brows. The whole costume is visible: V-neck with a white skin V, bib apron with straps, waist cord, pouch on the character's right hip (viewer's left), ragged tunic hem, trouser tubes with a gap, ankle wraps, rounded boots with toes slightly out. Head about 90 px, sole at the baseline."
+   },
+   {
+    "label": "Left Side",
+    "description": "Strict profile facing screen-right. One eye dot about two-thirds of the radius toward the right edge at mid-height, and the mouth a tiny upward hook running into the right edge; no nose. The near arm is drawn over the torso from a dark outlined armhole patch at the shoulder, straight down to a vertical oval hand at hip level. The waist cord knot and two tails hang at the back (left), the pouch shows at the back hip, and the apron is a lighter strip on the front edge. The two legs nearly overlap and the boots point right. The visible flank carries the pouch, so this is anatomically the character's right side."
+   },
+   {
+    "label": "Right Side View",
+    "description": "Mirror of the left profile, facing screen-left. The eye dot and mouth hook are at the left edge. The near arm runs from the armhole patch straight down to an oval hand at hip level. No pouch is visible (this is the character's left side). Cord tails hang at the back (right), the apron strip is on the front (left), the hem is ragged, the legs nearly overlap and the boots point left."
+   },
+   {
+    "label": "Back View",
+    "description": "Completely blank white head circle with no hair or ears. Plain tunic back with one vertical centre seam line and scattered pairs of texture ticks. The pale apron cord crosses the waist with a round knot and two short tails at the centre back. The pouch just peeks out at the character's right hip (viewer's right). Arms hang in a slight A with oval hands at mid-thigh. Jagged hem, trouser tubes with crease dashes, ankle wraps and boots."
+   },
+   {
+    "label": "3/4 Front View",
+    "description": "Body and face turned about 35-45 degrees toward the viewer's right. The eye dots and mouth slide right and slightly down, and thin arched brows are present. The near (right) arm runs down along the body and bends sharply at the elbow so the hand holds a cartoon bone diagonally across the chest, with the hand drawn over the shaft. The far (left) arm reaches out sideways, bends down and pinches the top edge of a hanging camel-coloured hide at shoulder height. The pouch is on the near hip; trousers, wraps and boots are in a relaxed stance."
+   },
+   {
+    "label": "3/4 Back View",
+    "description": "Turned away, about 135-150 degrees from the front, facing into the picture toward the upper-left. We see the back plus the left flank, with a blank head circle. The near (left) arm hangs from an outlined dark armhole patch down to an oval hand at hem level, and the far arm hangs along the right edge. The belt knot and tails are slightly right of centre and no pouch is visible. Ragged hem, trouser tubes, ankle wraps and boots."
+   }
+  ],
+  "action_poses": [
+   {
+    "label": "Sitting and Working",
+    "description": "Seated cross-legged on the floor (no ground drawn), front or slight 3/4 toward the right. The head looks down, so the eye dots and a short flat calm mouth sit low in the circle; no brows. The right hand is raised at chest height with an angular elbow, holding a white bone needle and drawing a thread. The left hand presses a large camel hide spread over the lap; the hide carries a seam of dark stitch dashes, and a thin pale thread trails off in a curve to the lower right. The crossed legs show as trouser tubes with wraps and boots in front."
+   },
+   {
+    "label": "Stretching Hide",
+    "description": "Near-profile facing right in a deep lunge: the rear leg is a long straight diagonal behind and the front leg is bent, both as black stick lines ending in cuffed boots. The torso leans forward about 30 degrees and the pouch hangs at the back hip. Both arms reach forward almost straight: the upper hand grips the top of the near pole and the lower hand pulls the hide edge, with small radiating tension ticks. Face: one eye dot and a small upturned smile hook; no brows. The prop is a leaning frame of two forked-top poles with ring lashings, with a splayed pelt laced to it by thin cords."
+   },
+   {
+    "label": "Inspecting Quality",
+    "description": "Standing still, 3/4 facing right, legs in trousers and planted. Both forearms are raised to hold a tan cloth or garment up at face height. The near arm makes a sharp V with the elbow down at chest level and the hand pinching the garment's top-left corner; the other hand clips the top-right corner. Face: brows angled down toward the centre in a focused, critical frown (milder than angry), dot eyes and a short flat mouth, shifted right."
+   },
+   {
+    "label": "Running (and protecting the hide)",
+    "description": "Facing right in a full running stride with the torso pitched forward. Both arms wrap a thick stack of 3-4 folded hides against the chest; the near hand shows as an oval under the front of the stack. Legs are black stick lines: the rear leg is kicked up behind with a bent knee and the boot sole up, and the front leg reaches forward and down with a bent knee. The pouch swings at the hip. Face, shifted right: an angry, determined look with steep V brows, dot eyes and a downturned frown."
+   },
+   {
+    "label": "Walking (carrying tools)",
+    "description": "Facing right (3/4) in a relaxed mid-stride, legs as black stick lines with the rear boot pushing off and the front boot landing. The near arm swings back with a bent elbow, holding a bone tool pointing back and down, while a second bone pokes up out of the pouch. The far arm carries a bundle of draped hides or garments against the far hip. Face: a gentle content smile with dot eyes, shifted right; no brows."
+   },
+   {
+    "label": "Holding up finished finished clothing",
+    "description": "Standing, 3/4 facing left, legs in trousers and planted. Both arms are raised with V-bent elbows, holding a finished short-sleeve T-shaped tunic (V-slit neck, ragged hem) by its shoulders and displaying it to the viewer's left at shoulder height. Face, shifted left: a proud open grin with dot eyes and a D-shaped mouth filled black with a light-grey upper-teeth band; no brows. The pouch appears on the viewer's right hip, which is inconsistent with the other panels."
+   }
+  ],
+  "expressions": [
+   {
+    "label": "Neutral",
+    "eyes": "Two solid black vertical-oval dots (about 8x10 px on a 105 px head), level, about 36% D apart, just above centre (about 46% from the top)",
+    "brows": "None",
+    "mouth": "Straight horizontal line about 45% D wide and 3% D thick, centred at about 67% height",
+    "extras": "None"
+   },
+   {
+    "label": "Smiling",
+    "eyes": "Same solid vertical-oval dots, same placement",
+    "brows": "None",
+    "mouth": "Shallow open upturned U arc, about 43% D wide, thin line",
+    "extras": "None"
+   },
+   {
+    "label": "Happy",
+    "eyes": "Solid black half-discs with domed tops and flat bottoms (a cheerful upward squint), same spacing",
+    "brows": "None",
+    "mouth": "Wider, deeper open U smile arc, about 50% D wide, line only (not filled)",
+    "extras": "None"
+   },
+   {
+    "label": "Angry",
+    "eyes": "Solid vertical-oval dots tucked just under the brows",
+    "brows": "Thick short straight bars (about 20% D) slanting steeply down toward the centre, inner ends low and outer ends high, a V shape",
+    "mouth": "Downturned arc frown, about 40% D wide",
+    "extras": "None"
+   },
+   {
+    "label": "Sad",
+    "eyes": "Solid vertical-oval dots",
+    "brows": "Thick curved strokes with inner ends raised and outer ends drooping (tilted arcs bowing upward)",
+    "mouth": "Wide downturned arc frown, about 38% D wide",
+    "extras": "One small outlined teardrop (white inside, pointed top, round bottom) just below and outside the character's left eye (viewer's right)"
+   },
+   {
+    "label": "Worried",
+    "eyes": "Solid vertical-oval dots",
+    "brows": "Wavy tilde-like strokes with inner ends raised and curling up, outer ends lower",
+    "mouth": "Wavy squiggle line with about 3 humps, about 39% D wide",
+    "extras": "None (no sweat drops)"
+   },
+   {
+    "label": "Scared",
+    "eyes": "Solid vertical-oval dots, normal size (not enlarged)",
+    "brows": "Small round arcs lifted high on the forehead, well above the eyes",
+    "mouth": "Small open mouth drawn as an outlined dome or arch (arched top, nearly flat bottom), white inside, about 29% D wide and 12% D tall",
+    "extras": "None"
+   },
+   {
+    "label": "Surprised",
+    "eyes": "Solid vertical-oval dots",
+    "brows": "High round arches well above the eyes",
+    "mouth": "Small outlined O ring (about 19% D wide x 21% D tall), white inside, centred",
+    "extras": "None"
+   },
+   {
+    "label": "Confused",
+    "eyes": "Solid vertical-oval dots, normal",
+    "brows": "Asymmetric: the viewer's-left brow is low, nearly flat with a slight wave and a tilted inner end; the viewer's-right brow is raised high in a curved arch",
+    "mouth": "Wavy zigzag squiggle with about 3 waves, about 48% D wide",
+    "extras": "None (no question mark)"
+   },
+   {
+    "label": "Determined",
+    "eyes": "Solid vertical-oval dots hanging directly under the brows (top of each dot touches the brow, like a T)",
+    "brows": "Thick straight horizontal bars (about 25% D) pressed low onto the eyes",
+    "mouth": "Firm straight line, slightly tilted (higher on the viewer's right), about 39% D wide",
+    "extras": "None"
+   },
+   {
+    "label": "Tired",
+    "eyes": "Much larger outlined white circles (about 25% D tall), each crossed by a thick horizontal upper-lid line with a solid black half-disc pupil hanging under it (droopy half-closed eyes)",
+    "brows": "None (the lid line and top of the eye circle carry the droop)",
+    "mouth": "Small outlined horizontal lozenge, slack and slightly open, white inside, about 23% D wide",
+    "extras": "One or two thin curved bag lines under each eye"
+   },
+   {
+    "label": "Laughing",
+    "eyes": "Closed, thick upward arcs (squeezed shut)",
+    "brows": "Thinner raised arcs above the eyes",
+    "mouth": "Big open D shape (flat top, deep round bottom) with a black outline and white interior, about 47% D wide x 24% D tall",
+    "extras": "Two short dash marks at the outer corner of each eye (laugh crinkles, like an equals sign)"
+   }
+  ],
+  "signature_traits": [
+   "Head is a large, perfectly round, pure-white circle with a bold even black outline: no hair, ears, nose or skin colour, about 27% of body height, never deformed.",
+   "Ultra-minimal face: two small solid-black vertical-oval dot eyes and one thin line mouth set in the middle to lower part of the circle; brows appear only as short strokes when an emotion needs them.",
+   "Arms are single thick black stick lines (about 1.5x the outline weight) with crisp angular elbow bends, ending in white, finger-less oval mitten hands outlined in black.",
+   "The body is not a stick but a solid flat-filled costume silhouette about as wide as the head, with almost no neck; the head sits straight on the collar.",
+   "Stocky, about 3.7-heads-tall build: long tunic-like torso (about 1.9 head diameters) on very short legs (about 0.8 head diameters) with rounded soft boots and rolled ankle wraps.",
+   "Static poses use trouser-tube legs; walking, running and lunging switch the legs to single black stick lines that still end in the cuffed boots.",
+   "Muted, desaturated earth-tone palette for all clothing and props (taupe, olive-grey, khaki, camel), contrasting with the paper-white head and hands.",
+   "Flat fills with no gradients or cast shadows; texture only from sparse clusters of short dark-brown tick marks, thin crease lines, torn or jagged hems and frayed edges.",
+   "One bold, constant-width black outline around everything; interior details in thinner dark-brown lines; smooth geometric head and hands against slightly wobbly, hand-inked costume edges.",
+   "Turning is shown only by sliding the dot eyes and mouth inside the unchanged circle: shifted in 3/4, a single dot plus a mouth hook at the edge in profile, blank from behind.",
+   "Side and 3/4 views show a darker outlined armhole patch on the shoulder where the stick arm comes out; in side views the arm is drawn straight down over the torso.",
+   "Plain pure-white background with no ground line or shadows; captioned items laid out in clean rows, captions in a condensed sans-serif."
+  ],
+  "absent_traits": [
+   "No hair, scalp line, beard or any head covering on the base character",
+   "No nose, ears, cheeks, blush, chin or jaw; the profile stays a perfect circle",
+   "No eyelashes, irises, pupils-with-highlights or white eye sclera (except the Tired eyes); eyes are solid black dots",
+   "No teeth or tongue, except the light teeth band in one open grin",
+   "No skin colour: head, neck V and hands are paper white",
+   "No visible neck stick, torso stick or body outline under the clothes",
+   "No fingers, nails or detailed hands",
+   "No drawn elbow or knee joints and no muscles or anatomy; limbs bend as sharp angles",
+   "No gradients, soft shading, cel-shadow shapes, highlights, rim light or ambient occlusion",
+   "No cast, contact or ground shadows and no ground line",
+   "No background scenery, texture, vignette, panel boxes, frames or dividers",
+   "No saturated or bright accent colours, patterns, prints, logos, metal or jewellery",
+   "No sketchy pencil lines, cross-hatching, halftone, watercolour or painterly brushwork",
+   "No 3D rendering, photoreal textures or realistic proportions",
+   "No speech bubbles, sound effects, speed lines or motion blur (only tiny tension ticks)",
+   "No sweat drops, blush marks or question or exclamation marks in the expressions"
+  ],
+  "adaptation_notes": [
+   "Core lock to repeat in every prompt: perfectly round pure-white head with a bold black outline; two small solid-black vertical-oval dot eyes and a thin line mouth; no hair, nose or ears; thick single black-line arms with angular elbows; white finger-less oval hands; solid flat-coloured costume body about as wide as the head; about 3.7 heads tall with short legs and rounded boots; muted earth tones; flat fills with sparse tick-mark texture; bold even black outlines; no gradients or shadows. Give exact proportions (head about 27% of height) and attach the generated reference sheet every time.",
+   "Leg rule: the reference mixes trouser-tube legs in static poses with black stick legs in walking, running and lunging poses. To prevent drift, state the rule explicitly in every prompt, or pick one rule for the whole channel. Also fix side-specific accessories in words (for example, 'pouch always on the character's own right hip'), because the source sheet itself slips once.",
+   "Modern clothing (The Median Worker): keep the head, face, line arms, oval hands and stocky proportions exactly. Draw the modern outfit with the same method: one flat muted fill per garment, bold black outline, 1-3 crease strokes, sparse ticks only on rough fabrics. Examples: heather-grey hoodie over faded navy jeans; dusty-blue work shirt over khaki slacks; scrubs; delivery vest. Keep the torso block about one head wide and about 1.9 heads to the hip or hem, trousers as short tubes, and shoes as rounded blobs with a sole line. No logos, brand marks or readable text on clothes; keep everything desaturated, with at most one muted accent colour per character.",
+   "Distinguishing several characters: never add hair, noses or detailed faces, which breaks the style. Tell characters apart by costume colour from the muted palette, silhouette accessories (headband, shawl, cap, necklace of beads, tool belt, bag, apron), body scale (a child is a smaller body with the same face and a slightly larger head-to-body ratio) and signature props. Give each character a short fixed costume description and repeat it verbatim in every prompt.",
+   "Animals: same constant bold black outline and flat muted fills; simple rounded geometric silhouettes; solid black dot eyes identical to the humans'; minimal features (no detailed fur, muscles or realistic shading); fur only as sparse tick marks; limbs as simple filled shapes; realistic size relative to the 3.7-head humans. Show emotion, if needed, only with the same dot-eye and brow vocabulary.",
+   "Crowds: reuse the identical character template at smaller scale, keeping outline weight visually bold relative to the figure size. Vary costume tones and accessories rather than faces. Background figures may have dot-eye-only or blank faces. Keep white circle heads readable (space them out, avoid heavy overlaps), drop texture ticks at small sizes, and stand everyone on a consistent baseline or ground plane.",
+   "Full 16:9 scenes with backgrounds: draw the environment in the same flat-fill, black-outline vocabulary but quieter, so characters pop. Use thinner outlines (about 60-75% of the character outline), lower contrast and desaturated tints, few texture marks, simplified shapes and a simple ground plane or horizon. Avoid large pure-white areas directly behind the white heads, or give heads a mid-tone backdrop. No photoreal textures, lighting gradients or cast shadows. Keep character height consistent across frames (for example, about 45-60% of frame height for a main full-body beat).",
+   "Per-script reference sheet: copy this sheet's structure on pure white with no borders. Band 1: title block plus Front, Left Side, Right Side, Back, 3/4 Front, 3/4 Back for each character, one row per character if there are several. Band 2: every action pose the script uses, each captioned in Title Case with an optional parenthetical second line. Band 3: a row of equal head-only expression circles (the 12 listed or the ones the script needs) with one-word captions in a condensed sans-serif. Use our own title text, never the third-party title, subtitle or tagline."
+  ],
+  "uncertain": [
+   "Hex values are estimated from a compressed screenshot; the original flat fills may differ slightly, and the faint mottling inside fills may be compression noise rather than intended texture.",
+   "The sheet looks AI-generated and has small inconsistencies, so some details may be accidental rather than rules. Examples: thin brows appear in the neutral 3/4 Front View but not in the Front View, and the pouch moves to the other hip in 'Holding up finished finished clothing'.",
+   "The switch from trouser legs (static poses) to black stick legs (Stretching Hide, Running, Walking) may be a deliberate style rule or an inconsistency.",
+   "Side-view labels appear inverted anatomically: 'Left Side' faces screen-right and shows the pouch flank (the character's right hip). The labels probably name the viewing side or are simply loose.",
+   "The facing direction of the 3/4 Back View (away toward the upper-left, left flank visible) is inferred from the visible armhole patch and the off-centre belt knot.",
+   "The tiny thumb notch on the oval hands may be an artifact; treat hands as plain ovals.",
+   "The exact typeface is unknown: a condensed grotesque similar to Roboto Condensed, Helvetica Neue Condensed or Arial Narrow.",
+   "Eye shape is slightly rounder on the expression heads (about 8x10 px) than on the body heads (about 6-7 x 10 px); it is unclear whether this is intentional.",
+   "The open-grin interior in 'Holding up finished finished clothing' (black fill with a light teeth band) is read from about 20 px of pixels and may be simplified.",
+   "The colour of the thread in 'Sitting and Working' is pale, but its exact hue is unclear at this resolution.",
+   "The 11 px black strip on the left edge is assumed to be a screenshot or cropping artifact.",
+   "The duplicated word in the caption 'Holding up finished finished clothing' is assumed to be a typo in the source."
+  ]
+ },
+ "style_costume_first": {
+  "overall_style": "A flat 2D cartoon model-sheet style that puts a minimal stick-figure head and limbs on a fully costumed, earthy body. The head is a large, perfectly round, pure-white circle with a bold, even near-black outline. It has only two tiny solid-black oval dot eyes and one thin mouth stroke, and no hair, ears, nose or drawn neck. The arms are single thick black lines with sharp angular elbows, ending in white outlined oval mitten hands with no fingers. The body wears solid, believable prehistoric work clothes: a ragged sleeveless hide tunic, a lighter leather bib apron, a pale cord belt, a hip pouch, loose leggings with wrapped ankles, and soft rounded moccasins. The clothes are painted in flat, low-saturation taupe, khaki, olive-brown and tan, with warm brown-black hand-inked outlines that wobble slightly, torn zigzag edges, and only a sparse sprinkle of tick-mark texture. There are no shading shapes, gradients, cast shadows, ground lines or backgrounds; everything sits on pure white. The figure is about 3.6 heads tall, and the head is wider than the torso. The style is recognisable from the contrast between the clean, emoji-simple white head and sticks and the gritty, historically grounded, muted costume and props.",
+  "head": "Perfect geometric circle, never squashed or foreshortened, the same size and shape in every view. Fill is pure white #FFFFFF, identical to the page; the head is defined only by its outline. The outline is bold, even near-black (#0B0B0B) at about 5% of the head diameter (4-5 px on a 92 px head), smooth and vector-clean with no taper. The head is oversized: about 1.25x the torso width, about 1.0x the shoulder width including the ragged shoulder caps, and about 28% of total figure height. There is no hair, ear, nose, skull bump, jaw or chin; the back and 3/4-back views show a completely blank circle. The bottom of the circle sits directly on the collar. Only in profile and 3/4 does a tiny white neck stub show (about 1/5 head wide, under 1/10 head tall). Turn and tilt are shown only by moving the facial features inside the circle: centred for front view, shifted about 1/4 of the diameter toward the facing side for 3/4, a single eye near the edge for profile, features dropped into the lower third when looking down (seated working pose), and no features from behind.",
+  "face": "Eyes: two small solid-black vertical ovals, taller than wide (about 8% x 12% of head diameter, e.g. 7-8 x 10-11 px on a 92 px head). No eye whites, pupils, highlights or lashes. They sit at about 48-50% of head height from the top, about 1/3 of the diameter apart centre to centre, and level. Mouth: one thin black stroke (about 3% of head diameter) at about 67-72% of head height, about 1/3 to 2/5 of the head width. It is straight for neutral and a shallow U for a smile. In profile it is a short line starting at the outline with a tiny upward curl at the inner end. Open mouths are outlined shapes with white interiors: a small vertical O (surprise), a flat-bottomed dome (scared), a big D-shape (laughing), a small horizontal oval (tired). The exception is the proud grin in the \"holding up\" action pose, which is a black-filled D-shape with a white upper-teeth band. No nose, cheeks, blush, chin line or skin colour. Extra marks appear only with emotion: an outlined white teardrop, laugh-crinkle dashes, under-eye bag lines. On the turnaround the resting face is calm: dot eyes and a faint, nearly straight smile line.",
+  "eyebrows": "Absent on calm faces (neutral, smiling, happy, front view, walking smile, stretching profile). They are added only to carry emotion, except for two short, gently arched brows in the 3/4 front view. When present they are short solid-black strokes, about 1/5 of the head width long and 3-4% of the head diameter thick, with rounded or slightly tapered ends, placed just above each dot eye. Vocabulary: straight dashes slanting steeply down toward the centre to form a V (angry, running); slightly curved strokes lowered toward the centre (stern inspecting); curved strokes with raised inner ends (sad); tilde/S-curves with raised inner ends (worried); thin high arches well above the eyes (surprised, scared, laughing); thick flat horizontal bars resting directly on top of the eyes, making a T with each eye (determined); asymmetric, one low wavy dash plus one high arch (confused).",
+  "neck_torso": "No neck is drawn in front or back views. The head sits on the collar, and a white V-shaped notch in the tunic neckline reads as neck/chest skin, flanked by the two apron straps. A tiny white neck stub appears only in profile and 3/4. The torso is a slightly tapered upright slab about 0.8 head-diameters wide and about 1 head tall from collar to belt. It is completely covered by clothing; the stick spine is never shown. Vertical landmarks: belt at about 55% of figure height, apron hem at about 74%, tunic hem at about 79% (mid-thigh). Posture is upright and a bit stiff in the turnaround and leans forward 20-30 degrees in action poses. In side, 3/4 and action views a darker, irregular, bean-shaped armhole patch on the tunic shoulder marks where each stick arm comes out.",
+  "arms_hands": "Arms are single solid near-black strokes, not outlined tubes, about 6% of head diameter (5-6 px on a 92 px head). That is slightly heavier than the head outline, with round caps. They come out from under the ragged shoulder caps or armhole patches and are drawn over the costume where they cross it, e.g. the profile arm over the torso. At rest they hang in a gentle outward bow a little away from the body, with hands at upper or mid-thigh level (about 71% of figure height; arm length about 1.4 head-diameters). In action they bend at crisp angular elbows made of two straight segments, often a sharp V across the chest. Hands are white ovals with a black outline, slightly taller than wide (about 0.2 x 0.25 of head diameter, e.g. 17 x 23 px), with no fingers, thumb or wrist. When gripping, the oval overlaps or wraps the object (bone, pole, hide edge, garment shoulder), sometimes with one small inner curve suggesting curled fingers. The held object continues on both sides of the hand.",
+  "legs_feet": "Clothed legs (turnaround, standing and seated poses): two separate straight columns of loose dark olive-taupe leggings (#746B5A) with slightly wobbly warm brown-black outlines and sparse \"=\" double-tick marks. A rolled, bulging cuff wraps each ankle, tied off by a thin pale cord (#CAC4BB). Shoes are soft rounded moccasins (#736653) with flat soles and rounded toes, turned slightly outward in front view. Only about 0.75 head of leg shows below the tunic hem. In the dynamic poses (stretching lunge, running, walking) the legs below the hem are drawn as bare single black stick lines, the same weight as the arms, with sharp knee angles, still ending in cuffed moccasins. Stances: front view feet slightly apart, weight even, profile feet staggered; running has the rear foot kicked up near hip height with the knee bent about 90 degrees and the front leg reaching; walking is mid-stride; sitting is cross-legged with knees out and crossed shins in front.",
+  "proportions": "Measured on the turnaround: head 92 px, figure 331 px, so about 3.6 heads tall. The head is 28% of height. Action-pose figures are about 0.8x scale (head about 75 px, standing height about 271 px, still about 3.6 heads). Expression heads are about 1.16x the turnaround head (about 107 px). Landmarks as a fraction of figure height from the top of the head: eyes 0.13, mouth 0.20, chin/collar 0.28, belt 0.55, hand tips 0.71, apron hem 0.74, tunic hem 0.79, ankle cuff 0.92, sole 1.00. Widths: head about 1.25x torso; shoulders with caps about 1.0 head; torso about 0.8 head. Line weights relative to head diameter: head outline about 5%, limb sticks about 6%, costume and prop outlines about 4%, facial strokes about 3%, interior detail lines about 1-2%. Hands about 0.2-0.25 head. Eyes about 8% x 12% of head; eye spacing about 1/3 head. Overall a chunky, slightly chibi head on a sturdy, short-legged clothed body.",
+  "costume_rendering": "Layered, believable prehistoric work clothing drawn as simple solid flat-colour shapes, each piece with its own outline. (1) Base: loose straight leggings (#746B5A) ending in rolled, bulging ankle cuffs tied with a thin pale cord, over soft rounded moccasins (#736653). (2) Sleeveless hide/fur tunic (#91856D) to mid-thigh. Its rough-cut shoulder caps jut slightly past the arm roots with notched, jagged edges. It has a V-neck, a torn zigzag hem, one vertical seam/fold line down the centre back, sparse fur/hide fleck ticks, and darker bean-shaped armhole patches. (3) Halter bib apron in lighter khaki leather (#B9AE95). The bib has a straight top, two narrow straps rising to the back of the neck, and hangs to just above the tunic hem. Its bottom edge is softly wavy and torn, with 1-3 diagonal fold strokes. It is invisible from behind. (4) A thin pale greige cord belt (#CAC4BB), drawn as a narrow double-outlined band, goes round the waist over the apron. It is wrapped 2-3 times and tied at centre back in a small loop knot with two hanging tails. (5) A rounded leather pouch (#7C6D5B) hangs from the belt on one hip by a loop. It has a curved flap line and 2-3 small grey tool handles poking out of the top. Materials read as hide, leather and cord through muted colour and ragged contours, not detailed texture. Wear shows as torn hems and uneven edges. Fills are flat with plus or minus 3-5% mottling; folds are 1-3 thin dark-brown strokes. No patterns, prints, logos, jewellery, colour accents or metal.",
+  "props_rendering": "Props use the same treatment as the costume: warm brown-black slightly wobbly outline (about 4% of head diameter), flat muted fill, sparse dark ticks, simple silhouettes, no shadows. Raw hides and pelts: irregular lobed animal-skin silhouettes with leg flaps and a tail or neck point, flat warm tan #AD9B82 with almost no interior detail. They hang with gravity when held by a corner. Stretched hide: a splayed, star-like shape with about 8 pointed lobes, each tied out by a thin single black cord. Folded hides: stacks of 3-4 offset layers, each outlined, top layers tan and under-layers darker (#8C8473). Finished garment: a T-shaped short-sleeved tan hide tunic with a ragged V-slit neckline (darker inside), ragged hem and short \"//\" fold ticks at the shoulders. Bone tools: classic cartoon bones (straight shaft, double-knob ends) in ivory #EBE4D5 with a beige #B9AD95 shaded side, plus a slim bone needle. Wooden stretching frame: straight cool weathered-grey poles (#7D7A74) with forked Y tops, lashings drawn as 2-3 parallel wrapped bands, and a crossbar. Thread: a thin double-outlined pale strand ending in a loose curl. A sewn seam is a dashed dark line with small cross-stitches. Interaction cues: white oval hands overlap and wrap props, and short radiating tension ticks appear where a hand pulls a hide. All tools are bone, wood, hide or cord.",
+  "line_work": "Clean digital inking with two ink families. (a) The character's stick parts (head circle, facial marks, arm and leg sticks, hand ovals) use neutral near-black #0B0B0B. These lines are smooth, even, round-capped and vector-clean: head outline about 5% of head diameter, limb sticks about 6% (slightly heavier), mouth and brow strokes about 3-4%, eyes solid filled ovals. (b) Costume and props use warm brown-black #15110C at about 4% of head diameter. These contours are slightly wobbly and hand-inked, with jagged, notched or torn edges where the material is hide. Interior lines for folds, seams and ticks are thinner (about 1-2% of head) in dark brown, not black. Every shape is a fully closed outline. No sketchy overdraw, construction lines, hatching or cross-hatching, no line-weight swelling for depth, no heavier outer silhouette stroke. Stick limbs are drawn on top of clothing where they overlap. Anti-aliased digital art with no paper grain.",
+  "shading_and_texture": "Essentially flat local colour. Each garment or prop is a single fill with only about plus or minus 3-5% value variation (faint mottling, occasionally a slightly darker band just inside an outline). There are no cel-shadow shapes, gradients, rim light, ambient occlusion or highlights, except the lighter ivory side of the bones. Texture comes from sparse, small, hand-drawn marks in a darker brown of the same hue (about #5A5246): clusters of 2-3 short parallel ticks (\"//\", \"=\"), about 4-8 per garment panel; tiny specks; one vertical seam/fold line on the tunic back; 1-3 thin diagonal fold strokes on the apron and held leather; dashed stitch lines on sewn hides; short radiating tension ticks where a hand stretches a hide. Ragged contours (zigzag hems, notched shoulder caps, lobed hide outlines) carry most of the weathered leather/fur feel. Head, hands and neck notch are pure flat white with zero shading. The source shows mild compression softness.",
+  "palette": [
+   {
+    "hex": "#FFFFFF",
+    "use": "Page background, and also the fill of the head, hands, neck V-notch, tired-eye whites, teardrop and outlined open mouths (the figure's 'skin' is the same white as the page)"
+   },
+   {
+    "hex": "#0B0B0B",
+    "use": "Neutral near-black ink for head outline, dot eyes, mouth and brow strokes, arm/leg sticks, hand outlines; title and section-header text is the same black (#090909-#191919)"
+   },
+   {
+    "hex": "#15110C",
+    "use": "Warm brown-black ink for all costume and prop outlines (measured #14110C-#18130E)"
+   },
+   {
+    "hex": "#91856D",
+    "use": "Sleeveless hide/fur tunic, mid taupe grey-brown; mottling down to #847963"
+   },
+   {
+    "hex": "#5A5246",
+    "use": "Dark brown texture ticks, specks, seams and fold strokes on garments"
+   },
+   {
+    "hex": "#B9AE95",
+    "use": "Bib apron (light khaki/greige leather), the lightest costume tone; edges up to #C0B8A7"
+   },
+   {
+    "hex": "#746B5A",
+    "use": "Leggings/trousers and rolled ankle cuffs, dark olive-taupe; darker spots #645B4B"
+   },
+   {
+    "hex": "#736653",
+    "use": "Soft moccasin shoes, slightly warmer than the leggings"
+   },
+   {
+    "hex": "#7C6D5B",
+    "use": "Hip pouch, warm mid brown"
+   },
+   {
+    "hex": "#CAC4BB",
+    "use": "Pale greige cord: waist belt, belt knot and tails, ankle ties"
+   },
+   {
+    "hex": "#AD9B82",
+    "use": "Raw and tanned hides and leather goods (held pelt, stretched hide, folded stack, finished tunic), warm tan slightly warmer than the apron"
+   },
+   {
+    "hex": "#8C8473",
+    "use": "Darker under-layers/undersides of folded hides and the inner neckline of the finished tunic"
+   },
+   {
+    "hex": "#EBE4D5",
+    "use": "Bone tools, ivory lit side (shaded side #B9AD95)"
+   },
+   {
+    "hex": "#7D7A74",
+    "use": "Wooden poles of the stretching frame, cool weathered grey; pouch tool handles similar (#6B6A63)"
+   },
+   {
+    "hex": "#252525",
+    "use": "Caption and subtitle text, dark charcoal (thin strokes read about #3A3A3A)"
+   }
+  ],
+  "background": "Flat pure white #FFFFFF across the whole sheet. No ground line, floor plane or horizon. No cast or contact shadows: the pixels directly under every foot are pure white. No vignette, paper texture, colour fields, panel boxes, borders, frames, dividers or grid lines. Items float in white space and are separated only by spacing. Not part of the design (screenshot/crop artifacts): a black vertical strip about 10 px wide on the far-left edge and a faint grey line along the bottom edge.",
+  "sheet_layout": "Landscape canvas 1644x910 px (about 1.81:1, close to 16:9), white, borderless. 24 captioned items in 3 horizontal bands (6 + 6 + 12), plus 1 title block and 2 section headers. Band 1 (y about 4-45%): the title block fills the top-left cell (x about 2-19%, y about 5-19%). To its right, 6 full-body turnaround figures of the same character stand in one row at identical scale (about 331 px tall = 36% of canvas height, head about 92 px). Their head tops are at y about 4.3%, soles on an invisible common baseline at y about 40.7%, and centres at x about 24%, 36.6%, 50.4%, 62.6%, 75.9%, 90.5% (pitch about 210-240 px). Each caption is centred under its figure at y about 42-45%. Band 2 (y about 45-81%): bold header \"Action Poses\" flush left at x about 3.6%, y about 45.7-47.8%. Then 6 action vignettes in one row at about 0.8x scale (head about 75 px), spanning y about 45-75%, centred at x about 10.3%, 27.9%, 45.6%, 60.6%, 76.5%, 90.9%. Each vignette contains only the figure and its props. Captions are centred beneath at y about 75.8-78.4%; three captions have a second line at y about 78.6-81.4%. Band 3 (y about 80-98%): bold header \"Expression Sheet\" flush left at x about 3.5%, y about 80-83%, beside the second caption lines of band 2. Then 12 head-only circles (no neck or body) in one evenly spaced row: diameter about 107 px (6.5% of width), pitch 130 px, centres from x about 6.8% to 93.8% in 7.9% steps, vertical centre at y about 89%. One-word captions are centred under each at y about 95.8-98.4%. Margins are tight: about 36-60 px left, about 45 px right, about 4 px top, about 15 px bottom. Dense but uncluttered; no numbering, arrows or rulers.",
+  "typography": "All text is a condensed neo-grotesque sans-serif (Roboto Condensed / Helvetica Neue Condensed / Arial Narrow-like); no hand lettering, and no text inside the artwork. Title: bold/heavy condensed, ALL CAPS, 2 lines, black, left-aligned at x about 36 px, cap height about 30 px (about 3.3% of canvas height), line pitch about 39 px, about 273 px wide. Under it are two smaller lines (cap or ascender height about 20 px), regular weight, dark charcoal, indented about 35 px from the title's left edge: the first ALL CAPS (series/brand line), the second all lowercase (genre line). The literal title-block words are third-party branding, recorded only so they can be avoided; never reproduce them: \"ANCIENT HUMAN / CLOTHING MAKER\", \"TRUE STICKMAN\", \"survival documentary\". Section headers \"Action Poses\" and \"Expression Sheet\": bold condensed, Title Case, black, cap height about 20 px, flush left. Item captions: regular condensed, dark charcoal (about #252525), cap height about 19 px (about 2.1% of canvas height), centred under each item, Title/sentence case; when a caption is two lines, the parenthetical goes on line 2. Literal captions, row 1: \"Front View\", \"Left Side\", \"Right Side View\", \"Back View\", \"3/4 Front View\", \"3/4 Back View\". Row 2: \"Sitting and Working\", \"Stretching Hide\", \"Inspecting Quality\", \"Running / (and protecting the hide)\", \"Walking / (carrying tools)\", \"Holding up finished / finished clothing\" (word duplicated in source). Row 3: \"Neutral\", \"Smiling\", \"Happy\", \"Angry\", \"Sad\", \"Worried\", \"Scared\", \"Surprised\", \"Confused\", \"Determined\", \"Tired\", \"Laughing\".",
+  "turnaround_views": [
+   {
+    "label": "Front View",
+    "description": "Straight-on and symmetrical, standing at attention. Legs straight and slightly apart, moccasin toes turned slightly outward. Arms hang in a gentle outward bow a little away from the body, white oval hands at upper-thigh level. Face centred: dot eyes at mid-height, faint nearly straight smile line, no brows. Shows the full layering: white V-neck notch between the apron straps, straight-topped bib apron, pale cord belt across the waist, pouch with tool handles on the character's right hip (viewer's left), the apron's wavy torn hem over the tunic's zigzag hem, leggings with rolled ankle cuffs and cord ties."
+   },
+   {
+    "label": "Left Side",
+    "description": "Strict profile facing the viewer's right. One dot eye about 3/4 of the way toward the right edge at mid-height. The mouth is a short line touching the right outline with a tiny upward curl. A tiny white neck stub shows between head and collar. One arm is visible: a straight black stick from a darker bean-shaped armhole patch at the shoulder down to a white oval hand at hip level, drawn over the costume. The apron reads as a lighter front panel. The cord belt is wrapped 2-3 times with a knot and short tails, and the pouch is visible at the hip behind the hand. Torso is a slim upright slab; legs slightly staggered; feet point right."
+   },
+   {
+    "label": "Right Side View",
+    "description": "Mirror profile facing the viewer's left: eye near the left edge, short mouth line touching the left outline. Same darker armhole patch, straight hanging arm and oval hand at hip. The belt knot has a dangling tail at the back (right side of the image). No pouch is visible on this side. The apron panel is on the front edge, legs slightly staggered, feet point left."
+   },
+   {
+    "label": "Back View",
+    "description": "Completely blank white head circle: no hair, ears or features. Plain tunic back with ragged shoulder caps, a single vertical centre seam/fold line and sparse fleck ticks. The pale cord belt is tied at centre back in a small loop knot with two hanging tails. The apron is not visible; a small bulge of the pouch peeks out at one hip. Arms hang symmetrically to hip level. Leggings show '=' ticks, ankle cuffs with pale cord ties, and the heels of the moccasins."
+   },
+   {
+    "label": "3/4 Front View",
+    "description": "Body and head turned about 45 degrees toward the viewer's right. Facial features are shifted right of centre: two short, gently arched brows, dot eyes, soft smile. The near arm bends at a sharp elbow to hold a cartoon bone diagonally across the waist. The far arm extends sideways at chest height, dangling a raw hide (irregular pelt silhouette) gripped by its top corner. Pouch on the near hip; leggings slightly apart."
+   },
+   {
+    "label": "3/4 Back View",
+    "description": "Turned about 45 degrees away from the viewer. Blank head; tunic back seen at an angle; darker armhole patch on the near shoulder with that arm hanging along the side. The belt knot and tails sit off-centre, and a lighter sliver of the apron edge shows at the side. Hands at hip level; leggings, ankle cuffs, moccasins."
+   }
+  ],
+  "action_poses": [
+   {
+    "label": "Sitting and Working",
+    "description": "Seated cross-legged on the undrawn ground, front view, slightly hunched. The head tilts down, shown by placing the features in the lower third of the circle, with a calm, concentrated face: dot eyes and a short flat mouth. The near hand is raised to chest height holding a slim bone needle that trails thread. The far hand steadies a tan hide garment piece spread over the lap, which shows a dashed stitched seam. A loose thread trails off to the right and ends in a curl. Leggings and crossed moccasins show below the hide."
+   },
+   {
+    "label": "Stretching Hide",
+    "description": "Side view facing right in a deep lunge: front knee bent, back leg straight and extended, torso leaning forward about 30 degrees. Both stick arms reach forward. The upper hand grips a frame pole near its forked top; the lower hand presses and pulls the hide's edge, with short radiating tension ticks. The frame is two long cool-grey poles leaning right with Y-forked tops, 2-3-band cord lashings and a crossbar. The splayed tan hide is tied out by about 8 thin black cords. Profile face with one dot eye and a small content smile. Below the hem the legs are bare black stick lines ending in cuffed moccasins."
+   },
+   {
+    "label": "Inspecting Quality",
+    "description": "Standing with body and head 3/4 toward the viewer's right. Both hands hold a draped tan leather piece up at face height beside the head, one at each top corner; the near arm crosses the chest in a sharp V. Stern, scrutinising face: slightly curved brows lowered toward the centre, dot eyes, short flat mouth. Legs in leggings, feet planted, pouch at the near hip."
+   },
+   {
+    "label": "Running (and protecting the hide)",
+    "description": "Full sprint to the right in 3/4 view, torso leaning forward about 20 degrees. Both arms wrap a stack of 3-4 folded tan hides against the chest: one forearm over the top, white oval hands under the front. Legs are bare black stick lines: the rear leg is kicked up high behind with the knee bent about 90 degrees, and the front leg reaches forward, both ending in cuffed moccasins. Tunic and apron hems flare backward and the pouch swings out at the hip. Angry, determined face: thick brows slanting down to the centre, dot eyes, inverted-U frown. No speed lines."
+   },
+   {
+    "label": "Walking (carrying tools)",
+    "description": "Relaxed mid-stride to the right in 3/4 view, upright posture, bare stick legs with cuffed moccasins. The near arm is bent back at a sharp elbow, its hand at hip level holding a cartoon bone horizontally; a second bone sticks up out of the pouch. The far arm carries several folded hides draped over it, hanging at hip level. Pleasant face: dot eyes, soft closed smile, no brows."
+   },
+   {
+    "label": "Holding up finished clothing",
+    "description": "Standing with the body 3/4 toward the viewer's left and the head turned toward the garment. Both hands hold up a finished short-sleeved, T-shaped tan hide tunic by its shoulders at chest height, beside the body. The tunic has a ragged V-slit neckline, a ragged hem and short fold ticks. The near arm crosses the chest with a sharp elbow. Proud, delighted face: dot eyes and a large open grin, drawn as a black-filled D-shape with a white upper-teeth band. Leggings, cuffed moccasins, pouch at the hip."
+   }
+  ],
+  "expressions": [
+   {
+    "label": "Neutral",
+    "eyes": "Two solid black vertical-oval dots, level, at mid-height, about 1/3 of the head apart",
+    "brows": "None",
+    "mouth": "Straight horizontal line, about 40% of head width, at about 2/3 of head height",
+    "extras": "None"
+   },
+   {
+    "label": "Smiling",
+    "eyes": "Same solid dot eyes",
+    "brows": "None",
+    "mouth": "Closed shallow U-curve smile, about 40% of head width",
+    "extras": "None"
+   },
+   {
+    "label": "Happy",
+    "eyes": "Solid black half-domes (semicircle, flat side down, rounded top), wider and flatter than the dots, reading as squinting smiling eyes",
+    "brows": "None",
+    "mouth": "Wider, deeper closed U smile, about 50% of head width",
+    "extras": "None"
+   },
+   {
+    "label": "Angry",
+    "eyes": "Dot eyes tucked right under the inner ends of the brows",
+    "brows": "Thick straight dashes slanting steeply down toward the centre, forming a V",
+    "mouth": "Closed inverted-U frown arc, about 40% of head width",
+    "extras": "None"
+   },
+   {
+    "label": "Sad",
+    "eyes": "Dot eyes",
+    "brows": "Gently curved strokes with inner ends raised and outer ends drooping",
+    "mouth": "Closed inverted-U frown arc, about 38% of head width",
+    "extras": "One small white teardrop with black outline (pointed top, round bottom, about eye-sized) on the cheek just below the viewer's-right eye"
+   },
+   {
+    "label": "Worried",
+    "eyes": "Dot eyes",
+    "brows": "Wavy tilde/S-shaped strokes rising toward the centre (inner ends raised and curling up)",
+    "mouth": "Wobbly wavy line with two rounded humps, about 38% of head width",
+    "extras": "None (no sweat drop)"
+   },
+   {
+    "label": "Scared",
+    "eyes": "Dot eyes, normal size",
+    "brows": "Thin high arches set well above the eyes",
+    "mouth": "Open outlined dome: arched top, nearly flat bottom, rounded ends, white interior, about 28% of head width",
+    "extras": "None"
+   },
+   {
+    "label": "Surprised",
+    "eyes": "Dot eyes",
+    "brows": "Thin high arches, as in Scared",
+    "mouth": "Small outlined vertical oval 'O' with white interior, about 15% of head width, centred",
+    "extras": "None"
+   },
+   {
+    "label": "Confused",
+    "eyes": "Dot eyes",
+    "brows": "Asymmetric: viewer's-left brow is a low, slightly wavy dash angled down toward the centre; viewer's-right brow is a high raised arch",
+    "mouth": "Zigzag/wavy line with three crests, about 47% of head width",
+    "extras": "None (no question mark)"
+   },
+   {
+    "label": "Determined",
+    "eyes": "Dot eyes hanging directly under the brow bars",
+    "brows": "Thick flat horizontal bars resting on top of each eye, so each brow and eye forms a 'T'",
+    "mouth": "Firm straight line, slightly tilted up toward the viewer's right and offset right of centre, about 38% of head width",
+    "extras": "None"
+   },
+   {
+    "label": "Tired",
+    "eyes": "Large outlined white circles (about 2.5-3x the width of a dot eye), each crossed at mid-height by a heavy, slightly slanted upper-lid line, with a black half-disc pupil hanging just below the lid",
+    "brows": "None; the lid lines replace them",
+    "mouth": "Small outlined horizontal oval, slightly open, white interior, about 23% of head width",
+    "extras": "One curved bag line under each eye"
+   },
+   {
+    "label": "Laughing",
+    "eyes": "Closed thin upward arcs (squeezed shut), unfilled",
+    "brows": "Thin high arches above the closed eyes",
+    "mouth": "Big open D-shape (nearly flat top edge, deep round bottom), about 46% of head width, white interior with black outline, no teeth or tongue drawn",
+    "extras": "Two short dash 'crinkle' marks at the outer corner of each eye, like '=' or '<'"
+   }
+  ],
+  "signature_traits": [
+   "Oversized, perfectly circular, pure-white head with a bold even near-black outline (head about 1.25x torso width; figure about 3.6 heads tall); no hair, ears, nose or drawn neck",
+   "Emoji-minimal face: two small solid-black vertical-oval dot eyes at mid-height and one thin mouth stroke; brows only when emotion needs them",
+   "Head turn and tilt shown only by sliding the facial features inside the unchanged circle (shifted for 3/4, single edge eye for profile, low for looking down, blank from behind)",
+   "Arms (and legs in motion) are single solid black stick lines with crisp angular elbows and knees, slightly heavier than the head outline",
+   "White outlined oval mitten hands with no fingers that overlap or wrap around held objects",
+   "Hybrid body: stick head and limbs wearing solid, believable layered clothing (tunic, bib apron, cord belt, pouch, leggings with rolled ankle cuffs, soft rounded shoes) that defines torso and hips",
+   "Muted, low-saturation earthy palette (taupe, khaki, olive-brown, warm tan, pale cord cream, weathered grey wood) with no saturated accents; the only whites on the figure are head, hands and neck notch",
+   "Costume and props outlined in warm brown-black, slightly wobbly hand-inked contours with ragged, torn, zigzag edges, while head and sticks stay neutral black and vector-clean",
+   "Flat local-colour fills with only sparse weathering marks (short double ticks, specks, 1-3 fold strokes, dashed stitches); no cel-shadow shapes, gradients or highlights",
+   "Pure white background with no ground line and no cast or contact shadows",
+   "Clean model-sheet presentation: title block top-left, 6-view turnaround row, action-pose row, row of 12 head-only expression circles, each with a centred condensed-sans caption, no borders"
+  ],
+  "absent_traits": [
+   "Hair of any kind, including in the back view",
+   "Ears",
+   "Nose",
+   "Visible neck in front and back views (only a tiny stub in profile)",
+   "Skin tone (head and hands are white, not flesh-coloured)",
+   "Pupils, eye whites, highlights or eyelashes in normal eyes",
+   "Blush, cheeks, chin, jaw or any head shape other than a circle",
+   "Fingers, thumbs or nails",
+   "Outlined tube limbs, elbows/knees drawn as joints, muscles or anatomy",
+   "Eyebrows on calm faces",
+   "Gradients, airbrushing, painterly rendering or a 3D/CGI look",
+   "Cel-shadow shapes, rim light or specular highlights (except the lighter side of bones)",
+   "Cast shadows, contact shadows, ground lines, floor or horizon",
+   "Background scenery or colour fields",
+   "Panel borders, frames, boxes, dividers or grid lines",
+   "Speed lines, motion blur or impact effects",
+   "Saturated or bright colours (no red, blue or green accents)",
+   "Text, logos or patterns on clothing; speech bubbles; labels inside the artwork",
+   "Metal or modern objects (all tools are bone, wood, hide and cord)"
+  ],
+  "adaptation_notes": [
+   "Locked core for EVERY character prompt on both channels: white circle head with a bold black outline and no hair, ears or nose; dot eyes and a single-stroke mouth from the 12-expression vocabulary; single black stick arms with angular elbows; white oval mitten hands; about 3.6 heads tall with the head about 1.25x torso width; costume and props in flat muted fills with warm brown-black wobbly outlines and sparse tick texture; no shadows, no ground line. Only costume, props, pose and expression change between characters and scenes.",
+   "Modern clothing (The Median Worker): replace the hide outfit with simple everyday US clothing built the same way. Use flat, solid garments (T-shirt, button-up, hoodie, work polo, jeans or chinos, sneakers, lanyard, backpack, phone) with warm brown-black outlines, 1-3 fold strokes and a few sparse ticks, and clean rather than torn hems. Keep the same low-saturation, mid-value palette family (greige, faded grey-blue denim, olive, rust-brown, charcoal) so the white head stays the brightest element. Keep trousers drawn as solid leg columns when standing, and state explicitly whether legs become stick lines in motion.",
+   "Ancient/prehistoric channel: reuse the reference costume grammar (sleeveless hide tunics, wraps, cloaks, bib aprons, cord belts, pouches, rolled ankle cuffs, soft moccasins, ragged edges). Give each named character one fixed costume signature, a colour within the earthy palette plus one accessory such as a fur cape, bead necklace, headband or carry bag, so characters stay distinguishable without hair or facial detail.",
+   "Animals (none in the sheet; inferred): draw them like the props. Use simplified flat-filled silhouettes in muted earthy colours, warm brown-black wobbly outlines, sparse fur ticks or ragged fur edges, and small solid black dot eyes matching the human eyes, with no realistic shading. Keep realistic scale against the 3.6-head humans. Never give animals stick limbs or white circle heads.",
+   "Crowds: clone the same base figure and vary only costume colour and cut, one accessory, held prop, height and pose. All heads stay identical white circles with the same outline weight and the same dot-eye, one-line-mouth faces. Background figures may use fewer texture ticks but keep the same line weights. Avoid overlapping heads so each circle stays readable.",
+   "Full scenes with backgrounds: leave the character rendering untouched. Draw environments (caves, huts, fire pits, forests, plains, or modern apartments, offices, stores, streets) in the same flat, low-detail way, with warm brown-black outlines and muted fills that are slightly lighter and lower in contrast, so the white heads and black sticks stand out. No photographic texture, painterly gradients or dramatic lighting. The reference has no shadows; if grounding is needed, use at most a small flat neutral ground patch, never cast shadows. Show firelight or night only through flat colour shifts in the background, never by tinting the white head. Prefer a tinted backdrop behind heads so the white circle does not merge into a white sky.",
+   "Per-script reference image: reproduce this sheet's structure on pure white at 16:9 (2560x1440). Put our own neutral title block top-left (no third-party name or wording). Row 1 is the turnaround: front, profile facing right, profile facing left, back, 3/4 front, 3/4 back. Row 2 shows every pose the script needs. Row 3 is a strip of head-only expression circles. For several characters, add a front-view lineup on one shared baseline at identical scale, each with a centred name caption. Use condensed sans captions under each item, with no borders, backgrounds or shadows.",
+   "Workflow guard: never attach the third-party sheet as an image input and never copy its text. Generate our own sheet from the written spec, then attach OUR sheet as the reference in every later scene generation, and restate the locked core in words each time. Image models tend to drift by adding hair, noses, fingers, skin tone, shading, outlines on limbs and ground shadows.",
+   "Keep generated scene images free of text, as the reference keeps text outside the artwork. Captions belong only on the reference sheet; on-screen text and fonts are added later in the video edit."
+  ],
+  "uncertain": [
+   "Font identity is a guess: captions look like Roboto Condensed / Helvetica Neue Condensed / Arial Narrow (regular); the title and section headers look like a bold or black condensed grotesque.",
+   "Hex values are estimates from a soft, compressed 1644x910 screenshot (plus or minus 5-10 per channel). Costume ink measured #14110C-#18130E and head/stick ink #090909-#0C0C0C.",
+   "Stick legs with no leggings appear only in the three dynamic poses (Stretching, Running, Walking); all standing and seated views show leggings. This could be an intentional 'legs become sticks when they bend' rule or an AI-generation inconsistency, so prompts should state one rule explicitly.",
+   "The sheet looks AI-generated and has slips that are not style rules: the caption 'Holding up finished / finished clothing' repeats a word, 'Left Side' lacks 'View', and pouch and armhole-patch visibility varies between views.",
+   "Profile naming is ambiguous: 'Left Side' shows the figure facing the viewer's right, and 'Right Side View' shows it facing the viewer's left.",
+   "It is unclear whether the short arched eyebrows in the 3/4 Front View are part of the default look or incidental; the Front View has none.",
+   "Open-mouth convention is inconsistent: the action-pose grin is black-filled with a white teeth band, while the expression-sheet Laughing, Scared, Surprised and Tired mouths have white interiors.",
+   "The sheet gives no evidence of how this style shows hair, gender, age, children, skin tone, animals, environments, lighting or shadows in scenes; all such adaptation guidance is inferred.",
+   "The black strip about 10 px wide on the left edge and the faint grey line along the bottom edge are assumed to be screenshot or crop artifacts.",
+   "The Tired under-eye marks read as one curved line per eye but could be meant as a double line.",
+   "The canvas is 1.81:1; the original may have been 16:9 and cropped, so the layout percentages are approximate.",
+   "Fine texture marks may have been simplified by downscaling; the original may carry slightly more fur or grain detail."
+  ]
+ },
+ "google_tools": {
+  "findings": [
+   {
+    "claim": "F1: The Gemini app picks its image model from the chat model. Flash or Pro uses Nano Banana 2. Flash-Lite uses Nano Banana 2 Lite, which is not built for multiple reference images. Nano Banana Pro is only reachable through 'Redo with Pro' on paid plans.",
+    "detail": "Help center quotes: 'Nano Banana 2 Lite: This option is used when the Gemini model is set to Flash-Lite... It isn't designed for multiple image references or for multiple edits.' 'Nano Banana 2: This option is selected when you make an image request with the Gemini model set to Flash or Pro... It can accept multiple reference images.' 'Nano Banana Pro: Available with a Google AI Plan, this option is available when you have the Gemini model set to Pro and want to redo an image when additional detail is needed.' Steps: generate with Nano Banana 2 or 2 Lite, then 'More > Redo with Pro'. 'If you reach your daily quota of Nano Banana 2 images, you can't redo any additional images with Nano Banana Pro.' Generating and editing images requires age 18+; generating only requires 13+. POSSIBLY OUTDATED: the page does not mention Nano Banana 2.1 yet (see F2/F3).",
+    "source_url": "https://support.google.com/gemini/answer/14286560?hl=en",
+    "source_date": "unknown (content predates the 2026-10-06 Nano Banana 2.1 rollout)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F2: Nano Banana 2.1 (API id gemini-nano-banana-2.1) launched on 6 October 2026. It is now Google's main image model and is rolling out to the Gemini app, Flow, AI Studio, Search AI Mode, Google Ads and Stitch. Imagen is shut down in the Gemini API.",
+    "detail": "DeepMind model card: 'Published 6 October 2026'; 'Nano Banana 2.1 is based on Gemini 3.6 Flash'; it lists the Gemini App, Google AI Studio, Gemini API, Google Search AI Mode, Google Ads, Google Flow and Google Stitch as channels. The API doc (last updated 2026-10-09) lists the model ids. Nano Banana 2.1 (gemini-nano-banana-2.1) is the 'primary high-efficiency workhorse' with 'improved visual quality, text rendering, multi-turn consistency'. Nano Banana 2 is gemini-3.1-flash-image, now called 'previous-generation'. Nano Banana Pro is gemini-3-pro-image, 'the premium choice for the most complex visual tasks'. Nano Banana 2 Lite is gemini-3.1-flash-lite-image. Nano Banana is gemini-2.5-flash-image ('legacy'). The doc also says: 'Imagen models are shut down. Use Nano Banana models for all image generation tasks.' Google Cloud docs list Nano Banana 2.1 as GA, released Oct 6 2026, with 'Maximum images per prompt: 14'. Google's own X post (x.com/Google/status/2107501211532382687) says it 'starts rolling out today', so individual accounts may get it later.",
+    "source_url": "https://deepmind.google/models/model-cards/nano-banana-2-1/",
+    "source_date": "2026-10-06 (API doc https://ai.google.dev/gemini-api/docs/image-generation last updated 2026-10-09)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F3: Plans in the Gemini app: Nano Banana 2 is free. Nano Banana 2.1 needs a Google AI plan (Plus, Pro or Ultra). Paid users can also regenerate an image with Nano Banana Pro via 'Redo with Pro'.",
+    "detail": "Consumer page quotes: 'Available for free. Upgrade to a Google AI Plan to unlock Nano Banana 2.1, our most advanced image model'. 'Google AI Pro, Plus, Ultra users have access to our best image model, Nano Banana 2.1, and can regenerate images using Nano Banana Pro by selecting the three dot menu and then \"Redo with Pro\".' 'To access Nano Banana, select \"Create images\" from the tools menu.' The help center feature table matches: 'Image generation with Nano Banana 2' is available on every plan, and 'Redo images with Nano Banana Pro' only on Plus, Pro and Ultra.",
+    "source_url": "https://gemini.google/overview/image-generation/?hl=en",
+    "source_date": "unknown (mentions Nano Banana 2.1, so on or after 2026-10-06)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F4: Gemini app limits are now based on compute used, with no fixed image count per day. The allowance refreshes every 5 hours up to a weekly cap. Images use more of it than chat. Subscribers who hit the cap are moved to Flash-Lite.",
+    "detail": "Official quotes: 'Gemini Apps have compute-based usage limits... Your limit refreshes every 5 hours until you reach your weekly limit.' Plan levels: no plan 'Standard limits'; Plus '2x higher than standard limits'; Pro '4x higher than standard limits'; Ultra '5x or 20x higher than AI Pro limits depending on your subscription'. 'Multimedia requests (including images, music, and video) require a lot of thinking power'. 'Some features (like media generation or Deep Research) will consume more of your usage.' 'If you have a Google AI subscription and reach your limit, you can continue your conversation with Flash-Lite.' Long chats with dynamic editing are rated 'Medium' cost, and Google suggests: 'Start a new chat when you move to a new topic.' 9to5Google (2026-05-19) dates the switch from daily caps to compute-based limits to May 2026. Older per-day figures (20/50/100/1,000 Nano Banana 2 images for free/Plus/Pro/Ultra) appear only in older copies of the page and are superseded. The image help page (F1) still mentions a 'daily quota', which is probably stale wording.",
+    "source_url": "https://support.google.com/gemini/answer/16275805?hl=en",
+    "source_date": "unknown (compute-based version; change reported 2026-05-19 at https://9to5google.com/2026/05/19/google-ai-ultra-100/)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F5: Gemini app downloads are 2K with a Google AI plan and only 1K without one. The help center mentions no 4K download in the app.",
+    "detail": "Quote: 'Download images at at 2K resolution with a Google AI plan or at 1K without an AI plan.' Download path: 'Hover over the image you want to download, and click Download full size'. Conflict: the consumer overview page lists '2K resolution' under the free Nano Banana 2 column. The help center wording is the more specific of the two.",
+    "source_url": "https://support.google.com/gemini/answer/14286560?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F6: The Gemini app accepts up to 10 files in one prompt, and images count toward that cap. The model behind it can take up to 14 references via the API, but the app's own limit is lower.",
+    "detail": "Quotes: 'Up to 10 files (subject to availability) can be uploaded in the same prompt.' 'You can add up to 10 (subject to availability) of any kind of supported file in the same prompt, such as documents, images, or videos.' 'All other supported file types can be up to 100 MB.' 'There are rolling limits for how much you can upload and analyze files in a period of time.'",
+    "source_url": "https://support.google.com/gemini/answer/14903178?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F7: Reference-image limits in the API depend on the model. Nano Banana 2.1 and 3.1 Flash Image take up to 10 object images plus up to 4 character images. Nano Banana Pro takes 6 objects, 5 characters and 3 style references. Nano Banana 2 Lite takes 14 objects and no character references. The total is 14 images.",
+    "detail": "API doc table under 'Use up to 14 reference images'. Gemini 3.1 Flash Lite Image: 'Up to 14 images of objects with high-fidelity'; characters N/A. Nano Banana 2.1 and 3.1 Flash Image: 'Up to 10 images of objects with high-fidelity' and 'Up to 4 images of characters to maintain character consistency'. Gemini 3 Pro Image: 'Up to 6 images of objects', 'Up to 5 images of characters', 'Up to 3 images to be used as style references'. The Limitations section adds that 'gemini-2.5-flash-image works best with up to 3 images as input'. Nano Banana 2 Lite is 'Not optimized for multiple reference inputs or multi-turn sequential editing.'",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F8: Google's own pages disagree on how many characters stay consistent. Marketing pages say up to 5 characters and 14 objects; the API doc says 4 characters and 10 objects for Nano Banana 2.1 and 3.1 Flash.",
+    "detail": "Nano Banana 2 launch post (2026-02-26): 'Maintain character resemblance of up to five characters and the fidelity of up to 14 objects in a single workflow'. The DeepMind Nano Banana page, now headed 'Introducing Nano Banana 2.1', still says 'up to five characters \u2013 and the fidelity of up to fourteen objects'. Against that, the API doc (2026-10-09) says 'gemini-nano-banana-2.1 and gemini-3.1-flash-image support character resemblance of up to 4 characters and the fidelity of up to 10 objects in a single workflow.' The Nano Banana Pro launch (2025-11-20) says blending 'up to 14 images' with consistency of 'up to 5 people'.",
+    "source_url": "https://blog.google/innovation-and-ai/technology/ai/nano-banana-2/",
+    "source_date": "2026-02-26 (DeepMind page https://deepmind.google/models/gemini-image/flash/ undated)",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "F9: Google's advice on telling references apart: give each attached image an explicit role, give each character a distinct name, and refer to images by order ('first image', 'second image').",
+    "detail": "Nano Banana Pro tips (2025-11-20): 'Reference inputs: When using uploaded images, clearly define the role of each. (e.g., \"Use Image A for the character's pose, Image B for the art style, and Image C for the background environment.\")'. DeepMind prompt guide: 'Upload clear reference images, and assign a distinct name to each character or object in your prompt. That way, the model can follow along and maintain their look as you build out your scenes.' API examples use order, e.g. 'Take the blue floral dress from the first image and let the woman from the second image wear it.' Google Cloud's guide (2026-03-06) gives the formula '[Reference images] + [Relationship instruction] + [New scenario]'. The Nano Banana Pro tips post predates Nano Banana 2 and 2.1, but the advice still appears in current pages.",
+    "source_url": "https://blog.google/products-and-platforms/products/gemini/prompting-tips-nano-banana-pro/",
+    "source_date": "2025-11-20 (also https://deepmind.google/models/gemini-image/prompt-guide/ undated; https://cloud.google.com/blog/products/ai-machine-learning/ultimate-prompting-guide-for-nano-banana 2026-03-06)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F10: Known Nano Banana 2.1 weaknesses: consistency between input and output is imperfect, it sometimes keeps the pose or layout of an input image, it confuses left and right, and small text renders badly.",
+    "detail": "Model card limitations: 'Character consistency is not always perfect between input images and generated output image'. 'During image editing, we observe rare instances of persistent subject pose, where structural alignment from the input image is retained in the generated output image'. 'Occasional confusion around spatial localisation (e.g. left/right etc.)'. 'Poor text rendering in small text (often blurry in 1k model), long paragraphs, page length'. 'Still limited in advanced capabilities with world knowledge, 3D reasoning and factuality'. The DeepMind page adds: 'The model excels at character consistency, but it may not always get it right.'",
+    "source_url": "https://deepmind.google/models/model-cards/nano-banana-2-1/",
+    "source_date": "2026-10-06",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F11: In the API, aspect ratio and size are set with response_format fields aspect_ratio and image_size (1K default, 2K, 4K, written with a capital K). With no ratio set, the output copies the input image's size, or is square when there is no input.",
+    "detail": "Quotes: 'You can control the aspect ratio and the size of the output image using the aspect_ratio and image_size fields under response_format'. 'By default, the model matches the output image size to that of your input image, or otherwise generates 1:1 squares.' 'Gemini 3 image models generate 1K images by default but can also output 2K, 4K, and 512px' (512px only on 3.1 Flash Image, 'not supported on Gemini Nano Banana 2.1'). 'You must use an uppercase K... Lowercase parameters (e.g., 1k) will be rejected.' Nano Banana 2.1 ratios: 1:1, 1:4, 1:8, 2:3, 3:2, 3:4, 4:1, 4:3, 4:5, 5:4, 8:1, 9:16, 16:9, 21:9.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F12: Nano Banana's '16:9' is slightly wider than true 16:9. The sizes are 1376x768 (1K), 2752x1536 (2K) and 5504x3072 (4K), a 43:24 ratio of about 1.792 against 1.778.",
+    "detail": "These come from the API doc's size tables for Nano Banana 2.1, 3.1 Flash Image and the Pro table. Derived maths: a 2752x1536 frame scaled to 1440 px high is 2580 px wide, so a 20 px centre crop gives 2560x1440. A 1K frame (1376x768) would need about 1.88x upscaling to reach 1440 px high. Fitting to width instead (2560 px wide gives about 1429 px high) would leave bars.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F13: In the Gemini app, aspect ratio is requested in the prompt text. Google documents no ratio picker in the app; Google's own example prompts write the ratio into the text.",
+    "detail": "Consumer FAQ: 'Try something like, \"Generate an image of a blurry poky porcupine flying in space in the style of an oil painting with 2:3 aspect ratio.\"' DeepMind guide: 'Prompt for your desired aspect ratio (like 4:3, 1:1, or 9:16) and describe the image format you need \u2013 for example, a \"widescreen backdrop\"... Look for the in-product resolution dropdowns to upscale to 2K or 4K.' Google examples include 'Aspect ratio 16:9.' and 'AR: 16:9' (API doc and Nano Banana 2 post), 'Each image should be a separate output in 16:9 format.' (Nano Banana 2 post), and 'Combine these images into one appropriately arranged cinematic image in 16:9 format' (Nano Banana Pro tips). The Gemini image help page does not mention aspect ratio at all. Third-party reports from 2025, about Gemini 2.5 Flash Image, said prompt-only ratio control in the app was unreliable; those reports may be outdated.",
+    "source_url": "https://gemini.google/overview/image-generation/?hl=en",
+    "source_date": "unknown (plus https://deepmind.google/models/gemini-image/prompt-guide/ undated; 2025 third-party reports e.g. https://en.kocpc.com.tw/?p=13576)",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "F14: Google Flow makes and edits still images. In the standard prompt box you set aspect ratio, number of outputs and model in the UI, then add reference images ('ingredients'). Edits are non-destructive, with a version history.",
+    "detail": "Help quotes: 'You can create and edit images directly within your Google Flow projects to use as stand-alone assets or as ingredients for your videos.' Standard prompt box steps: click the model name, click Image, then 'Select your image preferences: Image aspect ratio. Number of outputs you want. The model you want to use.' 'By default, Google Flow sets the model to Nano Banana Pro.' Ingredients are added by dragging media into the prompt box or by 'More > Add to Prompt'. Agent mode can produce many variations, e.g. 'Give me 20 variations of this image with different lighting.' 'When you edit an image in Google Flow, you don't lose the original image' (History panel); you can also crop. The Feb 2026 Flow post adds a lasso tool for natural-language local edits and '@' to reference library assets. The help center does NOT document image download resolution.",
+    "source_url": "https://support.google.com/flow/answer/16729550?hl=en",
+    "source_date": "unknown (current; https://blog.google/innovation-and-ai/models-and-research/google-labs/flow-updates-february-2026/ dated 2026-02-25)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F15: Flow offers three image models. Nano Banana Pro is the default for Ultra, Nano Banana 2 Lite is the free default, and Nano Banana 2.1 is the 'standard' model.",
+    "detail": "Quotes: 'Nano Banana Pro: An advanced image model built for complex designs, highly accurate details, and professional-grade control. It is the default model for Google AI Ultra subscribers.' 'Nano Banana 2 Lite: A highly efficient model for fast, high-quality image generation and editing. It is the default model available at no charge.' 'Nano Banana 2.1: The standard model for fast, high-quality image generation and editing.' This conflicts with F14's 'By default, Google Flow sets the model to Nano Banana Pro'; my guess is that sentence applies to Ultra accounts only. Nano Banana 2 Lite is the model the Gemini app says 'isn't designed for multiple image references' (F1).",
+    "source_url": "https://support.google.com/flow/answer/16352836?hl=en",
+    "source_date": "unknown (current, mentions Nano Banana 2.1)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F16: Flow 'Characters' are reusable bundles of 1 or 2 reference images (plus an optional voice). A prompt calls them with @Name.",
+    "detail": "Quotes: 'You can bundle specific visual and audio references into a single, reusable character.' 'Upload or generate 1 or 2 images showing the character's appearance. At least one image is required.' In the image help: 'In the prompt box, type @ followed by your character's name... Describe how your character should be used as a reference. For example: @CaptainZoro walking through a futuristic city.'",
+    "source_url": "https://support.google.com/flow/answer/16935308?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F17: Flow's help pages contradict each other on whether a paid plan is required. Everyone gets 50 credits a day, plans add monthly credits, and image credit costs are not published in the help center.",
+    "detail": "Get-started page: 'Currently, to use Google Flow, you must meet all of these requirements: ... 18 years of age or older... supported regions... Be subscribed to Google AI Plus, Google AI Pro, or Google AI Ultra.' Credits page: 'With or without a subscription, you receive 50 Google Flow credits per day.' Plus gets an extra 200 credits a month, Pro 1,000, Ultra $100 10,000 and Ultra $200 25,000. Non-subscribers may be blocked from video at peak hours but 'can still generate images'. On costs: 'You can find the latest costs in the product when you select a model'. Rate limits apply 'particularly for zero-credit models'. Vietnam is a supported country and Vietnamese a supported language.",
+    "source_url": "https://support.google.com/flow/answer/16353333?hl=en",
+    "source_date": "unknown (credits: https://support.google.com/flow/answer/16526234?hl=en; regions: https://support.google.com/flow/answer/16353544?hl=en)",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "F18: Whisk was discontinued on 30 April 2026 and its features moved into Flow. ImageFX also moved into Flow, and third-party reports say it shut down the same day.",
+    "detail": "Workspace Updates (2026-03-12): 'the best capabilities from Whisk are moving directly into Flow'. Whisk was discontinued on April 30, 2026, and media left in a Whisk library 'will be permanently deleted'. The Flow update post (2026-02-25) says Nano Banana is built into Flow, that 'you can generate images for free in Flow' (this free claim may be outdated, see F15/F17), and that Whisk and ImageFX users could migrate. The ImageFX shutdown date comes from third-party reports only.",
+    "source_url": "https://workspaceupdates.googleblog.com/2026/03/whisk-is-moving-to-flow-on-april-30-2026.html",
+    "source_date": "2026-03-12",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F19: Google's official best practices: be hyper-specific, state context and intent, iterate in small steps, give step-by-step instructions for complex scenes, write 'semantic negative prompts' (describe what you want instead of 'no X'), and direct the camera.",
+    "detail": "API doc quotes: 'Be hyper-specific: The more detail you provide, the more control you have.' 'Provide context and intent: Explain the purpose of the image.' 'Iterate and refine... \"Keep everything the same, but change the character's expression to be more serious.\"' 'Use step-by-step instructions: For complex scenes with many elements, break your prompt into steps. \"First, create a background... Then... Finally...\"' 'Use \"semantic negative prompts\": Instead of saying \"no cars,\" describe the intended scene positively: \"an empty, deserted street with no signs of traffic.\"' 'Control the camera: Use photographic and cinematic language'. The Cloud guide says the same: 'Describe what you want, not what you don't want'.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F20: Official prompt formulas: Subject + Action + Location/context + Composition + Style, with a separate template for illustrations. For history, Google suggests stating the accuracy requirement explicitly and checking the result.",
+    "detail": "Cloud guide (2026-03-06): 'Formula: [Subject] + [Action] + [Location/context] + [Composition] + [Style]'. API illustration template: 'A [style] of a [subject, with details about accessories or actions] doing [activity]. The design features [visual qualities, e.g., bold outlines, cel-shading, etc.] and [color/background preference].' with the note 'Be specific about the visual detail (bold lines, colors, etc.) for consistent results.' Consumer FAQ: 'Try <Create/generate an image of> <subject> <action> <scene>'. Nano Banana Pro tips: 'Factual constraints (for diagrams): Specify the need for accuracy... (e.g., ... \"Ensure historical accuracy for the Victorian era.\")' and 'Always verify the factual accuracy of data-driven visuals like diagrams and infographics.'",
+    "source_url": "https://cloud.google.com/blog/products/ai-machine-learning/ultimate-prompting-guide-for-nano-banana",
+    "source_date": "2026-03-06 (API doc 2026-10-09; Nano Banana Pro tips 2025-11-20)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F21: Official editing templates: change only a named element and keep everything else, combine elements from specific numbered images, and describe critical features in detail so they survive the edit.",
+    "detail": "Inpainting: 'Using the provided image, change only the [specific element] to [new element/description]. Keep everything else in the image exactly the same, preserving the original style, lighting, and composition.' Composition: 'Take the [element from image 1] and place it with/on the [element from image 2].' High-fidelity preservation: 'To ensure critical details (like a face or logo) are preserved during an edit, describe them in great detail along with your edit request.' The Nano Banana Pro tips post says: 'For modifying an existing image, be direct and specific.'",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F22: Google has no official 'character sheet' template. The closest guidance is the 360-view method (build angles one at a time, feeding earlier outputs back in), comic panels, and multi-character examples that state identity must stay fixed.",
+    "detail": "API, 'Character consistency: 360 view': 'generate 360-degree views of a character by iteratively prompting for different angles. For best results, include previously generated images in subsequent prompts to maintain consistency. For complex poses, include a reference image of the selected pose.' Template: 'A studio portrait of [person] against [background], [looking forward/in profile looking right/etc.]'. Sequential art: 'Make a 3 panel comic in a [style]...', which works 'best with Gemini 3 Pro and Gemini 3.1 Flash Image'. Nano Banana 2 post examples: 'Keep the attire and identity consistent of all 3 characters, but their expressions and angles should vary throughout all 6 images. Make sure to only have one of each character in each image. Generate 6 images one at a time. Each image should be a separate output in 16:9 format.' and 'It is strictly important to keep identity consistent of all the 14 characters and items.' I found no official multi-pose model-sheet guidance.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09 (Nano Banana 2 post 2026-02-26)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F23: Text inside images: put the exact words in quotes and describe the font. Nano Banana Pro is recommended for text-heavy images. Small text is still unreliable, and Google's own prompts often just add 'No text.'",
+    "detail": "API: 'Be clear about the text, the font style (descriptively), and the overall design. Use Gemini 3 Pro Image for professional asset production.' 'When generating text for an image, Gemini works best if you first generate the text and then ask for an image with the text.' DeepMind guide: 'Enclose your desired words in quotes... describe the typography style'. Nano Banana Pro tips limitation: 'Rendering small text, fine details, and producing accurate spellings may not work perfectly.' Google examples: 'Make the icons in a colorful and tactile 3D style. No text.' and 'In the style of bright colored Synthetic Cubism. No text.' The Gemini app says 'Redo with Pro' adds detail 'especially for images that use text rendering or for infographics'.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F24: Other documented limits: the model doesn't reliably produce the number of images you ask for, and it works best in a set list of languages that includes English and Vietnamese.",
+    "detail": "API Limitations: 'The model won't always follow the exact number of image outputs that the user explicitly asks for.' 'For best performance, use the following languages: EN, ar-EG, de-DE, es-MX, fr-FR, hi-IN, id-ID, it-IT, ja-JP, ko-KR, pt-BR, ru-RU, ua-UA, vi-VN, zh-CN.' Search grounding on 2.1 and 3.1 Flash does 'not support using real-world images of people from web search'. The DeepMind guide still suggests asking for 'three distinct variations' to compare options.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F25: Multi-turn chat is Google's recommended way to refine images, and 2.1 holds consistency across turns better. But long edit chats use more of the app allowance, and consistency across edits can still drift.",
+    "detail": "API: 'Multi-turn conversation is the recommended way to iterate on images.' Nano Banana 2.1 is described as improving 'multi-turn consistency'. The Gemini limits page rates 'Long chats with dynamic editing' as Medium cost and says: 'Start a new chat when you move to a new topic. This will help save usage'. Nano Banana Pro tips: 'While usually reliable, character consistency across edits may vary.'",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09 (limits page undated; tips 2025-11-20)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F26: Google's Terms of Service (effective 30 July 2026) say Google does not claim ownership of content you generate. They forbid passing AI content off as human-made and using outputs to train AI models.",
+    "detail": "Quotes: 'Some of our services allow you to generate original content.' 'Google won't claim ownership over that content.' Prohibited: 'Misleading others into thinking that generative AI content was created by a human' and 'Using AI-generated content from our services to develop machine learning models or related AI technology'.",
+    "source_url": "https://policies.google.com/terms?hl=en",
+    "source_date": "2026-07-30 (effective date)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F27: Neither the Gemini app nor Flow docs grant an explicit commercial licence, and neither bans commercial use. Both point to the Terms of Service and the Prohibited Use Policy, and both make the user responsible for third-party rights, including rights to uploaded images.",
+    "detail": "Gemini app help: 'remember that you agreed to Google's Terms of Service, including the Prohibited Use Policy. Be sure not to violate others' copyright or privacy rights. Use your discretion before you rely on, publish, or use content that Gemini Apps generate.' The Flow FAQ question 'Can I use outputs of these tools for commercial purposes?' is answered only with: 'The Terms of Service govern how these tools may be used... Google won't claim ownership over that content'. The Prohibited Use Policy (last modified 2024-12-17) bans content that 'Violates the rights of others, including privacy and intellectual property rights' and 'Misrepresenting the provenance of generated content by claiming it was created solely by a human, in order to deceive.' API doc: 'Make sure you have the necessary rights to any images you upload.'",
+    "source_url": "https://support.google.com/gemini/answer/14286560?hl=en",
+    "source_date": "unknown (Flow FAQ https://support.google.com/flow/answer/16353333?hl=en; policy https://policies.google.com/terms/generative-ai/use-policy 2024-12-17)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F28: Every Gemini app image carries an invisible SynthID watermark and C2PA Content Credentials. The visible watermark can be turned off in Settings > Media Watermark, except in India, South Korea and Vietnam, where only AI Ultra subscribers get the switch.",
+    "detail": "Quotes: 'If you are in India, South Korea, or Vietnam, you'll only see this setting if you have an AI Ultra subscription. Otherwise you'll automatically see visible watermarks applied to all visual media you create with Gemini Apps.' Web path: 'At the bottom left, click Settings > Media Watermark'. 'Images: Visible watermarks will appear on any newly generated images.' 'This setting only controls the visible watermark. It doesn't affect SynthID watermarks or Content Credentials'. 'All AI-generated media created or edited with Gemini Apps includes an invisible SynthID watermark.' 'Gemini Apps include Content Credentials (C2PA) metadata'. Third-party coverage dates the toggle to 2026-08-14.",
+    "source_url": "https://support.google.com/gemini/answer/17405358?hl=en&co=GENIE.Platform%3DDesktop",
+    "source_date": "unknown (feature announced 2026-08-14 per https://www.how2shout.com/ai/remove-gemini-watermark-media-setting.html)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F29: All Flow images carry SynthID. Flow has its own 'Visible watermarking' toggle, but in India, South Korea and Vietnam the visible watermark is forced on unless the user is on Google One AI Ultra 20x.",
+    "detail": "Quotes: 'All outputs generated in Google Flow using Veo, Omni, or Nano Banana include invisible SynthID watermarks.' 'You can control this with the \"Visible watermarking\" toggle in the drop-down menu under your profile picture.' 'A visible watermark will be applied automatically for users in India, South Korea, and Vietnam who are not on the Google One AI Ultra 20x Plan.' Flow's YouTube section says SynthID 'should not be tampered with or removed'. Note the difference: the Gemini app (F28) only says 'AI Ultra'.",
+    "source_url": "https://support.google.com/flow/answer/16353333?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F30: SUPERSEDED: under the November 2025 policy, free and Pro users always got the visible 'Gemini sparkle', and only Ultra subscribers and AI Studio were exempt.",
+    "detail": "Nano Banana Pro launch post: 'we will maintain a visible watermark (the Gemini sparkle) on images generated by free and Google AI Pro tier users' and Google will 'remove the visible watermark from images generated by Google AI Ultra subscribers' and in Google AI Studio. The August 2026 toggle (F28/F29) replaced this.",
+    "source_url": "https://blog.google/innovation-and-ai/products/nano-banana-pro/",
+    "source_date": "2025-11-20",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F31: YouTube requires an AI disclosure only for realistic AI content; non-realistic or animated AI imagery does not need one. YouTube may still auto-label videos that contain C2PA metadata or that its systems detect as AI, and C2PA-based labels cannot be removed.",
+    "detail": "Must disclose content that 'Generates a realistic scene that didn't actually occur', among others. 'Creators don't need to disclose non-realistic content that's made with AI'. Example: 'Using an AI-generated or altered animation of a missile in a fully animated video'. Also exempt: 'Production assistance, like using generative AI tools to create or improve a video outline, script, thumbnail, title, or infographic'. 'YouTube may automatically apply an AI label... for: ... Content that contains C2PA metadata; Content that our internal systems detect is Al generated or altered'. 'content containing C2PA metadata... can not be adjusted.' 'Disclosing AI content alone won't limit a video's audience or impact its eligibility to earn money.' Repeatedly failing to disclose can mean penalties, up to suspension from the Partner Program.",
+    "source_url": "https://support.google.com/youtube/answer/14328491?hl=en",
+    "source_date": "unknown (page shows \u00a92026)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F32: YouTube's monetisation rules allow AI visuals of characters and stories you invent. They demonetise templated or mass-produced AI content and image slideshows with little narrative, and they demonetise AI personas posing as human experts on finance and other sensitive topics.",
+    "detail": "Not monetisable: 'Image slideshows, templated storylines, or scrolling text with minimal or no narrative, commentary, or educational value'; 'AI-generated content made with generic or unoriginal templates giving the impression of mass production without adding the creator's original, authentic insights or perspective'; 'Videos where characters are put in the same situation over and over again with the same outcome'. Allowed: 'using AI to visualize a unique character and narrative you invented'; 'Similar content, like a series following a set of characters across episodes'. AI personas section: channels 'that use AI-generated personas to deliver information on sensitive topics... a human expert providing advice to viewers on topics such as health, legal issues, finances' cannot monetise. Example: 'AI-generated podcast hosts offering financial guidance'. The repetitious-to-inauthentic rename was announced 2025-07-15; the AI-persona section carries no date.",
+    "source_url": "https://support.google.com/youtube/answer/1311392?hl=en",
+    "source_date": "2025-07-15 (latest dated update note; page current)",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "F33: Under US Copyright Office guidance, a prompt alone does not make you the author of an AI image. Raw outputs have little copyright protection; protection comes from human selection, arrangement or modification.",
+    "detail": "Copyright and AI Part 2 report (US government; labelled third_party here because it is not Google): AI outputs can be protected only where a human author has determined sufficient expressive elements, which does not include 'the mere provision of prompts'. Repeatedly revising prompts does not change this. This is policy analysis, not binding law.",
+    "source_url": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
+    "source_date": "2025-01-29",
+    "source_kind": "third_party",
+    "confidence": "high"
+   },
+   {
+    "claim": "F34: Vietnam's AI Law (Law No. 134/2025/QH15) took effect on 1 March 2026 and requires AI content to be labelled. A draft decree would set watermark and metadata rules and ban removing labels. This probably explains why Google forces visible watermarks in Vietnam.",
+    "detail": "Law-firm summaries: the law took effect 1 March 2026. AI-generated audio, image and video must be marked in a visible and/or machine-readable form. The draft labelling decree (watermark plus metadata for images; no removing or interfering with labels) was not confirmed final in what I found. Not legal advice; it matters only if the owner is physically in Vietnam.",
+    "source_url": "https://www.rajahtannasia.com/viewpoints/new-law-on-artificial-intelligence-takes-effect-on-1-march-2026/",
+    "source_date": "2026-03 (law effective 2026-03-01)",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "F35: Google AI Studio is a manual fallback that exposes the model's ratio and size controls, but using the newer image models there needs a paid API key.",
+    "detail": "'Build with Nano Banana 2' post: 'A paid api key is required to use the model on Google AI Studio.' The API config (F11) shows aspect_ratio and image_size exist. In Nov 2025 Google removed the visible watermark in AI Studio (F30). I did not verify AI Studio's current UI for Nano Banana 2.1.",
+    "source_url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-nano-banana-2/",
+    "source_date": "2026-02-26",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "F36: Gemini now has 'Skills': saved instructions that run automatically on matching prompts. They replace Gems. It is not documented whether they apply to image generation.",
+    "detail": "Release note 2026-09-30, 'Skills in Gemini': Skills are reusable instructions built from your chats that run automatically on matching prompts. They can be combined, they replace Gems (Gems migrate automatically), and they are 18+ at launch. Nothing says whether a Skill can carry a reference image or affects image requests.",
+    "source_url": "https://gemini.google/release-notes/",
+    "source_date": "2026-09-30",
+    "source_kind": "official",
+    "confidence": "medium"
+   }
+  ],
+  "implications": [
+   "I1 Model check (F1, F3, F4, F7, F15): start every copy-paste prompt pack with an owner checklist. Gemini app: paid plan, chat model set to Fast/Thinking/Pro, never Flash-Lite. Flow: choose 'Nano Banana 2.1' or 'Nano Banana Pro' by hand. Never use Nano Banana 2 Lite (Flow's free default, and the Gemini fallback after a usage cap) for any shot that relies on the reference sheet, because Google says it 'isn't designed for multiple image references or for multiple edits'. If Gemini reports a limit or a switch to Flash-Lite, stop and wait for the 5-hour refresh.",
+   "I2 Resolution check (F5, F12): production frames must be 2K downloads ('Download full size' on a paid plan; expect 2752x1536). A free 1K frame (1376x768) needs about 1.9x upscaling for 1440p and should be rejected. Our importer should flag any image under 2560x1440 and any ratio that is not about 1.79.",
+   "I3 Remotion fit (F12): treat Nano Banana's '16:9' as 2752x1536 (43:24). Scale to 1440 px high (2580 wide) and centre-crop 10 px per side, i.e. cover fit with no letterbox. Every scene prompt should add 'keep all characters and key objects well inside the frame' so the crop never cuts faces or hands.",
+   "I4 Aspect ratio wording (F11, F13, F14): end every image prompt with the same line: 'Format: widescreen 16:9 landscape image (aspect ratio 16:9).' Generate the master reference sheet itself in 16:9, because the API defaults to the input image's size. In Flow, also set Image > aspect ratio 16:9 in the UI. Check the pixel size of each download.",
+   "I5 Reference budget (F6, F7, F8): every scene prompt attaches Image 1 = the script's master character sheet, plus at most 3 extra images (a per-character close-up, a location or a prop). That keeps us within 4 character-identity images for Nano Banana 2.1/2 and well under the app's 10-file cap. Draw at most 4 named characters in one frame. If a shot needs 5, split it or use Redo with Pro (5 character references). This takes the lower figure where Google's sources conflict.",
+   "I6 Reference labels (F9, F21): every scene prompt opens with a REFERENCES block that lists each attachment in upload order with exactly one job. Example: 'Image 1 = CHARACTER SHEET: use only for each character's identity, body proportions, outfit colours and drawing style. Image 2 = LOCATION: use only for the room layout.' Characters are always called by the exact name printed on the sheet, spelled the same way, and attachments go in the same order every time.",
+   "I7 Anti-copy clause (F10, F22): Nano Banana 2.1 can keep 'structural alignment' and 'persistent subject pose' from an input image. So every scene prompt must say: 'Do not reproduce the sheet's layout, plain background, name labels or poses; draw a new scene.' Then describe each character's pose in words. Never write only 'use pose 3 from the sheet'.",
+   "I8 Master sheet layout (F7, F8, F10, F22, F23): one 16:9 image at 2K per script on a plain flat light background. Each character gets one row: a full-body neutral front view first, then every pose and expression the script uses, all at the same scale, with no overlaps and generous gaps. Above each row, print the character's name once in large bold capitals (one short word); the sheet has no other text, because small text renders badly. Give every character a unique high-contrast outfit colour so identity never depends on left/right position. If a script has more than about 4 characters or about 24 figures in total, keep this sheet as the overview and also make one sheet per character, because figures shrink and Google only guarantees 4-5 consistent characters.",
+   "I9 Building the sheet (F21, F22, F25): (1) A text-only prompt makes a lineup of all characters (front view) in the locked style. (2) Attach the lineup as Image 1 and ask for the full pose sheet; this follows Google's 360-view advice to 'include previously generated images in subsequent prompts'. (3) Fix defects with Google's edit template: 'Using the provided image, change only [X] to [Y]. Keep everything else in the image exactly the same, preserving the original style, lighting, and composition.' (4) Freeze the result as sheet_vN.png, write the version into the script's prompt file, and never regenerate it mid-video.",
+   "I10 Style lock without the third-party image (F26, F27, F20): never upload the third-party model sheet and never name its brand, studio or artist. Google requires rights to anything uploaded, and the Prohibited Use Policy bans IP violations. Instead, turn its generic traits into one fixed STYLE block using Google's illustration template ('A [style] of [subject]... The design features [bold outlines, flat colour, etc.] and [colour/background]'). Paste that block word-for-word into every character, sheet and scene prompt. Our own approved sheet is the only visual style reference.",
+   "I11 Phrasing (F19, F23): describe what should be in the scene ('plain empty beige wall', 'clear wooden desk') instead of listing 'no X', per Google's 'semantic negative prompts' advice. Keep exactly one short exclusion line, the kind Google's own examples use: 'No text, letters, numbers, logos, captions or speech bubbles in the image.' All on-screen text and figures are added in Remotion.",
+   "I12 Identity cards (F9, F19, F21): for each character in a frame, also paste the same one-line identity card: name plus 4-5 fixed traits (hair, skin tone, body shape, outfit colours, one signature item). The text must be identical across every prompt in the project; this is Google's 'describe critical details in great detail' advice applied to characters.",
+   "I13 Scene prompt order (F10, F19, F20): REFERENCES, then STYLE block, then characters (identity card + pose + expression), then action, then setting, then composition/camera (shot size and angle; place characters with foreground/background and distinctive props, not left/right alone), then the Format line, then the exclusion line. For complex scenes use 'First... Then... Finally...'. Ancient-life channel: add 'Ensure historical accuracy for [period, region]' plus the specific materials, clothing and tools from our research, then check the output.",
+   "I14 One image per prompt (F22, F24): ask for exactly one image per prompt. If a sequence is truly needed, use Google's wording 'Generate N images one at a time, each a separate 16:9 output' and expect the count to vary.",
+   "I15 Chat habits (F4, F25): one chat per scene group of about 5-8 frames. Re-attach the sheet in every prompt instead of relying on chat memory. Use follow-up turns only for local fixes ('change only...'). Start a new chat for the next group to save usage and stop errors carrying over.",
+   "I16 Frames with text (F1, F23): avoid text inside images. If it is unavoidable, generate with Nano Banana 2.1, then 'Redo with Pro', with the exact words in quotes, a described font, 6 words or fewer, set large.",
+   "I17 Flow route (F14-F17): in Flow, create one Character per recurring cast member from 1-2 crops of the master sheet (front view plus the most-used pose) and prompt with @Name. Add the full sheet via 'Add to Prompt'. Set Image to 16:9, 1-2 outputs, model Nano Banana 2.1 or Pro. Check the credit cost in Settings, and confirm the downloaded image size before using Flow for production frames.",
+   "I18 Watermarks (F28, F29, F34): before each session, check Gemini Settings > Media Watermark and Flow profile menu > Visible watermarking; the switch only affects newly generated images. If the owner is physically in Vietnam (or India/South Korea), removing the visible mark needs AI Ultra in Gemini or Ultra 20x in Flow. Do not crop or cover a forced watermark until Vietnam's labelling rules are checked, and never try to strip SynthID or C2PA.",
+   "I19 YouTube safety (F31, F32): keep the style clearly illustrated and non-photorealistic. That makes frames 'non-realistic' AI content needing no disclosure, and avoids realistic 'scene that didn't occur' reconstructions for the ancient channel. If any frame is realistic, tick 'AI use: Yes'. In The Median Worker, the recurring cast must be everyday people living through situations, never an AI 'host' or 'expert' giving money advice (YouTube's AI-persona rule). Vary scenes, angles and settings between videos so the channel doesn't look templated.",
+   "I20 Licence records (F26, F27, F33): monetised use fits the Terms (Google claims no ownership), but there is no explicit commercial grant. Keep a log per image: tool, model, date, prompt, sheet version. Never describe the images as hand-drawn, and never upload third-party art, stock photos or photos of real people. Assume raw frames are barely protectable; the script and edit carry the originality.",
+   "I21 Language (F24): write the copy-paste prompts in English (supported, as is vi-VN). Keep Vietnamese notes for the owner outside the prompt block so they are not pasted into the generator.",
+   "I22 Skills, optional (F36): the STYLE and REFERENCES rules could be saved as a Gemini Skill to reduce paste mistakes. Still include the full blocks in every prompt until a test shows Skills affect image generation.",
+   "I23 Exception path (F11, F35): if the Gemini app won't reliably give 16:9 at 2K, Google AI Studio exposes aspect ratio and size settings, but it needs a paid API key/billing. Keep it as an exception, not the default workflow."
+  ],
+  "open_questions": [
+   "Which Gemini app mode sends paid users to Nano Banana 2.1, and has the staged rollout (started 2026-10-06) reached the owner's account? The help center still says Nano Banana 2 for Flash/Pro.",
+   "Does the Gemini app reliably follow '16:9' written in the prompt with Nano Banana 2 and 2.1? There is no official statement and no in-app selector is documented; the 'unreliable' reports are from 2025. Test 3-5 prompts and check the pixel sizes.",
+   "What exact pixel size does 'Download full size' give for a 16:9 image at 2K in the Gemini app? The API table says 2752x1536, unverified for the app. Also, the overview page lists '2K resolution' for free Nano Banana 2 while the help center says free downloads are 1K.",
+   "When several images with different aspect ratios are attached and the prompt doesn't settle it, which one sets the output size? The API only says output 'matches... your input image'.",
+   "Does one composite sheet with many characters and poses keep identity as well as separate per-character images? Does the '4 character images' limit count images or characters inside an image? Neither is documented; an A/B test is needed.",
+   "Is Nano Banana 2.1 good for 4 or 5 consistent characters, and 10 or 14 objects? The API doc (2026-10-09) and the marketing pages disagree.",
+   "Flow, still images: which download resolutions exist (1K/2K/4K, upscale?), how many credits each model costs per image, how many image ingredients one prompt allows, and whether a paid plan is strictly required (the help pages conflict). Also, does the 'By default... Nano Banana Pro' sentence apply only to Ultra?",
+   "If an attached reference image carries a visible watermark, does the model copy that mark into new images? Not documented.",
+   "Does 'Redo with Pro' reuse the same attached reference images and prompt as the original generation? Not documented.",
+   "Do Gemini Skills apply to image-generation requests, and can a Skill include a reference image?",
+   "Can YouTube's 'internal systems detect' AI label pick up SynthID in a Remotion-rendered MP4 built from Gemini stills? Our render probably drops the images' C2PA metadata (my inference, unverified).",
+   "Is the owner physically in Vietnam? If so, has the AI-labelling decree under Law 134/2025/QH15 been finalised, and would it forbid cropping or covering the forced visible watermark?",
+   "After the May 2026 switch to compute-based limits, roughly how many 2K Nano Banana 2.1 images fit into one 5-hour window on Plus, Pro and Ultra? Google publishes no numbers."
+  ]
+ },
+ "sheet_practice": {
+  "findings": [
+   {
+    "claim": "Google's current image models accept different numbers of character references. Nano Banana 2.1 takes up to 4 character images and 10 object images. Nano Banana Pro takes up to 5 characters, 6 objects and 3 style references. Nano Banana 2 Lite takes object images only. The total is capped at 14 images.",
+    "detail": "Gemini API image-generation page, last updated 2026-10-09. It lists Nano Banana 2.1 (gemini-nano-banana-2.1) as 'the primary high-efficiency workhorse model', Nano Banana 2 (gemini-3.1-flash-image) as the previous generation, Nano Banana 2 Lite (gemini-3.1-flash-lite-image), and Nano Banana Pro (gemini-3-pro-image). Quote: 'Nano Banana models allow you to mix up to 14 reference images.' The table for 2.1 and 3.1 Flash Image says 'Up to 10 images of objects with high-fidelity' and 'Up to 4 images of characters to maintain character consistency', with style 'N/A'. For 3 Pro Image it says 'Up to 6 images of objects', 'Up to 5 images of characters' and 'Up to 3 images to be used as style references'. The Limitations section adds: 'gemini-nano-banana-2.1 and gemini-3.1-flash-image support character resemblance of up to 4 characters and the fidelity of up to 10 objects in a single workflow.' Launch press in Feb 2026 said Nano Banana 2 handled 5 characters and 14 objects. The current page says 4 and 10.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Google's official advice for multi-angle views: generate the character one angle at a time, attach earlier outputs to later prompts, and attach a picture of the pose when the pose is complex.",
+    "detail": "Section '7. Character consistency: 360 view': 'You can generate 360-degree views of a character by iteratively prompting for different angles. For best results, include previously generated images in subsequent prompts to maintain consistency. For complex poses, include a reference image of the selected pose.' Template: 'A studio portrait of [person] against [background], [looking forward/in profile looking right/etc.]'. Example: 'A studio portrait of this man against white, in profile looking right'.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Google's best practices are: be very specific, give the image's purpose, iterate in conversation, give step-by-step instructions, and describe what you want instead of writing 'no X' (what Google calls 'semantic negative prompts'). Google also warns that the model does not always produce the exact number of things you ask for.",
+    "detail": "Quote: 'Use \"semantic negative prompts\": Instead of saying \"no cars,\" describe the intended scene positively: \"an empty, deserted street with no signs of traffic.\"' Its iteration example is 'Keep everything the same, but change the character's expression to be more serious.' Quote: 'Multi-turn conversation is the recommended way to iterate on images.' Limitations: 'The model won't always follow the exact number of image outputs that the user explicitly asks for.' The languages listed for best performance include EN and vi-VN.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Google's official prompt templates cover style and locked edits. For a consistent style, name the visual details (outlines, colours) and the background. For an edit, say what changes and that everything else stays exactly the same. Google also says you must have rights to the images you upload.",
+    "detail": "Stylized illustrations section: 'Be specific about the visual detail (bold lines, colors, etc.) for consistent results.' Template: 'The design features [visual qualities, e.g., bold outlines, cel-shading, etc.] and [color/background preference].' The sample prompt ends with 'The background must be white.' Inpainting template: 'Using the provided image, change only the [specific element] to [new element/description]. Keep everything else in the image exactly the same, preserving the original style, lighting, and composition.' Detail-preservation template: 'Ensure that the features of [element from image 1] remain completely unchanged.' Editing section: 'Make sure you have the necessary rights to any images you upload.'",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Output aspect ratio follows the attached image unless you set it. At 16:9, Nano Banana 2.1 and Pro render 1376x768 at 1K, 2752x1536 at 2K and 5504x3072 at 4K.",
+    "detail": "Quote: 'By default, the model matches the output image size to that of your input image, or otherwise generates 1:1 squares.' The size tables give 16:9 as 1376x768 / 2752x1536 / 5504x3072 for Nano Banana 2.1 and for the Pro table. Google's consistent-imagery notebook adds that when the ratio is omitted, Gemini uses the ratio of the input image, 'the last one if multiple are provided'. The channel's 2560x1440 frame is larger than 1K and smaller than 2K.",
+    "source_url": "https://ai.google.dev/gemini-api/docs/image-generation",
+    "source_date": "2026-10-09",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Nano Banana 2 Lite is not designed for work with reference images or repeated edits. It is the model the Gemini app uses when set to Flash-Lite, and the no-charge default model in Flow.",
+    "detail": "Gemini Apps Help on Nano Banana 2 Lite: 'This option is used when the Gemini model is set to Flash-Lite' and 'It isn't designed for multiple image references or for multiple edits.' On Nano Banana 2: 'This option is selected when you make an image request with the Gemini model set to Flash or Pro.' The API page says Lite is 'Not optimized for multiple reference inputs or multi-turn sequential editing.' The Flow models page (support.google.com/flow/answer/16352836) says Nano Banana 2 Lite 'is the default model available at no charge', Nano Banana Pro 'is the default model for Google AI Ultra subscribers', and Nano Banana 2.1 is 'The standard model for fast, high-quality image generation and editing.'",
+    "source_url": "https://support.google.com/gemini/answer/14286560?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "In the Gemini app, downloads are 2K only with a paid Google AI plan (1K otherwise), and one prompt can carry up to 10 files.",
+    "detail": "Gemini Apps Help: 'Download images at at 2K resolution with a Google AI plan or at 1K without an AI plan.' AI-plan users can redo an image with Nano Banana Pro from the three-dot menu. The upload help (support.google.com/gemini/answer/14903178) says: 'Up to 10 files (subject to availability) can be uploaded in the same prompt.' The help page still names Nano Banana 2, while the gemini.google overview page already lists Nano Banana 2.1 features. DeepMind's prompt guide calls the 2K/4K choice an in-product 'upscale'.",
+    "source_url": "https://support.google.com/gemini/answer/14286560?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "In Google Flow you set the model, aspect ratio and number of outputs for each prompt. You can reference an image with 'Add to Prompt' or a character with '@' plus its name, and edits are saved to the image's version history.",
+    "detail": "Flow Help, 'Create & edit images in Google Flow': select Image, then set the aspect ratio, number of outputs and model. The page says 'By default, Google Flow sets the model to Nano Banana Pro', but the models page shows the default depends on plan. To reference an image, choose More > Add to Prompt; for characters, 'type @ followed by the character name'. 'Edits are automatically saved to the asset's stack', and the History panel keeps earlier versions. No limit on reference images and no resolution options are documented. The Feb 25, 2026 relaunch added a lasso tool for editing selected areas (The Decoder).",
+    "source_url": "https://support.google.com/flow/answer/16729550?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "Flow's official tips for reference images: put subjects on a plain or segmented background, keep the same look across all reference images, and write prompts that point to the references without contradicting them.",
+    "detail": "Flow Help, 'Create videos in Google Flow': 'For the best results, provide subject or product references on a plain or segmented background.' 'A consistent look and feel across all your ingredient images helps the model blend them more effectively.' The text prompt 'should complement, not contradict, your visual inputs.' Refer to the frames or ingredients you provided in the prompt, and reuse the same character and object images from clip to clip. These tips are written for video ingredients in the same Flow workspace, so they apply to still images only by analogy.",
+    "source_url": "https://support.google.com/flow/answer/16894016?hl=en",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "Google's official notebook on consistent images shows the workflow: make a labelled character sheet on a pure white background, then attach it as Image 1 to every scene prompt. Details that the sheet or prompt leaves open come out differently on each run.",
+    "detail": "GoogleCloudPlatform notebook by Laurent Picard (Google), linked from codelabs.developers.google.com/gemini-consistent-imagery-notebook; last commit 2026-08-31. Sheet prompt lines: 'Scene: Character sheet of the robot, based on the provided image.' 'Setting: Isolated on a pure white background, razor-sharp focus, vibrant saturated colors, bright studio lighting.' 'Left Side: Straight-on front view...' 'Right Side: Straight-on back view...' 'Text: Small sans-serif text. Centered at the top, a caption ROBOT CHARACTER SHEET. At the bottom, label the left side FRONT VIEW and the right side BACK VIEW.' Notes: everything visible in the reference stays consistent, but the loosely described backpack differs between runs, and 'In a real production pipeline, we would likely make it part of a separate accessory sheet.' The first scene 'will have a cascading effect that defines the overall look of our story.' Prompts and source image IDs are saved in the PNG metadata.",
+    "source_url": "https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/use-cases/media-generation/consistent_imagery_generation.ipynb",
+    "source_date": "2026-08-31",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "The same notebook shows four rules for using a sheet. Number each attached image and its role, because a sheet contains several copies of the character. Say explicitly which props are dropped. Expect lighting and background to carry over from an attached previous scene. Add left and right side views to the sheet so the character can face either way.",
+    "detail": "Scene prompts start 'Image 1: Reference robot character sheet.' and 'Image 2: Previous scene.' Note: 'Without them, the robot could refer to any of the three robots in the input images (two in the character sheet, one in the previous scene)... we can be more specific with the [entity] from image [number].' Quote: 'The no longer holding the map instruction prevents the model from carrying it over.' Without 'Remove the ice picks' the result would be random. Quote: 'Since we didn't provide lighting details, the light source, quality, and direction are preserved from the previous scene.' Quote: 'getting it to consistently walk from left to right is tricky. Adding left and right views to the character sheet should fix this.' A lock phrase used: 'Its face and hands are unchanged.' Both imperative and descriptive prompts worked.",
+    "source_url": "https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/use-cases/media-generation/consistent_imagery_generation.ipynb",
+    "source_date": "2026-08-31",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "DeepMind's prompt guide says to give each character a distinct name with clear reference images, put exact text in quotes, and state the aspect ratio. It describes 2K and 4K in Google's apps as an upscale.",
+    "detail": "Quote: 'Upload clear reference images, and assign a distinct name to each character or object in your prompt.' Quote: 'Prompt for your desired aspect ratio (like 4:3, 1:1, or 9:16) and describe the image format you need.' Quote: 'Look for the in-product resolution dropdowns to upscale to 2K or 4K.' Quote: 'Enclose your desired words in quotes (e.g., Happy Birthday).' Prompt components: Style, Subject, Setting, Action, Composition. The page shows no date.",
+    "source_url": "https://deepmind.google/models/gemini-image/prompt-guide/",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Google Cloud's prompting guide gives a formula for reference prompts: [Reference images] + [Relationship instruction] + [New scenario]. For edits, state exactly what stays the same, and phrase requests positively.",
+    "detail": "'The ultimate Nano Banana prompting guide', Google Cloud Blog, Mar 6, 2026 (K. Davaajav, H. Chinoy). It gives the formula above. Quote: 'Editing requires a different mindset than generating... your prompt needs to focus on what is changing and what is staying the same.' Quote: 'Be explicit about what to keep exactly the same.' Quote: 'Use positive framing: Describe what you want, not what you don't want (e.g. empty street instead of no cars).' Quote: 'You can mix up to 14 reference object images in a single prompt.' It has no guidance on character sheets.",
+    "source_url": "https://cloud.google.com/blog/products/ai-machine-learning/ultimate-prompting-guide-for-nano-banana",
+    "source_date": "2026-03-06",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Google's Developers Blog: if a character drifts after many edits, start a new conversation with a detailed description. Ask for a white background explicitly when you need one.",
+    "detail": "'How to prompt Gemini 2.5 Flash Image Generation for the best results', Aug 28, 2025 (Philipp Schmid, Logan Kilpatrick, Alisa Fortin). Quote: '...you can restart a new conversation with a detailed description to retain consistency.' Quote: 'remember to request a white background if you need one.' It says character consistency 'sometimes needs refinement through follow-up prompts'. It was written for the 2025 model and may be outdated, although the 2026 model cards still list consistency drift as a limitation.",
+    "source_url": "https://developers.googleblog.com/en/how-to-prompt-gemini-2-5-flash-image-generation-for-the-best-results/",
+    "source_date": "2025-08-28",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "Google says neither style nor character consistency is guaranteed: 'character consistency across edits may vary'. Google also recommends stating the role of each attached image.",
+    "detail": "blog.google, '7 tips to get the most out of Nano Banana Pro' (Nov 20, 2025, B. Alessio): 'character consistency across edits may vary.' It advises defining each image's role, for example one for pose and another for art style, and says you can blend 'up to 6 to 14 (input number varies by surface)' images. The earlier tips post (Aug 26, 2025) says 'the model's stylization can sometimes be inconsistent or produce unexpected results' and 'While the model excels at character consistency, it may not always get it right.' Both posts cover older models and may be outdated.",
+    "source_url": "https://blog.google/products/gemini/prompting-tips-nano-banana-pro/",
+    "source_date": "2025-11-20",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "DeepMind lists small faces, spelling and fine detail as weak points of Nano Banana Pro. It says blending several images or making complex edits can produce artifacts, and that the model keeps up to five characters consistent.",
+    "detail": "Nano Banana Pro page: 'it can still struggle with small faces, accurate spelling, and fine details in images.' Quote: 'blending multiple images may sometimes produce unnatural results, visual artifacts, or disjointed scenes.' Quote: 'Maintain the consistency and resemblance of up to five characters and the fidelity of up to fourteen objects in a single workflow.' Quote: 'The model excels at character consistency, but it may not always get it right.'",
+    "source_url": "https://deepmind.google/models/gemini-image/pro/",
+    "source_date": "unknown",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Google's model cards list the same known failures for Pro, 2 and 2.1: small text is blurry at 1K, the character is not always identical to the reference, parts of the input image are sometimes pasted into the output, left and right get confused, and 2.1 sometimes keeps the pose of the input image.",
+    "detail": "Nano Banana 2.1 model card, published 6 Oct 2026: 'Poor text rendering in small text (often blurry in 1k model)'; 'Character consistency is not always perfect between input images and generated output image'; 'Occasional confusion around spatial localisation (e.g. left/right etc.)'; 'rare instances of persistent subject pose, where structural alignment from the input image is retained'. The Gemini 3 Pro Image card (Nov 2025) and the 3.1 Flash Image card (Feb 2026) also list: 'When editing images: infrequent copying/pasting from user's input image to generated image'.",
+    "source_url": "https://deepmind.google/models/model-cards/nano-banana-2-1/",
+    "source_date": "2026-10-06",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "In Google's own human ratings, Nano Banana 2.1 with thinking scores clearly above Nano Banana Pro for keeping several characters consistent and for stylization.",
+    "detail": "Nano Banana 2.1 model card, Elo scores from side-by-side human evaluation. Multi-character consistency: 1106 for 2.1 with thinking, 1068 for 2.1 without, 1011 for 3 Pro Image, 978 for 3.1 Flash Image. Single character: 1028 / 1021 / 991 / 981. Stylization: 1062 / 1036 / 990 / 991. In the API, 2.1's thinking level can be minimal, medium or high (default medium). These are Google's own evaluations and have not been replicated independently.",
+    "source_url": "https://deepmind.google/models/model-cards/nano-banana-2-1/",
+    "source_date": "2026-10-06",
+    "source_kind": "official",
+    "confidence": "high"
+   },
+   {
+    "claim": "Images made in the Gemini app on free and Google AI Pro accounts carry a visible Gemini sparkle watermark. Ultra subscribers' images do not. This is the policy announced in Nov 2025.",
+    "detail": "blog.google, 'Introducing Nano Banana Pro' (Nov 20, 2025): 'we will maintain a visible watermark (the Gemini sparkle) on images generated by free and Google AI Pro tier users' and 'we will remove the visible watermark from images generated by Google AI Ultra subscribers' (also removed in Google AI Studio). Flow Help says a visible watermark 'can be added to generated images and videos'. A vendor blog claims a settings toggle since Aug 2026, which I could not confirm. The policy may be outdated.",
+    "source_url": "https://blog.google/technology/ai/nano-banana-pro/",
+    "source_date": "2025-11-20",
+    "source_kind": "official",
+    "confidence": "medium"
+   },
+   {
+    "claim": "A Google developer advocate's guide says: fix an almost-right image with a targeted edit instead of regenerating ('Edit, Don't Re-roll'), lock identity to a numbered image, and state one style that applies to all images.",
+    "detail": "Guillaume Vernade (Senior Developer Advocate, Google AI), posted on dev.to/googleai Nov 27, 2025 and edited Jan 2026. Identity-lock wording: 'Keep the person's facial features exactly the same as Image 1', with pose or emotion changes asked for in a separate sentence. Images are referred to by number and given roles. Style example: a 'Modern Minimalist style' applied 'across ALL images'. A 3x3 sprite grid is shown as possible. The post predates Nano Banana 2 and 2.1.",
+    "source_url": "https://dev.to/googleai/nano-banana-pro-prompting-guide-strategies-1h9n",
+    "source_date": "2025-11-27",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "Users report that chaining edits wears the image down: after 5 to 10 edits, each made on the previous output, sharpness drops and colours and structure distort.",
+    "detail": "Post on Google's AI developer forum, July 15, 2026, about gemini-3.1-flash-image-preview: '5-10 iterative re-edits, each using the previous output as the new base image' produce artifacts that 'compound with each pass'. Google did not reply. A similar Adobe Community thread (July 9, 2026) about Gemini 3.1 inside Firefly says 'The image quality of each edit degrades compared with last' and 'the entire image degrades, not just the character'.",
+    "source_url": "https://discuss.ai.google.dev/t/gemini-3-1-flash-image-preview-quality-degradation-after-iterative-edits-severe-time-of-day-output-variance/174853",
+    "source_date": "2026-07-15",
+    "source_kind": "community",
+    "confidence": "medium"
+   },
+   {
+    "claim": "A practitioner found that the character changed too much unless each prompt listed what must stay the same. The chat sometimes went back to an earlier image, and re-uploading the chosen image as a reference stopped the drift.",
+    "detail": "Christy Tucker, Oct 21, 2025, using the original Nano Banana, so this may be outdated. Working prompt: 'Keep the character details the same (hair, glasses, blouse, etc.) but change her expression to ...'. Makeup and skin tone shifted, and a notebook prop disappeared between images. In scenes with two characters, changing the camera angle mostly failed; only zooming out worked.",
+    "source_url": "https://christytuckerlearning.com/nano-banana-gemini-character-image-experiments/",
+    "source_date": "2025-10-21",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "One user found that Nano Banana 2 'cleans up' deliberately crude drawings unless told not to. Banning gradients, 3D shading and digital touch-ups, and requiring the original rough lines, kept the style. In a long chat the drawings drifted cleaner, and a new chat fixed it.",
+    "detail": "Kaga Hajime, note.com, Mar 1, 2026, using one hand-drawn reference on white. Some sitting, walking and running poses came out 'a bit too smart-looking' until that look was banned in the prompt. Hair colour drifted, and the eyes needed fixing by hand. In a long chat the model pulled in earlier material. Key advice: tell the AI 'Don't make it look pretty on your own.'",
+    "source_url": "https://note.com/open_avocet2127/n/na7821878c3d7?hl=en",
+    "source_date": "2026-03-01",
+    "source_kind": "community",
+    "confidence": "medium"
+   },
+   {
+    "claim": "A vendor's stick-figure test (Oct 2026): a sheet plus a fixed 'lock' sentence and style line in every prompt kept the figure consistent. 'Hands with no fingers' came out as solid mitten hands. A one-sided cap brim flipped with the facing direction. Nano Banana 2 Lite drifted in style in 4 of 10 shots and added numerals despite 'no numbers'.",
+    "detail": "BulkImagen Team, Oct 17, 2026; vendor content promoting its own bulk tool. The sheet prompt asked for a round white head with a thick black outline, two dot eyes, a small smile, single thick black limbs, 'simple hands with no fingers', an off-white paper background and no text. The generated sheet then became the reference. Each shot prompt was 'Shot NN' plus a camera direction, the lock sentence 'the stick figure from the reference image, kept exactly as it is' with the fixed traits listed, the style line 'simple hand-drawn black marker line art on an off-white paper background', and 'no text, no letters, no numbers, no logos'. Nano Banana 2 kept the style. Props were sometimes simplified, and objects nobody asked for appeared. With only 10 shots, the authors call the drift figure 'a warning, not a rate'.",
+    "source_url": "https://bulkimagen.com/blog/ai-stick-figure-animation",
+    "source_date": "2026-10-17",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "Imitation xkcd comics from Gemini 3 Pro Image had perfectly geometric circle heads instead of hand-drawn loops, and mixed digital fonts with hand lettering.",
+    "detail": "danprice.ai, Dec 2, 2025: mixed fonts were the 'single most reliable indicator' that a strip was fake, and heads were 'mathematically perfect circles'. This was an older model. It matters for us because sheet labels may come out in mixed lettering styles.",
+    "source_url": "https://danprice.ai/blog/xkcd-dspy-gepa",
+    "source_date": "2025-12-02",
+    "source_kind": "third_party",
+    "confidence": "low"
+   },
+   {
+    "claim": "Storyboard advice from a vendor: generate 5 to 10 frames per location as a batch and review them in order, refresh the reference image for long sequences, state where each character stands, avoid extreme angles, and keep per-shot character descriptions short.",
+    "detail": "Flowith blog (vendor), Mar 12, 2026. Example position line: 'Character A (Maya) stands on the left, Character B (Ruiz) sits on the right.' Failures it lists: prompts without a reference image drift, changing style mid-sequence breaks consistency, extreme angles and foreshortening hurt, long descriptions in every prompt reduce consistency, and small details such as jewellery vary. Its '90%+' consistency claim is unverified.",
+    "source_url": "https://flowith.io/blog/nano-banana-consistent-characters-storyboard/",
+    "source_date": "2026-03-12",
+    "source_kind": "third_party",
+    "confidence": "low"
+   },
+   {
+    "claim": "Some practitioners say a sheet generated in one shot can merge views, get the small expression heads wrong and invent back views. They generate each view separately and assemble the sheet by hand.",
+    "detail": "AI Photo Generator blog (vendor), Jul 7, 2026: models 'merge views, mismatch expression miniatures, and invent back views'; it recommends locking the front view first and compositing the rest in an editor. Our Code World (Aug 26, 2026): 'Full-body compositions allocate fewer pixels to the face, making small identity details harder to preserve' and 'Some models mirror images', so check one-sided details. Neither source ran controlled tests.",
+    "source_url": "https://www.aiphotogenerator.net/blog/2026/07/character-reference-images",
+    "source_date": "2026-07-07",
+    "source_kind": "third_party",
+    "confidence": "low"
+   },
+   {
+    "claim": "Traditional animation practice for comparing characters: draw every character head to toe in a relaxed stance side by side, use the main character's height as the measuring stick, label each figure with its name, keep silhouettes distinct, and use 5 to 7 expressions per character.",
+    "detail": "Charles Merritt Houghton, Nov 2024 (articles on comparison charts and design sheets). Quote: 'Draw each character from head to toe in a relaxed stance, side by side.' Quote: 'Label each silhouette with the character's name.' Quote: 'Mark each character's height, shoulder width, or distinctive features.' Quote: 'Whenever characters appear together, consult the comparison sheet.' Quote: 'A set of five to seven expressions.' This is not specific to AI.",
+    "source_url": "https://cmerritthoughton.substack.com/p/character-comparison-charts-establishing",
+    "source_date": "2024-11-18",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "A green-screen recipe for Nano Banana Pro cut-outs: ask for a flat #00FF00 background, keep green out of the subject, remove a narrow range of green, then clean the edges. The author prefers this to AI background removal.",
+    "detail": "Philipp Schmid's personal blog, Jan 19, 2026; he co-wrote Google's Aug 2025 prompting guide. Prompt text: 'Solid, flat, uniform chromakey green color. Use EXACTLY hex color #00FF00 (RGB 0, 255, 0).' Quote: 'The subject itself should NOT contain any green colors'. If the subject needs green, use dark forest green or teal. An optional 2-3 px white outline 'prevents color bleeding'. Removal settings: hue 120 plus or minus 25, saturation at least 75, value at least 70, mask widened by 2 px, edge threshold 64. He calls AI background removal 'Slower and more expensive' with edges that are 'hit or miss'. A white background was not tested.",
+    "source_url": "https://www.philschmid.de/generate-stickers",
+    "source_date": "2026-01-19",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "The model returns a near-green such as #05F904, not exact #00FF00, so cut-out scripts should sample the background colour from the image corners and remove green spill from the edges.",
+    "detail": "README of the GitHub tool kingbootoshi/nano-banana-2-skill: 'The key color is auto-detected from corner pixels', because the AI 'generates near-green like #05F904, not exact #00FF00'. It uses FFmpeg colorkey plus despill to avoid a 'green fringe'. This also shows that hex colours in prompts are only approximate.",
+    "source_url": "https://github.com/kingbootoshi/nano-banana-2-skill",
+    "source_date": "unknown",
+    "source_kind": "community",
+    "confidence": "medium"
+   },
+   {
+    "claim": "Nano Banana images have no transparency channel. Asking for a 'transparent' background gives a painted checkerboard or a plain backdrop. Recovering soft edges from a white and a black version works only if the two images line up pixel for pixel.",
+    "detail": "Transparify (vendor), Jun 7, 2026: 'Google's image models output flat RGB pixels with no alpha channel'. A painted checkerboard is made of 'real, opaque pixels, not transparency', so leave the word 'transparent' out of prompts. To get the black version, edit the white render rather than generating again, because a fresh render 'may shift slightly and introduce artifacts'. Green is suggested as a fallback. A second vendor, image-editor-ai.online (Sep 13, 2026), gives prompts for white, light grey and #00FF00 backdrops and notes that hair, fur and translucent edges rarely cut cleanly.",
+    "source_url": "https://transparify.app/blog/gemini-transparent-background",
+    "source_date": "2026-06-07",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "The basic rule of colour keying is that the subject must not contain the background colour. Green and blue are used because they differ from skin tones, colour can spill onto edges, any flat distinct colour works, and magenta #FF00FF is a classic digital key colour.",
+    "detail": "Wikipedia, 'Chroma key'. Quote: 'No part of the subject being filmed or photographed may duplicate the colour used as the backing.' Quote: 'green and blue backgrounds... differ most distinctly in hue from any human skin colour.' It describes spill. Quote: 'chroma keying can be done with backgrounds of any colour that are uniform and distinct.' It mentions 'full-intensity magenta colour #FF00FF in digital colour images to encode (1-bit) transparency'.",
+    "source_url": "https://en.wikipedia.org/wiki/Chroma_key",
+    "source_date": "unknown",
+    "source_kind": "third_party",
+    "confidence": "high"
+   },
+   {
+    "claim": "Research shows that naming what to leave out can backfire: diffusion image models such as Stable Diffusion and DALL-E 3 often draw the very thing the prompt says to omit.",
+    "detail": "Hwang, Kim and Lee, 'Do not think about pink elephant!' (CVPR 2024 workshop), which calls it the 'white bear phenomenon'. Their defences describe alternative concepts instead of negating. Gemini image models were not tested. The finding supports Google's own advice to phrase requests positively.",
+    "source_url": "https://arxiv.org/abs/2404.15154",
+    "source_date": "2024-04",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "A creator's Flow workflow: make the character sheet at 16:9, generate two versions and pick one, use 'add to prompt', and upload both sheets together when a scene has two characters.",
+    "detail": "Summary on lilys.ai of the AI Video School YouTube video 'Consistent Character Sheets in Nano Banana' (Jan 23, 2026). The creator says 16:9 'works better' for sheets and checks fidelity by spinning the character in a video.",
+    "source_url": "https://lilys.ai/en/notes/nano-banana-20260127/consistent-character-sheets-nano-banana",
+    "source_date": "2026-01-23",
+    "source_kind": "community",
+    "confidence": "low"
+   },
+   {
+    "claim": "When Nano Banana 2 launched (Feb 26, 2026), it replaced Nano Banana Pro in all Gemini app modes. Pro stayed available to Pro and Ultra subscribers through regenerate. At launch Google claimed five characters and 14 objects; the current API page says 4 and 10.",
+    "detail": "9to5Google, Feb 26, 2026: 'character resemblance of up to five characters and the fidelity of up to 14 objects in a single workflow'. It was the default image model in Flow at launch. Pro access: 'by regenerating images via the three-dot menu'. The current API page (Oct 2026) gives 4 characters and 10 objects for 2.1 and 3.1 Flash Image, so treat 4 as the safe limit.",
+    "source_url": "https://9to5google.com/2026/02/26/nano-banana-2-gemini-app/",
+    "source_date": "2026-02-26",
+    "source_kind": "third_party",
+    "confidence": "medium"
+   },
+   {
+    "claim": "A practitioner's reference-sheet layout (Apr 2026): full-body front, side and back views on the left; six head angles and six detail close-ups on the right; a white background; and the wording 'Same character. Same clothes. Same height.'",
+    "detail": "pIXELsHAM, Apr 18, 2026. The sheet was made in Nano Banana and used as a reference in a video model. Quotes: 'White background. Clean. Minimalist.' and 'No fancy backgrounds', 'No dramatic lighting'. No tested limit on figure count.",
+    "source_url": "https://www.pixelsham.com/2026/04/18/creating-a-character-sheet-for-ai-videos-using-nano-banana/",
+    "source_date": "2026-04-18",
+    "source_kind": "third_party",
+    "confidence": "low"
+   }
+  ],
+  "implications": [
+   "Model choice: make every reference-based image (sheet, scene, cut-out) with Nano Banana 2.1. In Flow, select it by hand because the free default is 2 Lite. In the Gemini app, use any model except Flash-Lite. Use Nano Banana Pro only when one image must hold 5 named characters or needs dedicated style references. Never use 2 Lite with a reference sheet. Basis: API model list, Gemini and Flow help pages, the 2.1 model card scores, and the vendor test where Lite drifted in style.",
+   "Style block: keep one STYLE BLOCK per channel as a versioned text file and paste it unchanged into every prompt. Build it from the extracted traits, described positively: a plain white circular head with a thick black outline; a face made only of two small solid black dot eyes and one simple line mouth, with short eyebrow strokes only when an expression needs them; neck and arms as single thick black lines; small white oval mitten hands outlined in black; flat, muted earth-tone clothing and props with light texture and minimal soft shading; one uniform outline weight; a plain background. End with one short 'Never add' line: nose, ears, hair, fingers, pupils or irises, skin colour on the head, gradients, 3D or photo look. Basis: Google's advice to phrase positively and name visual details, plus the reports of models polishing simple styles and adding numerals despite 'no numbers'.",
+   "Third-party sheet: never attach the third-party sheet, and never copy its title or brand words into any prompt. Google requires rights to uploaded images. Its traits live only as text in the STYLE BLOCK, and our own approved sheet is the only image we use as a reference.",
+   "Character card: keep one card per character and reuse it word for word. It holds a unique one-word NAME (also the sheet label), height in head-units relative to the main character, each clothing item with its colour, one distinctive silhouette accessory, and the side of any one-sided item (stated from the character's own left or right). Every head is the same white circle, so tell characters apart by height, garment shape and colour, and one accessory, never by facial features. Basis: DeepMind's 'assign a distinct name', traditional comparison sheets, and Google's note about left/right confusion.",
+   "Sheet prompt (the owner's one-image requirement): for each script, write one 'Cast & Pose Sheet' prompt that produces a single 16:9 image, structured like Google's notebook (Scene, Setting, rows, Text). Use a flat pure white background. Row 1 is the cast lineup: each character in front view, side by side, feet on one shared ground line, same scale, main character first as the height reference, name label underneath. The next row or two show every pose the script uses, each labelled 'NAME - pose' in quotes. The last row shows only the expression heads the script uses. Every figure is complete and not overlapping, with even spacing and no scenery. Include left and right side views of the main character. Basis: Google's notebook, its side-view note, comparison-sheet practice, and DeepMind's quote rule for text.",
+   "Sheet size and budget: put at most 4 named characters (animals included) on a sheet, or 5 if using Pro. As a starting budget to test, not a proven limit, use about 12-14 full-body figures plus about 12 expression heads. That matches the density of the third-party reference. Generate at 2K (2752x1536) or 4K. With the same layout, 2K gives each item about 1.7 times the pixels of the 1644x910 reference: roughly 550 px per full-body figure and 175 px per head. 1K gives about 0.84 times: roughly 275 px and 90 px, where Google says small faces and text blur. Gemini app downloads are 1K without a paid plan. Count figures and labels on every sheet, because the model does not always produce the exact number asked for.",
+   "When the script needs more than the budget: keep one image, but first drop turnaround views the script never uses and keep expression heads for the main character only. Split onto a second sheet only as a last resort, and tell the owner when you do.",
+   "Build the sheet in stages: (1) a text-only style anchor of the main character on white, approved by the owner; (2) the cast lineup, with the anchor attached as Image 1; (3) the full Cast & Pose Sheet, with the lineup attached. Fix an off-model figure with one targeted edit ('change only the figure labelled ...'), or regenerate that figure alone and paste it in with an editor. The approved result is still one image. Basis: Google's advice to attach earlier outputs, the notebook workflow, and practitioners who assemble views separately.",
+   "Sheet checklist before use: check every figure for the white circular head, dot eyes and line mouth; no nose, ears or hair; mitten hands; the same outline weight; costume pieces and colours that match the card; one-sided items on the stated side; heights that match the lineup; label spelling; and the figure count. Reject a flawed sheet rather than use it, because every later image inherits its errors.",
+   "Scene prompt template, following Google Cloud's references + relationship + new scenario formula. Start with numbered roles: 'Image 1: the approved Cast & Pose Sheet for this video (character reference only).' Optionally add 'Image 2: pose reference cut from Image 1.' and 'Image 3: previous scene; keep its background and lighting.' Then the relationship: 'Draw NAME, the character labelled \"NAME\" in Image 1, exactly as drawn there: same head, face, outline weight, clothing, colours and proportions.' Then the new scenario: action, pose, position in frame, camera, props, and explicit removals such as 'NAME is no longer holding the spear'. Then: 'Draw only the characters named here; do not reproduce the sheet's layout, labels or other figures.' Finish with the STYLE BLOCK and '16:9 landscape'. Basis: Google's notebook and DeepMind's naming advice; the 'do not reproduce' line guards against the copy-from-input failure in the model cards.",
+   "Attachments: attach the master sheet to every generation that needs consistent characters. Add at most one pose crop and one previous scene. Stay at 4 or fewer character images per request on 2.1 (the Gemini app also caps a prompt at 10 files). The output takes the aspect ratio of the input image, the last one when several are attached, so attach the 16:9 sheet last and also write '16:9 landscape'.",
+   "Pose crops: if the scene needs a pose that is on the sheet, cut that one figure from the approved sheet and attach it as the pose reference, as Google advises for complex poses. If the pose is not on the sheet, attach no pose crop, because 2.1 can keep the pose of the input image. Describe the pose in words and add it to the next sheet.",
+   "Edit or regenerate: for one local defect (a hand, a prop, an expression), make one targeted edit in the same chat with Google's template: 'change only [X] ... Keep everything else in the image exactly the same, preserving the original style, lighting, and composition.' Stop after 2-3 chained edits; quality degrades with long edit chains. If identity, costume or style is wrong, regenerate from Image 1 in a new chat.",
+   "Chat hygiene: use one chat for each batch of about 5-8 images that share a location or chapter, and start each batch in a new chat with the sheet attached again. Start a new chat whenever outputs go back to older images, ignore the reference, or start looking cleaner and more polished. Review each batch side by side against the sheet, not one image at a time. Basis: Google's Developers Blog, plus three practitioner reports.",
+   "Wording for minimal features: say what the face is before what it lacks, for example 'the face is only two dots and a short line; the rest of the circle is plain white', then add the short 'Never add' line. Write 'small white oval mitten hands' rather than 'no fingers'; the model turned 'no fingers' into mittens anyway. For expressions, name the exact marks, for example 'two short slanted eyebrow strokes, downturned line mouth'.",
+   "Left and right: state the facing direction and every one-sided detail from the character's own side in each prompt, for example 'facing right, pouch on his left hip'. Keep left and right side views on the sheet, and check every output for flips. Prefer symmetric costumes for recurring characters. Basis: Google's model cards list left/right confusion, the notebook needed side views, and the vendor test saw a cap brim flip.",
+   "Style across scenes: keep three fixed pieces per video and reuse them word for word: the STYLE BLOCK; a PALETTE line with named colours, hex values as rough hints, and one background description (for example 'flat warm off-white paper, simple flat ground line'); and the cast sheet. Make the first scene of each video carefully and attach it as the previous scene for the next ones, so background, lighting and palette carry over. Hex colours come out only approximately, so correct exact colours afterwards. Pro can also take up to 3 style references if needed.",
+   "Animals and recurring props: put recurring animals on the cast sheet as cast members; they count toward the 4-character limit. Describe them with the STYLE BLOCK vocabulary (same outline weight, flat earth-tone fills, dot eyes, simple shapes) and avoid realism words such as 'fur texture' or 'anatomically accurate'. Put recurring props on the sheet, or on a separate prop sheet as Google's notebook suggests, because details that are not shown or described change between runs. I found no direct source for animals, so this needs testing.",
+   "Labels and text: keep sheet labels short, in quotes, in one described lettering style ('plain black hand-lettered capitals'), and large enough at 2K; check spelling and redo the lettering in an editor if needed. Scene images should carry no lettering at all, phrased positively ('all signs and surfaces are blank'); captions are added later in Remotion. Basis: blurry small text at 1K, mixed fonts in the xkcd test, and numerals added despite 'no numbers'.",
+   "Cut-out prompts: for character-only images meant to be cut out, ask for a 'flat, uniform pure chroma-green (#00FF00) background filling the whole frame; no floor, ground line, cast shadow, gradient or glow; the whole figure visible with a clear margin, not touching the edges'. Our white, black and earth-tone characters contain no green. Switch to magenta #FF00FF when the character or props contain green, such as plants or leaves. Never write 'transparent', because the model paints a fake checkerboard.",
+   "Background colour choice: do not use white for cut-outs. The heads and hands are white, so removing white by colour would delete them and leave white pockets between limbs and body; white works only with an AI background remover and checking each image. Avoid grey, which is close to the muted grey-brown clothing (my reasoning, not tested). Keep the reference sheet itself on white, which matches the style and Google's own sheet practice.",
+   "Cut-out script: take the background colour from the four corners, because the model returns a near-green, not exact #00FF00. Remove that colour with a tolerance range, clean green spill from edge pixels, and tighten or widen the mask by 1-2 px. Preview each cut-out on dark and light backgrounds and check thin outlines and enclosed gaps. Optional route for softer edges: edit the same image so only the background turns pure black, then compute transparency from the white/black pair. Use it only if the two images line up pixel for pixel.",
+   "Watermark: on free or Google AI Pro accounts the Gemini app adds a visible sparkle in the bottom-right corner. Keep characters and key content out of that corner in every prompt. Crop the sparkle off the sheet before re-attaching it, because the model sometimes copies parts of input images into outputs (my precaution, not tested). Plan the Remotion crop accordingly.",
+   "Frame resolution: for 2560x1440 frames, generate at 2K 16:9 (2752x1536) and scale down. A 1K image (1376x768) would have to be upscaled, and free Gemini app accounts only get 1K downloads.",
+   "Flow workflow: upload the approved sheet once and give it a clear name (for example cast_sheet_ep003). Reference it with Add to Prompt or @name, set 16:9, choose Nano Banana 2.1, and generate 2-4 versions per prompt to pick the one closest to the sheet. Earlier versions stay in the image's history.",
+   "Record keeping: save each approved sheet with its exact prompt, tool, model, date and STYLE BLOCK version in the video folder, as Google's notebook does by storing the prompt in PNG metadata. This lets a sheet be regenerated or traced later.",
+   "Language: write all image prompts, labels and names in English. English is among Google's best-supported languages, and one language keeps the STYLE BLOCK stable.",
+   "Test before locking the templates: for each channel, generate one sheet at 2K, then 10 scenes with the sheet attached. Log every failure type (nose, hair or fingers added; costume change; colour shift; left/right flip; labels leaking into scenes; style polishing). Use the log to tune the 'Never add' line and the figure budget."
+  ],
+  "open_questions": [
+   "Do the Gemini app and Flow generate natively at 2K or 4K, or do they generate at 1K and upscale on download? DeepMind calls it an 'upscale'. This decides how many figures fit on one sheet before faces and labels become unreliable.",
+   "Does one sheet showing several characters count as one 'character image' toward the 4-character limit for Nano Banana 2.1? Does a combined sheet work as well as separate per-character references? No Google source says; it needs a side-by-side test.",
+   "How many figures can one 16:9 sheet hold reliably for this minimal style on Nano Banana 2.1? No published test exists, so 12, 18 and 24 items should be compared at 2K.",
+   "Which image model does the Gemini app use today in each mode: Nano Banana 2 (as the help page says) or 2.1 (as the overview page says)? Does choosing Thinking or Pro raise the image model's thinking level, which Google's ratings link to better multi-character consistency?",
+   "How many reference images can one Flow image generation take, and what resolution and upscale options does Flow offer? Third-party posts claim 10 references and paid-only 4K; official Flow help pages do not say.",
+   "I found no source with failure rates for stick-figure details specifically (a nose, ears, hair or fingers appearing, the head shading to skin colour). The suggested wording is untested for this style.",
+   "Do labels, figures from the sheet, or the sparkle watermark actually get copied into scene images? The model cards mention occasional copying from input images, but nobody has tested it with sheets.",
+   "Does asking for a green background change how the character is drawn (green reflections, an outline glow)? Does removing the green leave fringes on thin black outlines? This needs a test with the actual style.",
+   "Has the visible-watermark policy changed since Nov 2025? A vendor claims a settings toggle since Aug 2026, which I could not confirm.",
+   "Do animals drawn in this minimal style stay consistent, or do they drift toward realism? I found no source.",
+   "Does the Gemini app download images as PNG or JPEG? JPEG compression would make green-screen removal less clean.",
+   "The current API page says 4 characters for Nano Banana 2.1; Google's Feb 2026 launch claims said 5 for Nano Banana 2. Which holds in the consumer apps?"
+  ]
+ }
+}

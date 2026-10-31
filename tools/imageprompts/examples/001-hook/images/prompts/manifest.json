@@ -1,0 +1,343 @@
+{
+ "video": "001-hook",
+ "style": "stickman-v1",
+ "items": [
+  {
+   "id": "sheet_worker",
+   "kind": "model_sheet",
+   "character": "WORKER",
+   "refs": [],
+   "save_as": "refs/sheet_worker.png",
+   "approve": true,
+   "route": "manual",
+   "seq": 1,
+   "prompt_file": "prompts/001_sheet_worker.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "cast_sheet",
+   "kind": "cast_sheet",
+   "characters": [
+    "WORKER",
+    "PAY",
+    "RENT"
+   ],
+   "poses": [
+    [
+     "WORKER",
+     "presenting"
+    ],
+    [
+     "WORKER",
+     "balancing"
+    ],
+    [
+     "RENT",
+     "running"
+    ],
+    [
+     "PAY",
+     "running_tired"
+    ],
+    [
+     "PAY",
+     "running"
+    ],
+    [
+     "WORKER",
+     "thinking"
+    ],
+    [
+     "WORKER",
+     "waving"
+    ],
+    [
+     "WORKER",
+     "holding_paper"
+    ],
+    [
+     "WORKER",
+     "shrugging"
+    ],
+    [
+     "WORKER",
+     "pointing"
+    ]
+   ],
+   "heads": [
+    "neutral",
+    "worried",
+    "smiling",
+    "tired",
+    "determined",
+    "surprised",
+    "confused",
+    "happy"
+   ],
+   "refs": [
+    "refs/sheet_worker.png"
+   ],
+   "save_as": "refs/cast_sheet.png",
+   "approve": true,
+   "route": "manual",
+   "seq": 2,
+   "prompt_file": "prompts/002_cast_sheet.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-01",
+   "kind": "scene",
+   "order": 1,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/001_01-01.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "manual",
+   "seq": 3,
+   "prompt_file": "prompts/003_01-01.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-02",
+   "kind": "scene",
+   "order": 2,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/002_01-02.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 4,
+   "prompt_file": "prompts/004_01-02.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-03",
+   "kind": "scene",
+   "order": 3,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/003_01-03.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "RENT",
+    "PAY"
+   ],
+   "route": "agy",
+   "seq": 5,
+   "prompt_file": "prompts/005_01-03.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-04",
+   "kind": "scene",
+   "order": 4,
+   "refs": [
+    "refs/cast_sheet.png",
+    "frames/003_01-03.png"
+   ],
+   "save_as": "frames/004_01-04.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "PAY",
+    "RENT"
+   ],
+   "route": "agy",
+   "seq": 6,
+   "prompt_file": "prompts/006_01-04.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-05",
+   "kind": "scene",
+   "order": 5,
+   "refs": [
+    "refs/cast_sheet.png",
+    "frames/004_01-04.png"
+   ],
+   "save_as": "frames/005_01-05.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 7,
+   "prompt_file": "prompts/007_01-05.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-06",
+   "kind": "scene",
+   "order": 6,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/006_01-06.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 8,
+   "prompt_file": "prompts/008_01-06.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-07",
+   "kind": "scene",
+   "order": 7,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/007_01-07.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 9,
+   "prompt_file": "prompts/009_01-07.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-08",
+   "kind": "scene",
+   "order": 8,
+   "refs": [
+    "refs/cast_sheet.png",
+    "frames/007_01-07.png"
+   ],
+   "save_as": "frames/008_01-08.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 10,
+   "prompt_file": "prompts/010_01-08.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-09",
+   "kind": "scene",
+   "order": 9,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/009_01-09.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 11,
+   "prompt_file": "prompts/011_01-09.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-10",
+   "kind": "scene",
+   "order": 10,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/010_01-10.png",
+   "approve": false,
+   "notes": [],
+   "characters": [],
+   "route": "agy",
+   "seq": 12,
+   "prompt_file": "prompts/012_01-10.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-11",
+   "kind": "scene",
+   "order": 11,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/011_01-11.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 13,
+   "prompt_file": "prompts/013_01-11.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-12",
+   "kind": "scene",
+   "order": 12,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/012_01-12.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 14,
+   "prompt_file": "prompts/014_01-12.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-13",
+   "kind": "scene",
+   "order": 13,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/013_01-13.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 15,
+   "prompt_file": "prompts/015_01-13.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-14",
+   "kind": "scene",
+   "order": 14,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/014_01-14.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "WORKER"
+   ],
+   "route": "agy",
+   "seq": 16,
+   "prompt_file": "prompts/016_01-14.txt",
+   "style": "stickman-v1"
+  }
+ ]
+}

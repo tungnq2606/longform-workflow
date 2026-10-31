@@ -1,0 +1,7 @@
+Patrick Hand (fonts/PatrickHand-Regular.ttf)
+Copyright (c) 2010-2012 Patrick Wagesreiter (mail@patrickwagesreiter.at)
+Licensed under the SIL Open Font License, Version 1.1 (26 February 2007).
+Full license text: https://openfontlicense.org/open-font-license-official-text/
+Source: https://github.com/google/fonts/tree/main/ofl/patrickhand (OFL.txt)
+OFL allows use in commercial work (images, video). The font file itself must not be sold on its own;
+if the font file is redistributed, this notice and the OFL must go with it.

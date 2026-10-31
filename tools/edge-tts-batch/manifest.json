@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "TTS Batch Runner (ElevenLabs, local)",
+  "version": "0.1.0",
+  "description": "Upload .txt files, paste each into ElevenLabs Text to Speech, generate, and save the audio under the same file name.",
+  "permissions": [
+    "downloads",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://elevenlabs.io/*",
+    "https://*.elevenlabs.io/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "TTS Batch Runner",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://elevenlabs.io/*",
+        "https://*.elevenlabs.io/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

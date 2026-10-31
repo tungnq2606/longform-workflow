@@ -1,0 +1,62 @@
+{
+  "title": "Rent vs pay",
+  "style": "stickman-v1",
+  "era": null,
+  "characters": [
+    {
+      "name": "WORKER",
+      "kind": "human",
+      "main": true,
+      "model_sheet": true,
+      "sheet_poses": [
+        "waving",
+        "holding_paper",
+        "pointing",
+        "shrugging",
+        "thinking",
+        "running",
+        "presenting",
+        "balancing"
+      ],
+      "card": "a young American full-time worker. Faded dusty-blue button-up work shirt with sleeves rolled to the elbow, worn untucked; khaki chino trousers; plain brown belt; grey sneakers; a navy canvas messenger bag on the character's own right hip, strap across the chest; a lanyard with a blank white ID card. No logos and no writing on any clothing."
+    },
+    {
+      "name": "PAY",
+      "kind": "human",
+      "card": "a runner who stands for pay, the same height as WORKER. Muted sage-green zip tracksuit jacket and matching trousers, white sneakers, a white sweatband on the character's own left wrist; carries a rolled-up paycheck like a relay baton in the character's own right hand. No writing on clothing.",
+      "model_sheet": true,
+      "sheet_poses": [
+        "running",
+        "running_tired"
+      ]
+    },
+    {
+      "name": "RENT",
+      "kind": "human",
+      "card": "a runner who stands for rent, the same height as WORKER. Muted burnt-orange tracksuit jacket, dark grey trousers, orange sneakers, a small brick-red backpack shaped like a little house on the back. No writing on clothing.",
+      "model_sheet": true,
+      "sheet_poses": [
+        "running"
+      ]
+    }
+  ],
+  "poses": {
+    "presenting": "standing, one arm stretched out to the side with the palm up, presenting the empty space next to them",
+    "balancing": "balancing on a tightrope with both arms stretched out sideways and the knees slightly bent",
+    "waving": "waving hello with one arm raised high",
+    "holding_paper": "holding up a sheet of paper in front of the chest with both hands",
+    "shrugging": "shrugging with both forearms raised and the palms up",
+    "thinking": "thinking with one hand on the chin and the other arm hanging",
+    "pointing": "pointing to the right with one arm held straight out",
+    "running": "running fast, leaning forward, the legs as stick lines in a long stride",
+    "running_tired": "running but tired, leaning back a little with heavy steps"
+  },
+  "locations": {
+    "living_room": "a tidy, modest apartment living room in a US city: a small sofa, a window with city buildings outside, a floor lamp and a rug",
+    "tightrope": "a tightrope stretched between two tall wooden poles high above a city street at sunset, buildings far below",
+    "track": "an outdoor running track at dusk, white lane lines, simple stadium stands far behind, a finish line on the right",
+    "street": "a quiet US neighbourhood street with small apartment buildings, a parked compact car and a sidewalk with trees",
+    "houses": "a row of eight small houses side by side along a residential street, some porch lights on",
+    "kitchen": "a small apartment kitchen table with a laptop, a calculator, a stack of bills and a mug, a wall calendar behind"
+  }
+}

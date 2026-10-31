@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Local timeline editor</title>
+<style>
+body{margin:0;background:#161614;color:#eceae3;font:14px system-ui}
+main{display:grid;grid-template-columns:640px 1fr;gap:16px;padding:14px;height:calc(100vh - 28px)}
+#left{position:sticky;top:14px;align-self:start}
+#stage{width:640px;height:360px;background:#000;border-radius:8px;overflow:hidden;position:relative}
+#stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.bar{display:flex;gap:8px;align-items:center;margin:8px 0;flex-wrap:wrap}
+button,select,input{background:#2a2a27;color:#eee;border:1px solid #444;border-radius:6px;padding:6px 10px;font:inherit}
+input[type=number]{width:70px}
+#list{overflow:auto;max-height:calc(100vh - 60px)}
+.row{display:grid;grid-template-columns:90px 1fr;gap:10px;padding:6px;border-bottom:1px solid #333;cursor:pointer}
+.row.on{background:#2a2a27}.row img{width:90px;border-radius:4px}
+.t{color:#f08a4b}.s{color:#9a988f;font-size:12px}
+#tl{position:relative;height:46px;background:#222;border-radius:6px;overflow:hidden;margin-top:6px}
+#tl div{position:absolute;top:0;bottom:0;border-right:1px solid #161614;background:#3a4a5a}
+#tl div.on{background:#f08a4b}#head{position:absolute;top:0;bottom:0;width:2px;background:#fff}
+</style></head><body><main>
+<div id="left">
+  <div id="stage"><img id="big"></div>
+  <div id="tl"></div>
+  <div class="bar"><button id="play">Play</button><button id="prev">&larr;</button><button id="next">&rarr;</button><span id="info" class="s"></span></div>
+  <div class="bar" id="edit">
+    <label>duration <input id="dur" type="number" step="0.1" min="0.3"></label>
+    <label>zoom <select id="zoom"><option>none</option><option>in</option><option>out</option></select></label>
+    <label>fade <input id="fade" type="number" step="0.05" min="0" max="1"></label>
+    <button id="reflow" title="shift following clips so there are no gaps/overlaps">Reflow starts</button>
+  </div>
+  <div class="bar"><label>music file <input id="music" placeholder="../music/track.mp3 (optional)" size="28"></label><label>vol <input id="mvol" type="number" step="0.01" min="0" max="1" value="0.10"></label></div>
+  <div class="bar"><button id="save">Save project.json</button><span class="s">then run ./render project.json</span></div>
+</div>
+<div id="list"></div>
+</main>
+<script src="project.js"></script>
+<script>
+const P=PROJECT, big=document.getElementById('big'), info=document.getElementById('info');
+let cur=0, playing=false, t0=0, raf=null, auds=[];
+const $=id=>document.getElementById(id);
+const fmt=s=>Math.floor(s/60)+':'+String((s%60).toFixed(2)).padStart(5,'0');
+const total=()=>Math.max(...P.clips.map(c=>c.start+c.duration));
+function build(){
+  const L=$('list'); L.innerHTML='';
+  P.clips.forEach((c,i)=>{const d=document.createElement('div');d.className='row';
+    d.innerHTML='<img src="'+c.image+'"><div><span class="t">#'+(i+1)+' '+fmt(c.start)+' ('+c.duration.toFixed(2)+' s)</span><br><span class="s">'+c.image.split('/').pop()+' · zoom '+(c.zoom||'none')+' · fade '+(c.fade||0)+'</span><br>'+(c.says||'')+'</div>';
+    d.onclick=()=>{stop();show(i)};L.appendChild(d)});
+  const T=$('tl'); T.innerHTML='<div id="head"></div>'; const tt=total();
+  P.clips.forEach((c,i)=>{const b=document.createElement('div');b.style.left=(c.start/tt*100)+'%';b.style.width=(c.duration/tt*100)+'%';b.dataset.i=i;b.onclick=()=>{stop();show(i)};T.appendChild(b)});
+}
+function show(i){cur=i;const c=P.clips[i];big.src=c.image;
+  info.textContent='#'+(i+1)+' '+fmt(c.start)+' – '+fmt(c.start+c.duration);
+  $('dur').value=c.duration;$('zoom').value=c.zoom||'none';$('fade').value=c.fade||0;
+  [...$('list').children].forEach((r,k)=>r.classList.toggle('on',k===i)); [...$('tl').querySelectorAll('div[data-i]')].forEach(b=>b.classList.toggle('on',Number(b.dataset.i)===i));
+  $('list').children[i]?.scrollIntoView({block:'nearest'});}
+function apply(){const c=P.clips[cur];c.duration=Number($('dur').value);c.zoom=$('zoom').value;c.fade=Number($('fade').value);build();show(cur)}
+['dur','zoom','fade'].forEach(id=>$(id).onchange=apply);
+$('reflow').onclick=()=>{let t=0;P.clips.forEach(c=>{c.start=Math.round(t*1000)/1000;t+=c.duration});build();show(cur)};
+function stop(){playing=false;cancelAnimationFrame(raf);auds.forEach(a=>a.pause());auds=[];$('play').textContent='Play'}
+function playFrom(i){
+  playing=true;$('play').textContent='Stop';const base=P.clips[i].start;t0=performance.now()-base*1000;
+  auds=P.audio.map(a=>{const e=new Audio(a.file);e.volume=a.volume??1;return {a,e,started:false}}).map(x=>x.e&&x);
+  const tick=()=>{if(!playing)return;const t=(performance.now()-t0)/1000;
+    let idx=0;P.clips.forEach((c,k)=>{if(c.start<=t)idx=k});if(idx!==cur)show(idx);
+    auds.forEach(x=>{const rel=t-x.a.start;if(!x.started&&rel>=0&&rel<(x.e.duration||999)){x.e.currentTime=rel;x.e.play();x.started=true}});
+    $('tl').querySelector('#head').style.left=(t/total()*100)+'%';
+    if(t>total()){stop();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)}
+$('play').onclick=()=>playing?stop():playFrom(cur);
+$('prev').onclick=()=>{stop();show(Math.max(0,cur-1))};$('next').onclick=()=>{stop();show(Math.min(P.clips.length-1,cur+1))};
+$('save').onclick=()=>{const m=$('music').value.trim();P.music=m?{file:m,start:0,volume:Number($('mvol').value)}:null;
+  const blob=new Blob([JSON.stringify(P,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='project.json';a.click()};
+build();show(0);
+</script></body></html>

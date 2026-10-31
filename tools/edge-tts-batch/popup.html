@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{--bg:#fff;--fg:#1a1a1a;--mut:#6b6b66;--bd:#dddcd5;--ac:#b4410a}
+  @media(prefers-color-scheme:dark){:root{--bg:#1e1e1b;--fg:#eceae3;--mut:#9a988f;--bd:#3a3935;--ac:#f08a4b}}
+  body{margin:0;width:330px;background:var(--bg);color:var(--fg);font:13px/1.45 system-ui,sans-serif}
+  .wrap{padding:12px}
+  h1{font-size:14px;margin:0 0 8px}
+  .btn{display:block;width:100%;box-sizing:border-box;padding:8px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--fg);cursor:pointer;font:inherit;text-align:center}
+  .btn.primary{background:var(--ac);border-color:var(--ac);color:#fff;margin-top:8px}
+  .btn:disabled{opacity:.5;cursor:default}
+  #list{max-height:150px;overflow:auto;margin:8px 0 0;padding:0;list-style:none;font-size:12px}
+  #list li{display:flex;align-items:center;gap:8px;padding:2px 0;border-bottom:1px solid var(--bd)}
+  #list li span:first-child{flex:1}
+  .x{border:0;background:none;color:var(--mut);font-size:16px;line-height:1;cursor:pointer;padding:0 4px}
+  .x:hover{color:var(--ac)} .x:disabled{opacity:.3;cursor:default}
+  .mut{color:var(--mut);font-size:12px;margin-top:6px}
+  #log{white-space:pre-wrap;font:11px/1.4 ui-monospace,monospace;max-height:110px;overflow:auto;margin-top:8px;color:var(--mut)}
+  #pick{display:none}
+  a{color:var(--mut);font-size:11px;cursor:pointer;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>TTS Batch Runner</h1>
+  <label class="btn" for="pick">Chọn file .txt</label>
+  <input id="pick" type="file" accept=".txt,text/plain" multiple>
+  <ul id="list"></ul>
+  <div id="total" class="mut"></div>
+  <a id="clearAll" style="display:none">Xóa hết danh sách</a>
+  <button id="run" class="btn primary" disabled>Run</button>
+  <button id="stop" class="btn" style="margin-top:6px;display:none">Stop</button>
+  <div id="log"></div>
+  <div class="mut"><a id="win">Mở cửa sổ riêng</a> (nếu popup đóng khi chọn file)</div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>

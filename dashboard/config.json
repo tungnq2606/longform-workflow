@@ -1,0 +1,43 @@
+{
+ "port": 8765,
+ "claude": {
+  "permission_mode": "acceptEdits",
+  "allowed_tools": [
+   "Read",
+   "Edit",
+   "Write",
+   "Glob",
+   "Grep",
+   "WebSearch",
+   "WebFetch",
+   "Bash(python3 tools/*)",
+   "Bash(python3 dashboard/*)",
+   "Bash(tools/*)",
+   "Bash(ls *)",
+   "Bash(cat *)",
+   "Bash(head *)",
+   "Bash(wc *)",
+   "Bash(sips *)",
+   "Bash(yt-dlp *)",
+   "Bash(npx remotion *)"
+  ]
+ },
+ "gemini": {
+  "agy": "~/.local/bin/agy",
+  "model": "gemini-4-argon-high",
+  "fast_model": "gemini-4-argon-high",
+  "note": "Gemini does reading-heavy work (topic ideas, research, source gathering, competitor notes) through the Antigravity CLI on the Google plan quota; it runs in dashboard/agy_work with tool prompts skipped, inside agy's terminal sandbox.",
+  "workers": 4
+ },
+ "extra_channels": [
+  {
+   "id": "demo",
+   "name": "Ví dụ (thử nghiệm quy trình ảnh)",
+   "videos": "tools/imageprompts/examples"
+  }
+ ],
+ "gflow": {
+  "window_position": "3830,1070",
+  "note": "macOS keeps windows on a screen: this lands the gflow Chrome window in the bottom-right corner of the second display (measured 2026-10-28). Empty string = Chrome's own placement."
+ }
+}

@@ -1,0 +1,736 @@
+{
+ "updated": "2026-10-30",
+ "lessons": [
+  {
+   "count": 2,
+   "examples": [
+    "002-bach-dang/S06A"
+   ],
+   "id": "submerged-objects-fully-underwater",
+   "rule": "Render any objects described as submerged or covered by high tide deep below a continuous unbroken water surface as faint underwater silhouettes beneath floating hulls, keeping every tip and shadow completely below the waterline.",
+   "target": "image",
+   "when": [
+    "submerged",
+    "underwater",
+    "sunken",
+    "tide",
+    "below the surface",
+    "beneath the water"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 3,
+   "examples": [
+    "002-bach-dang/S06A",
+    "002-bach-dang/S08B",
+    "002-bach-dang/S07A"
+   ],
+   "id": "small-boat-oars-and-rowers",
+   "rule": "Show the exact prompted number of rowers gripping oars that dip into the water on both sides of every moving small boat or canoe, and stow any unheld oars inside the hull.",
+   "target": "image",
+   "when": [
+    "boat",
+    "boats",
+    "canoe",
+    "oars",
+    "rower",
+    "paddle"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 6,
+   "examples": [
+    "002-bach-dang/S06A",
+    "003-dia-dao-cu-chi/S02A"
+   ],
+   "id": "character-head-turn-and-gaze",
+   "rule": "Point each character's head, nose, and eye line unmistakably toward the exact left-or-right frame side and in-scene target or task described in the prompt rather than toward the camera, placing distant horizon cues squarely in their line of sight and rotating their chin and face profile clearly over the specified shoulder whenever looking back even while their hands, kneeling torso, companion, or boat face the opposite way.",
+   "target": "image",
+   "when": [
+    "look",
+    "looking",
+    "looks",
+    "watching",
+    "peering",
+    "gaze"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 3,
+   "examples": [
+    "002-bach-dang/S04A",
+    "003-dia-dao-cu-chi/S03A",
+    "003-dia-dao-cu-chi/S03B"
+   ],
+   "id": "original-composition-from-style-reference",
+   "rule": "Build the entire scene layout, foreground, and vegetation strictly from the prompt's setting, adopting only linework, brushwork, and color palette from style reference images without copying their objects, plants, or terrain.",
+   "target": "image",
+   "when": [],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S08B"
+   ],
+   "id": "impaled-hulls-and-fleet-wreckage",
+   "rule": "Show impaling stakes punching visibly up into splintered lower hull planks beneath listing ships, and carry broken masts and tilted hulls consistently across distant wrecked vessels.",
+   "target": "image",
+   "when": [
+    "impale",
+    "impaled",
+    "pierced",
+    "wreck",
+    "wrecked",
+    "stranded"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S08C"
+   ],
+   "id": "waterfront-gate-bridge-or-landing",
+   "rule": "Connect any fortress or city gate facing a moat or water channel to a visible bridge, causeway, or stone landing rather than opening the doorway straight into open water.",
+   "target": "image",
+   "when": [
+    "moat",
+    "citadel",
+    "fortress",
+    "gatehouse",
+    "city gate"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 11,
+   "examples": [
+    "002-bach-dang/S03A",
+    "002-bach-dang/S03B",
+    "002-bach-dang/S04A",
+    "002-bach-dang/S06A",
+    "002-bach-dang/S09B",
+    "003-dia-dao-cu-chi/S05A",
+    "003-dia-dao-cu-chi/S02B",
+    "003-dia-dao-cu-chi/S06C",
+    "003-dia-dao-cu-chi/S10A",
+    "003-dia-dao-cu-chi/S10B"
+   ],
+   "id": "rigid-prop-scale-and-layer-separation",
+   "rule": "Keep all rigid tools and their exact starting blade or head geometry, vehicles and aircraft, carried objects, doors or hatch lids, wall lamps, ground openings, and stationary foreground props or foliage at fixed proportions with crisp outlines and clean layer separation across the entire clip, halting or spacing moving figures clear of nearby walls, niches, and open hatch lids so solid forms stay continuously intact and ground cover stays in place without limbs clipping through them or props narrowing, tapering, stretching, swelling, bending, morphing, vanishing, multiplying, or merging into nearby foliage or the background.",
+   "target": "clip",
+   "when": [],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S03A"
+   ],
+   "id": "shoreline-walkers-stay-on-land",
+   "rule": "Keep walking or carrying figures moving strictly along solid ground paths well clear of any riverbank or shoreline so their feet stay planted on dry land.",
+   "target": "clip",
+   "when": [
+    "walk",
+    "carry",
+    "march",
+    "riverbank",
+    "shore",
+    "bank"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "002-bach-dang/S03B",
+    "003-dia-dao-cu-chi/S03B"
+   ],
+   "id": "controlled-tool-swings-and-impact-sparks",
+   "rule": "Animate hammering, forging, chopping, or digging with compact, anatomically natural arm strokes in front of the torso well clear of any low overhead ceiling, keeping surfaces clean of flying fragments unless impact sparks or chips are explicitly requested at the moment of contact.",
+   "target": "clip",
+   "when": [
+    "hammer",
+    "forge",
+    "chop",
+    "axe",
+    "hoe",
+    "digging"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S06A"
+   ],
+   "id": "distinct-pole-weapons-and-oars",
+   "rule": "Give every handheld pole weapon or oar a single consistent form from tip to butt, keeping warriors' spears and halberds completely above the water with solid wooden shafts rather than paddle blades.",
+   "target": "image",
+   "when": [
+    "spear",
+    "spears",
+    "halberd",
+    "weapons",
+    "oars",
+    "paddle"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S04A"
+   ],
+   "id": "workers-clustered-within-striking-reach",
+   "rule": "Cluster workers wielding mallets, hammers, or axes tightly around their workpiece within striking reach, aiming every tool head directly at the point of impact rather than lining figures up swinging into empty air.",
+   "target": "image",
+   "when": [
+    "mallet",
+    "mallets",
+    "hammer",
+    "hammering",
+    "pounding",
+    "striking"
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "002-bach-dang/S04A"
+   ],
+   "id": "heavy-timber-stakes-and-raft-pilings",
+   "rule": "Render visible defensive stakes, river pilings, and palisade posts as thigh-thick tree-trunk logs with stout conical points rather than thin shafts with flat spear blades, plunging any stakes driven from a floating raft directly into the water beside its outer edge or through an open slot rather than resting on the solid deck.",
+   "target": "image",
+   "when": [
+    "stake",
+    "stakes",
+    "piling",
+    "pilings",
+    "palisade",
+    "raft"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "002-bach-dang/S06A"
+   ],
+   "id": "submerged-objects-stay-underwater",
+   "rule": "Keep any submerged or underwater objects continuously beneath the unbroken water surface as faint underwater silhouettes throughout the entire clip without rising, protruding, or breaching above the waterline as vessels or ripples pass overhead.",
+   "target": "clip",
+   "when": [
+    "submerged",
+    "underwater",
+    "sunken",
+    "tide",
+    "below the surface",
+    "beneath the water"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S06A"
+   ],
+   "id": "steady-oar-count-and-rowing-strokes",
+   "rule": "Animate rowers with short, steady, rhythmic strokes in unison while keeping the exact starting number of rigid oars continuously visible along each hull without sprouting extra oars or dropping near-side oars mid-stroke.",
+   "target": "clip",
+   "when": [
+    "oar",
+    "oars",
+    "oarsmen",
+    "rowers",
+    "rowing",
+    "paddle"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "002-bach-dang/S06A",
+    "002-bach-dang/S04A"
+   ],
+   "id": "character-attire-and-anatomy-stability",
+   "rule": "Preserve every character's exact starting headwear, attire, facial features, and limb proportions with crisp, unblurred ink outlines throughout the entire clip without morphing garments, sprouting new hats, or smudging heads and hands.",
+   "target": "clip",
+   "when": [],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "002-bach-dang/S06A",
+    "003-dia-dao-cu-chi/S06C"
+   ],
+   "id": "vessel-and-camera-follow-hull-heading",
+   "rule": "Move any traveling watercraft, aircraft, or vehicle smoothly and continuously forward along the exact left-or-right heading its bow or nose faces in the starting frame while keeping clear open space from surrounding obstacles, aligning any tracking camera motion cleanly with its direction of travel without drifting backward or jerking in reverse.",
+   "target": "clip",
+   "when": [
+    "tracking",
+    "glides",
+    "gliding",
+    "sailing",
+    "advancing",
+    "helicopter"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 3,
+   "examples": [
+    "002-bach-dang/S04A",
+    "003-dia-dao-cu-chi/S03A"
+   ],
+   "id": "tool-strikes-within-reach-and-calm-stakes",
+   "rule": "Keep any resting or idle figures and their grounded tools completely motionless in crisp unblurred outlines and hold raised tools in steady poised stances whenever workers stand out of contact reach, animating strikes only directly onto reachable targets while keeping water around untouched stationary stakes to gentle ambient ripples.",
+   "target": "clip",
+   "when": [
+    "mallet",
+    "mallets",
+    "stake",
+    "hoe",
+    "resting",
+    "still"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S04A"
+   ],
+   "id": "planted-stakes-stay-anchored-upright",
+   "rule": "Keep all planted stakes, pilings, and posts firmly anchored upright in the riverbed or ground with unbroken bases throughout the entire clip, even when workers grip them to steady them, without detaching from the waterline, tilting loose, or being lifted and swung like handheld poles.",
+   "target": "clip",
+   "when": [
+    "stake",
+    "stakes",
+    "piling",
+    "pilings",
+    "post",
+    "posts"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 4,
+   "examples": [
+    "002-bach-dang/S07A",
+    "002-bach-dang/S08C",
+    "003-dia-dao-cu-chi/S09B"
+   ],
+   "id": "starting-frame-vessels-figures-and-wildlife-only",
+   "rule": "Animate only the structures, rooted plants, watercraft, figures, and wildlife already visible in the starting frame or explicitly prompted to enter, keeping empty ground, waterways, roads, and upper sky borders completely free of unprompted overhanging branches, floating foliage, tents, boats, modern vessels, extra people, or flocks of birds appearing mid-clip.",
+   "target": "clip",
+   "when": [],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "002-bach-dang/S08C"
+   ],
+   "id": "flag-and-banner-pattern-stability",
+   "rule": "Preserve the exact solid color or existing emblem of every fluttering flag, banner, and pennant from the starting frame across every cloth ripple without adding unprompted symbols, stars, yellow spots, or lettering.",
+   "target": "clip",
+   "when": [
+    "flag",
+    "flags",
+    "banner",
+    "banners",
+    "pennant",
+    "standard"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 5,
+   "examples": [
+    "002-bach-dang/S09A",
+    "002-bach-dang/S09B",
+    "003-dia-dao-cu-chi/S09B",
+    "003-dia-dao-cu-chi/S05B"
+   ],
+   "id": "natural-breeze-without-wind-streaks-or-sky-marks",
+   "rule": "Show wind, airflow, and ambient air movement solely through the subtle physical swaying of garments, foliage, banners, flames, and water ripples, keeping the sky and landscape completely clean of drawn wind streaks, thin horizontal sky lines, diagonal speed lines, or stray floating symbols and text marks.",
+   "target": "clip",
+   "when": [
+    "wind",
+    "breeze",
+    "air",
+    "sway",
+    "swaying",
+    "flutter"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "002-bach-dang/S07B",
+    "002-bach-dang/S08A"
+   ],
+   "id": "water-impact-foam-and-hull-settling",
+   "rule": "Animate hull-impact spray and churning water foam as flat 2D white crests and translucent ripples that disperse continuously into flowing water while the struck vessel lists or settles smoothly through the end of the clip without freezing motionless, turning water into static glossy stripes, or billowing into opaque smoke clouds and clumped debris.",
+   "target": "clip",
+   "when": [
+    "splash",
+    "spray",
+    "foam",
+    "crash",
+    "impale",
+    "impaled"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 14,
+   "examples": [
+    "003-dia-dao-cu-chi/S05A",
+    "003-dia-dao-cu-chi/S02A",
+    "003-dia-dao-cu-chi/S04A"
+   ],
+   "id": "concealed-tunnel-entrance-and-matching-lid",
+   "rule": "Cut any secret or camouflaged tunnel entrance or mouth flush into flat ground as a compact pitch-dark opening sized tightly within a single figure's shoulder span, hugging closely around any occupant's torso with dark shadowed rims rather than a wide bright-walled pit, and draw its single camouflaged hatch lid or board to the exact same 1:1 width, length, shape, and orientation as the opening so the lid visibly spans the full rim edge-to-edge whether tilted open, held in a kneeling figure's hands, or lifted clearly above an occupant's head with no extra boards, while sinking any occupant to the prompted waist, chest, or shoulder depth and extending unbroken surface terrain to the bottom frame edge in above-ground views.",
+   "target": "image",
+   "when": [
+    "tunnel entrance",
+    "tunnel mouth",
+    "hatch",
+    "lid",
+    "camouflaged",
+    "trapdoor"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 4,
+   "examples": [
+    "003-dia-dao-cu-chi/S05B",
+    "003-dia-dao-cu-chi/S03A",
+    "003-dia-dao-cu-chi/S09B"
+   ],
+   "id": "underground-shaft-and-vent-connections",
+   "rule": "Connect every underground shaft, air vent, and well junction cleanly to its target structure by slicing any surface mound along the same cutaway plane so concealed vents run as narrow hollow clay channels completely inside the earth up to a tiny side opening rather than dark exterior tubes, ending vertical work shafts flush at the tunnel floor, and joining access tunnels to a dry ledge above any well's waterline.",
+   "target": "image",
+   "when": [
+    "vent",
+    "vents",
+    "ventilation",
+    "termite mound",
+    "shaft",
+    "well"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 4,
+   "examples": [
+    "003-dia-dao-cu-chi/S05B",
+    "003-dia-dao-cu-chi/S02B",
+    "003-dia-dao-cu-chi/S02A"
+   ],
+   "id": "period-accurate-sandals-or-bare-feet",
+   "rule": "Show characters in period-accurate footwear matching their role and era, keeping villagers, workers, and guerrilla fighters barefoot or in flat rubber sandals with horizontal or crossed instep straps, a back heel strap, and zero toe-post rather than modern V-strap flip-flops.",
+   "target": "image",
+   "when": [
+    "barefoot",
+    "sandals",
+    "fighter",
+    "guerrilla",
+    "villager",
+    "worker"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "003-dia-dao-cu-chi/S02B",
+    "003-dia-dao-cu-chi/S03B"
+   ],
+   "id": "transverse-blade-on-digging-hoes",
+   "rule": "Render any digging hoe or mattock with a flat transverse iron blade mounted perpendicular to its wooden handle and angled inward toward the digger rather than a vertical axe blade, keeping any short tunnel hoe to a compact forearm-length shaft.",
+   "target": "image",
+   "when": [
+    "hoe",
+    "hoes",
+    "mattock",
+    "dig",
+    "digging",
+    "excavating"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "003-dia-dao-cu-chi/S07C"
+   ],
+   "id": "prompted-flashlight-instead-of-oil-lamp",
+   "rule": "Equip characters with the exact era-appropriate light source named in the prompt, rendering any requested flashlight as a solid cylindrical metal tube casting a focused beam rather than substituting a glass oil lamp or flame lantern.",
+   "target": "image",
+   "when": [
+    "flashlight",
+    "flashlights",
+    "searchlight",
+    "beam"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 4,
+   "examples": [
+    "003-dia-dao-cu-chi/S07C",
+    "003-dia-dao-cu-chi/S10B"
+   ],
+   "id": "cramped-crawl-tunnel-and-bottleneck-scale",
+   "rule": "Scale cramped crawl tunnels and narrow bottlenecks tightly to human body proportions with low ceilings and a continuous floor across both the approach passage and the constriction so figures lie horizontally prone on their belly rather than standing or hunching through an elevated wall hole, tapering seamless earth walls closely onto their back and chest and jamming any stuck character's shoulders visibly into a rim narrower than their torso.",
+   "target": "image",
+   "when": [
+    "crawl",
+    "crawling",
+    "cramped",
+    "bottleneck",
+    "stuck",
+    "wedged"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 4,
+   "examples": [
+    "003-dia-dao-cu-chi/S03A",
+    "003-dia-dao-cu-chi/S03B",
+    "003-dia-dao-cu-chi/S10B",
+    "003-dia-dao-cu-chi/S07C"
+   ],
+   "id": "full-bleed-cutaway-and-tunnel-framing",
+   "rule": "Extend every underground cutaway or cross-section full-bleed to all four frame edges with zero white borders, keeping clean open sky above any visible surface ground line and solid earth below it, enclosing the full perimeter of end-on tunnel profiles while running continuing horizontal passages openly off the side edges rather than capping them as dead-end pockets.",
+   "target": "image",
+   "when": [
+    "cutaway",
+    "cutaways",
+    "cross-section",
+    "cross-sections",
+    "underground",
+    "subterranean"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "003-dia-dao-cu-chi/S03A"
+   ],
+   "id": "continuous-overhead-rope-and-pulley-rigging",
+   "rule": "Route any hoisting rope continuously from the lifted basket or bucket's top handle up over the overhead beam, roller, or pulley and straight down beside the load into the puller's hands, keeping the bottom of the container completely free of ropes.",
+   "target": "image",
+   "when": [
+    "rope",
+    "pulley",
+    "roller",
+    "hoist",
+    "hoisting",
+    "winch"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "003-dia-dao-cu-chi/S03B"
+   ],
+   "id": "side-profile-ear-pressed-to-barrier",
+   "rule": "Pose any character listening through a wall, door, or ground surface in clear side profile with their bare ear pressed directly flush against the solid barrier, keeping both hands clear of the ear rather than placing a hand between the ear and the surface or cupping empty air.",
+   "target": "image",
+   "when": [
+    "ear",
+    "listen",
+    "listening",
+    "listens",
+    "partition"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "003-dia-dao-cu-chi/S08B"
+   ],
+   "id": "flush-horizontal-trapdoor-and-water-seal",
+   "rule": "Seat any closed underground trapdoor or water-blocking shaft hatch as one single flat horizontal wooden cover fitted flush from wall to wall without adding a second lid at the opposite end of the shaft, keeping any pooled water completely sealed above the cover without upright planks or side gaps.",
+   "target": "image",
+   "when": [
+    "trapdoor",
+    "trapdoors",
+    "seal",
+    "sealed",
+    "flooded",
+    "water trap"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "003-dia-dao-cu-chi/S09A"
+   ],
+   "id": "perpendicular-hand-saw-in-cut-kerf",
+   "rule": "Orient any hand saw or hacksaw perpendicular across the workpiece with its toothed blade seated directly inside the cut groove under a single worker's grip while any assistant places both hands directly on that same shared workpiece to brace it steady rather than holding a separate object.",
+   "target": "image",
+   "when": [
+    "saw",
+    "saws",
+    "sawing",
+    "hacksaw",
+    "handsaw"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 1,
+   "examples": [
+    "003-dia-dao-cu-chi/S09A"
+   ],
+   "id": "enclosed-underground-chambers-without-daylight",
+   "rule": "Back every subterranean room, workshop, and interior tunnel arch with solid dark earth or timber walls rather than a bright open-air daylight exit, lighting enclosed underground spaces solely with their interior lamps or torches.",
+   "target": "image",
+   "when": [
+    "underground",
+    "chamber",
+    "chambers",
+    "workshop",
+    "bunker",
+    "oil-lit"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 3,
+   "examples": [
+    "003-dia-dao-cu-chi/S06A",
+    "003-dia-dao-cu-chi/S06B"
+   ],
+   "id": "recessed-earthen-stove-and-smoke-flue",
+   "rule": "Recess any earthen or underground stove directly into the solid tunnel wall rather than placing a freestanding block, drawing all smoke strictly backward from the fire into a fully enclosed rear flue tunnel buried inside the earth wall rather than an open side trench, connecting end-to-end through any smoke chambers with zero smoke escaping the front.",
+   "target": "image",
+   "when": [
+    "stove",
+    "stoves",
+    "firebox",
+    "flue",
+    "smoke duct",
+    "hearth"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 13,
+   "examples": [
+    "003-dia-dao-cu-chi/S04A",
+    "003-dia-dao-cu-chi/S07B",
+    "003-dia-dao-cu-chi/S09B",
+    "003-dia-dao-cu-chi/S03B",
+    "003-dia-dao-cu-chi/S10A",
+    "003-dia-dao-cu-chi/S10B",
+    "003-dia-dao-cu-chi/S08B"
+   ],
+   "id": "intact-cutaway-earth-and-opaque-occupants",
+   "rule": "Hold cutaway framing steady and keep the top ground line, solid earth layers, tunnel walls, ceilings, shafts, smooth chamber floors, props, and opaque occupants intact in their starting chambers without fading out, sprouting new cavities, materializing surface tents or duplicated scenes, or adding unprompted falling soil, surface dirt bursts, floor debris, white scratches, drifting leaves, and dark specks, while preserving the distinct water color of wells and basins strictly sealed above closed wooden hatches so lower chambers stay dry and advancing crawling figures only along open passages while holding a clear gap before any nearby wall or lamp niche.",
+   "target": "clip",
+   "when": [
+    "cutaway",
+    "cross-section",
+    "underground",
+    "subterranean",
+    "tunnel",
+    "tunnels"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "003-dia-dao-cu-chi/S07A",
+    "003-dia-dao-cu-chi/S05B"
+   ],
+   "id": "light-source-housing-flame-and-beam-stability",
+   "rule": "Keep every light source's starting housing and output controlled throughout the clip, preserving any oil lamp or lantern's glass chimney around a compact enclosed flame leaning steadily as prompted without morphing into a bare open fire or sending black smoke streaks upward, while holding any handheld flashlight cleanly behind its lamp head with its beam aimed steadily onto the inspected target.",
+   "target": "clip",
+   "when": [
+    "flashlight",
+    "flashlights",
+    "beam",
+    "lamp",
+    "lantern",
+    "flame"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "003-dia-dao-cu-chi/S05B",
+    "003-dia-dao-cu-chi/S06A"
+   ],
+   "id": "consistent-leg-posture-and-foot-anatomy",
+   "rule": "Draw every seated, crouching, or standing figure with anatomically consistent legs and exactly two connected feet matching their posture, tucking cross-legged feet naturally beneath folded knees without extra parallel feet on the floor and ordering bare or sandaled toes with each big toe on the inner side.",
+   "target": "image",
+   "when": [
+    "sitting",
+    "seated",
+    "cross-legged",
+    "kneeling",
+    "barefoot",
+    "sandals"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 3,
+   "examples": [
+    "003-dia-dao-cu-chi/S08A"
+   ],
+   "id": "animal-2d-linework-and-controlled-head-motion",
+   "rule": "Animate animals with controlled, gentle head and body movements that hold their final recoiled or settled stance through the end of the clip without dipping back to repeat an earlier action, keeping muzzles, eyes, exact starting ears, hides, collars, and leashes in crisp flat 2D ink outlines and watercolor fills with zero motion blur, photorealistic fur drift, added hooks or tags, or displaced straps.",
+   "target": "clip",
+   "when": [
+    "dog",
+    "dogs",
+    "horse",
+    "horses",
+    "elephant",
+    "buffalo"
+   ],
+   "added": "2026-10-29"
+  },
+  {
+   "count": 2,
+   "examples": [
+    "003-dia-dao-cu-chi/S03A"
+   ],
+   "id": "continuous-rope-hoisting-and-grounded-slack",
+   "rule": "Pull the hauling strand of any overhead hoisting rope steadily downward hand over hand while feeding unbroken slack rope onto the floor beside the puller's feet so the suspended basket or load on the opposite strand rises smoothly and continuously upward without dropping back down, floating slack in mid-air, or losing any section of the rope.",
+   "target": "clip",
+   "when": [
+    "rope",
+    "pulley",
+    "roller",
+    "hoist",
+    "hoisting",
+    "crossbar"
+   ],
+   "added": "2026-10-29"
+  }
+ ]
+}

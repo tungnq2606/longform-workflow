@@ -1,0 +1,144 @@
+{
+ "sheet_worker": {
+  "status": "approved",
+  "variants": [
+   {
+    "file": "raw/001_sheet_worker_v1.jpg",
+    "source": "/Users/quoctung/Documents/AI/youtube-skills-workspace/tools/imageprompts/research/agy_test_worker_sheet_v1.jpg",
+    "conversation": "manual",
+    "problems": []
+   }
+  ],
+  "attempts": 0,
+  "chosen": 1
+ },
+ "cast_sheet": {
+  "status": "approved",
+  "variants": [
+   {
+    "file": "raw/002_cast_sheet_v1.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/8da48003-7b94-4d4d-9c95-23116deeb476/001_hook_002_cast_sheet_1792689545877.jpg",
+    "conversation": "8da48003-7b94-4d4d-9c95-23116deeb476",
+    "problems": []
+   },
+   {
+    "file": "raw/002_cast_sheet_v2.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/8da48003-7b94-4d4d-9c95-23116deeb476/001_hook_002_cast_sheet_v2_1792689613417.jpg",
+    "conversation": "8da48003-7b94-4d4d-9c95-23116deeb476",
+    "problems": []
+   },
+   {
+    "file": "raw/002_cast_sheet_v3.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/8da48003-7b94-4d4d-9c95-23116deeb476/001_hook_002_cast_sheet_v3_1792689658909.jpg",
+    "conversation": "8da48003-7b94-4d4d-9c95-23116deeb476",
+    "problems": []
+   },
+   {
+    "file": "raw/002_cast_sheet_v4.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/8daf5443-2fd8-4d2b-b20d-cbf738dac0f4/001_hook_002_cast_sheet_1792690408468.jpg",
+    "conversation": "8daf5443-2fd8-4d2b-b20d-cbf738dac0f4",
+    "problems": []
+   }
+  ],
+  "attempts": 2,
+  "chosen": 4
+ },
+ "01-01": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-02": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-03": {
+  "status": "done",
+  "variants": [
+   {
+    "file": "raw/005_01-03_v1.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/ec071c45-0638-4fae-a850-6603166ed746/001_hook_005_01_03_1792690501064.jpg",
+    "conversation": "ec071c45-0638-4fae-a850-6603166ed746",
+    "problems": []
+   },
+   {
+    "file": "raw/005_01-03_v2.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/ec071c45-0638-4fae-a850-6603166ed746/001_hook_005_01_03_v2_1792690546576.jpg",
+    "conversation": "ec071c45-0638-4fae-a850-6603166ed746",
+    "problems": []
+   }
+  ],
+  "attempts": 1,
+  "chosen": 2
+ },
+ "01-04": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-05": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-06": {
+  "status": "done",
+  "variants": [
+   {
+    "file": "raw/008_01-06_v1.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/26571368-9e52-424c-bca9-fc99f67bc0f8/001_hook_008_01_06_1792690674880.jpg",
+    "conversation": "26571368-9e52-424c-bca9-fc99f67bc0f8",
+    "problems": []
+   },
+   {
+    "file": "raw/008_01-06_v2.jpg",
+    "source": "/Users/quoctung/.gemini/antigravity-cli/brain/26571368-9e52-424c-bca9-fc99f67bc0f8/001_hook_008_01_06_v2_1792690698660.jpg",
+    "conversation": "26571368-9e52-424c-bca9-fc99f67bc0f8",
+    "problems": []
+   }
+  ],
+  "attempts": 1,
+  "chosen": 2
+ },
+ "01-07": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-08": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-09": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-10": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-11": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-12": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-13": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ },
+ "01-14": {
+  "status": "pending",
+  "variants": [],
+  "attempts": 0
+ }
+}

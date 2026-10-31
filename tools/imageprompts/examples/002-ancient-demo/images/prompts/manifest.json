@@ -1,0 +1,121 @@
+{
+ "video": "002-ancient-demo",
+ "style": "stickman-v1",
+ "items": [
+  {
+   "id": "sheet_maker",
+   "kind": "model_sheet",
+   "character": "MAKER",
+   "refs": [],
+   "save_as": "refs/sheet_maker.png",
+   "approve": true,
+   "route": "manual",
+   "seq": 1,
+   "prompt_file": "prompts/001_sheet_maker.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "cast_sheet",
+   "kind": "cast_sheet",
+   "characters": [
+    "MAKER",
+    "HUNTER",
+    "WOLF"
+   ],
+   "poses": [
+    [
+     "MAKER",
+     "sewing_seated"
+    ],
+    [
+     "MAKER",
+     "stretching_hide"
+    ],
+    [
+     "HUNTER",
+     "walking_spear"
+    ],
+    [
+     "MAKER",
+     "inspecting"
+    ],
+    [
+     "WOLF",
+     "wolf_sitting"
+    ]
+   ],
+   "heads": [
+    "determined",
+    "neutral",
+    "smiling",
+    "happy"
+   ],
+   "refs": [
+    "refs/sheet_maker.png"
+   ],
+   "save_as": "refs/cast_sheet.png",
+   "approve": true,
+   "route": "manual",
+   "seq": 2,
+   "prompt_file": "prompts/002_cast_sheet.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-01",
+   "kind": "scene",
+   "order": 1,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/001_01-01.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "MAKER"
+   ],
+   "route": "manual",
+   "seq": 3,
+   "prompt_file": "prompts/003_01-01.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-02",
+   "kind": "scene",
+   "order": 2,
+   "refs": [
+    "refs/cast_sheet.png"
+   ],
+   "save_as": "frames/002_01-02.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "MAKER",
+    "HUNTER"
+   ],
+   "route": "agy",
+   "seq": 4,
+   "prompt_file": "prompts/004_01-02.txt",
+   "style": "stickman-v1"
+  },
+  {
+   "id": "01-03",
+   "kind": "scene",
+   "order": 3,
+   "refs": [
+    "refs/cast_sheet.png",
+    "frames/002_01-02.png"
+   ],
+   "save_as": "frames/003_01-03.png",
+   "approve": false,
+   "notes": [],
+   "characters": [
+    "MAKER",
+    "WOLF"
+   ],
+   "route": "agy",
+   "seq": 5,
+   "prompt_file": "prompts/005_01-03.txt",
+   "style": "stickman-v1"
+  }
+ ]
+}

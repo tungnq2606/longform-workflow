@@ -1,0 +1,44 @@
+{
+  "title": "Ancient demo",
+  "style": "stickman-v1",
+  "era": "the Upper Palaeolithic in Ice Age Europe",
+  "characters": [
+    {
+      "name": "MAKER",
+      "kind": "human",
+      "main": true,
+      "model_sheet": true,
+      "sheet_poses": [
+        "sewing_seated",
+        "stretching_hide",
+        "inspecting",
+        "carrying_bundle"
+      ],
+      "card": "an Ice Age clothing maker. Knee-length sleeveless tunic of rough grey-brown hide with a ragged hem, a lighter tan hide apron, a twisted leather cord belt tied at the front, a small leather pouch on the character's own right hip, dark hide leg wraps and soft rounded hide shoes; a bone tool tucked into the belt."
+    },
+    {
+      "name": "HUNTER",
+      "kind": "human",
+      "card": "an Ice Age hunter, the same height as MAKER. Long dark brown fur cape over a hide tunic, a bead necklace of small shells, hide leg wraps, soft hide boots; carries a long wooden spear in the character's own right hand."
+    },
+    {
+      "name": "WOLF",
+      "kind": "animal",
+      "card": "a grey wolf, shoulder height about half of MAKER's height, thick grey fur shown with a few tick marks, pale belly, bushy tail."
+    }
+  ],
+  "poses": {
+    "sewing_seated": "sitting cross-legged on the ground, sewing two pieces of hide together with a bone needle",
+    "stretching_hide": "pushing a large hide onto a wooden frame of lashed branches, one leg forward",
+    "inspecting": "holding up a piece of hide at arm's length and examining it closely",
+    "carrying_bundle": "walking with a bundle of folded hides in both arms",
+    "walking_spear": "walking with the spear held upright",
+    "wolf_sitting": "sitting calmly on its haunches",
+    "wolf_trotting": "trotting with the head low"
+  },
+  "locations": {
+    "cave_mouth": "the wide mouth of a limestone cave in winter, snow outside, a small fire inside on stone",
+    "camp": "an open camp on a cold grassy steppe, a hide-covered shelter, a drying rack, distant hills"
+  },
+  "note": "EXAMPLE ONLY: confirm every garment, tool and animal against sources before using this cast in a real video."
+}

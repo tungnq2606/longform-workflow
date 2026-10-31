@@ -1,0 +1,20 @@
+{
+ "id": "vn-history",
+ "name": "Công Trường Lịch Sử",
+ "handle": "@congtruonglichsu",
+ "about": "Kênh YouTube Shorts & TikTok tiếng Việt (~80–90 giây, dọc 9:16): đưa người xem vào vai người thợ thời xưa xây dựng các công trình và chế tác hiện vật lịch sử Việt Nam dựa trên sử liệu và khảo cổ học.",
+ "language": "vi",
+ "format": "shorts",
+ "aspect": "9:16",
+ "style": "vn-ligne-claire",
+ "videos": "channels/vn-history",
+ "status": "active",
+ "voice": {
+  "engine": "vbee",
+  "speed": 1.13,
+  "syllables_per_sec_at_1x": 3.43,
+  "note": "Set this speed in Vbee for every part. Measured on the Cổ Loa test (2026-10-27): 316 syllables in 81.4 s at 1.13 = 3.88 syllables/s."
+ },
+ "clip_sound": 0.18,
+ "style_swatch": "channels/vn-history/brand/style_swatch.png"
+}

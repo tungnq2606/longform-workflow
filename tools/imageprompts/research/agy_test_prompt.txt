@@ -1,0 +1,18 @@
+You are an image production worker. Do exactly this, nothing else:
+
+1. Call your image generation tool ONCE to create ONE image. Use the IMAGE PROMPT below exactly as written (do not shorten, rewrite or "improve" it). Request a 16:9 landscape image at the highest resolution available.
+2. Copy the generated image file into ./out/ in the current workspace, named worker_sheet_v1.png (keep the original file too).
+3. Reply with ONLY a JSON object, no other text: {"image_model": "<exact image model name you used, or 'unknown'>", "original_path": "<absolute path of the generated file>", "copied_path": "<absolute path in ./out>", "width": <px>, "height": <px>, "prompt_used_verbatim": true|false, "notes": "<anything that limited you: rewriting, size limits, watermark, errors>"}
+
+IMAGE PROMPT:
+Create one character reference sheet image, 16:9 landscape, on a flat pure white background with no scenery, no borders and no shadows.
+
+STYLE: Flat 2D cartoon illustration in a clean model-sheet style. The character is a clothed stick figure: a large, perfectly round, plain white head with a bold, even black outline, about one quarter of the figure's height. The face is only two small solid black vertical-oval dot eyes and one thin black line mouth, set slightly below the centre of the circle; the rest of the circle stays plain white. Short thick eyebrow strokes appear only when an expression needs them. There is almost no neck: the head sits directly on the collar. Arms are single thick solid black lines with crisp angular elbows, ending in small white oval mitten hands outlined in black. The body is a solid, believable, layered clothing silhouette about as wide as the head, on short legs with rounded soft shoes. When standing, the legs are clothed trouser tubes; when walking or running, the legs become single black stick lines that end in the same shoes. The figure is stocky, about 3.7 heads tall. Clothing and props use flat, muted, desaturated colour fills with bold black outlines, a few thin fold lines and sparse short texture tick marks. Flat colours only: no gradients, no cast shadows, no glossy highlights. Never add hair, a nose, ears, fingers, pupils, eye whites, skin colour, realistic anatomy, a 3D look or a photographic look.
+
+CHARACTER "WORKER": a young American full-time worker. Faded dusty-blue button-up work shirt with sleeves rolled to the elbow, worn untucked; khaki chino trousers; plain brown belt; grey sneakers; a navy canvas messenger bag on the character's own right hip, strap across the chest; a lanyard with a blank white ID card. No logos and no writing on any clothing.
+
+LAYOUT, three rows, every figure complete, same scale, evenly spaced, never overlapping:
+Row 1, turnaround, six full-body views of WORKER: front view, left side view, right side view, back view, three-quarter front view, three-quarter back view. In side views the face is a single dot eye near the facing edge; the back view head is a blank white circle.
+Row 2, six full-body action poses of WORKER: waving hello; holding up a sheet of paper with both hands; pointing to the right with one arm straight; shrugging with both palms up; thinking with one hand on the chin; running.
+Row 3, twelve head-only expression circles of WORKER: neutral, smiling, happy, angry, sad, worried, scared, surprised, confused, determined, tired, laughing.
+Text: a title in the top-left corner reading "THE MEDIAN WORKER" in bold condensed capitals with the smaller line "character sheet" under it, and a short label in plain dark grey sans-serif centred under each figure (for example "Front View", "Waving", "Neutral"). No other text.

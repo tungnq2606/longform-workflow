@@ -1,0 +1,3 @@
+First voice block: open with the finding and an open loop (see CLAUDE.md, script rules). Every number has a source tag in the same paragraph. [src: name of source, date, url; channel calculation shown]
+
+Second voice block. One paragraph = one voice file (audio/02.mp3). [src: ...]

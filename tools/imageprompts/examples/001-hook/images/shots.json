@@ -1,0 +1,257 @@
+{
+ "note": "Example: voice block 01 of video 001 (the hook) redrawn in the stickman-v1 style. Numbers, labels and charts are drawn later by Remotion, so scenes leave room for them where needed.",
+ "shots": [
+  {
+   "id": "01-01",
+   "block": 1,
+   "sentence": 1,
+   "vo": "Rent takes about 30 percent of a typical young worker's paycheck.",
+   "location": "living_room",
+   "scene": "WORKER stands on the left and presents the empty right side of the room to the viewer.",
+   "leave_space": "right half",
+   "camera": "medium wide shot at eye level",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "presenting",
+     "expression": "neutral",
+     "facing": "the viewer, body turned slightly right"
+    }
+   ]
+  },
+  {
+   "id": "01-02",
+   "block": 1,
+   "sentence": 2,
+   "vo": "That's right where the government starts calling it a burden.",
+   "location": "tightrope",
+   "scene": "WORKER balances in the middle of the tightrope, looking down nervously.",
+   "camera": "wide shot from slightly below",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "balancing",
+     "expression": "worried",
+     "facing": "the viewer"
+    }
+   ]
+  },
+  {
+   "id": "01-03",
+   "block": 1,
+   "sentence": 3,
+   "vo": "So rent must have outrun pay, right?",
+   "location": "track",
+   "scene": "RENT runs ahead on the right side of the track, confident; PAY runs behind on the left, struggling.",
+   "camera": "wide side view of the track",
+   "characters": [
+    {
+     "name": "RENT",
+     "pose": "running",
+     "expression": "smiling",
+     "facing": "right"
+    },
+    {
+     "name": "PAY",
+     "pose": "running_tired",
+     "expression": "tired",
+     "facing": "right"
+    }
+   ]
+  },
+  {
+   "id": "01-04",
+   "block": 1,
+   "sentence": 4,
+   "vo": "Over the last seven years, not exactly.",
+   "location": "track",
+   "scene": "PAY passes RENT just before the finish line on the right; RENT looks surprised.",
+   "continue_from_previous": true,
+   "camera": "wide side view of the track",
+   "characters": [
+    {
+     "name": "PAY",
+     "pose": "running",
+     "expression": "determined",
+     "facing": "right"
+    },
+    {
+     "name": "RENT",
+     "pose": "running",
+     "expression": "surprised",
+     "facing": "right"
+    }
+   ]
+  },
+  {
+   "id": "01-05",
+   "block": 1,
+   "sentence": 5,
+   "vo": "But there's one stretch where it did.",
+   "location": "track",
+   "scene": "The empty track; WORKER stands at the edge and studies one middle stretch of the track.",
+   "continue_from_previous": true,
+   "leave_space": "upper middle",
+   "camera": "wide shot",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "thinking",
+     "expression": "confused",
+     "facing": "right"
+    }
+   ]
+  },
+  {
+   "id": "01-06",
+   "block": 1,
+   "sentence": 6,
+   "vo": "Meet our median worker.",
+   "location": "street",
+   "scene": "WORKER waves at the viewer in front of a small apartment building, a compact car parked nearby.",
+   "camera": "medium wide shot at eye level",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "waving",
+     "expression": "happy",
+     "facing": "the viewer"
+    }
+   ]
+  },
+  {
+   "id": "01-07",
+   "block": 1,
+   "sentence": 7,
+   "vo": "Full time, aged 25 to 34, earning about $60,000 a year before tax.",
+   "location": "living_room",
+   "scene": "WORKER proudly holds up a blank paycheck on the left of the frame.",
+   "leave_space": "right half",
+   "camera": "medium shot",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "holding_paper",
+     "expression": "smiling",
+     "facing": "the viewer"
+    }
+   ]
+  },
+  {
+   "id": "01-08",
+   "block": 1,
+   "sentence": 8,
+   "vo": "Hand them the national median rent, and it takes about 30 percent of that pay...",
+   "location": "living_room",
+   "scene": "WORKER presents the empty right side of the room, looking a little worried.",
+   "continue_from_previous": true,
+   "leave_space": "right half",
+   "camera": "medium wide shot at eye level",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "presenting",
+     "expression": "worried",
+     "facing": "the viewer, body turned slightly right"
+    }
+   ]
+  },
+  {
+   "id": "01-09",
+   "block": 1,
+   "sentence": 9,
+   "vo": "That uses 2026 pay and 2024 rent... so call it a rough benchmark.",
+   "location": "kitchen",
+   "scene": "WORKER shrugs next to the kitchen table; two blank wall calendars hang behind, one on each side.",
+   "camera": "medium wide shot",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "shrugging",
+     "expression": "neutral",
+     "facing": "the viewer"
+    }
+   ]
+  },
+  {
+   "id": "01-10",
+   "block": 1,
+   "sentence": 10,
+   "vo": "And in 2024, about half of U.S. renter households, of all ages, were over H-U-D's line.",
+   "location": "houses",
+   "scene": "One small neighbour stands in front of each of the eight houses.",
+   "background_people": "eight small neighbours of different ages, one in front of each house; about half of them look worried, the others calm",
+   "camera": "wide shot of the whole row of houses",
+   "characters": []
+  },
+  {
+   "id": "01-11",
+   "block": 1,
+   "sentence": 11,
+   "vo": "Different group, so it does not grade our worker.",
+   "location": "street",
+   "scene": "Close-up of WORKER raising one eyebrow at the viewer.",
+   "leave_space": "right half",
+   "camera": "close-up of the head and shoulders on the left of the frame",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "thinking",
+     "expression": "confused",
+     "facing": "the viewer"
+    }
+   ]
+  },
+  {
+   "id": "01-12",
+   "block": 1,
+   "sentence": 12,
+   "vo": "So, is a normal life affordable on a typical paycheck?",
+   "location": "kitchen",
+   "scene": "WORKER sits at the kitchen table thinking, bills and a calculator in front of them.",
+   "camera": "medium shot",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "thinking",
+     "expression": "neutral",
+     "facing": "the viewer"
+    }
+   ]
+  },
+  {
+   "id": "01-13",
+   "block": 1,
+   "sentence": 13,
+   "vo": "On rent alone, our worker sits about at the line.",
+   "location": "tightrope",
+   "scene": "WORKER balances on the tightrope, steadier than before.",
+   "camera": "wide shot from slightly below",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "balancing",
+     "expression": "determined",
+     "facing": "the viewer"
+    }
+   ]
+  },
+  {
+   "id": "01-14",
+   "block": 1,
+   "sentence": 14,
+   "vo": "Here is how that number gets built, where rent pulled ahead, and what it cannot tell you.",
+   "location": "street",
+   "scene": "WORKER points toward a wooden signpost with three blank arrow signs on the right.",
+   "camera": "medium wide shot",
+   "characters": [
+    {
+     "name": "WORKER",
+     "pose": "pointing",
+     "expression": "determined",
+     "facing": "right"
+    }
+   ]
+  }
+ ]
+}

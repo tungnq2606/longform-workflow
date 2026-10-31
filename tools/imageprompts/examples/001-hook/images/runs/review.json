@@ -1,0 +1,24 @@
+{
+ "01-03": {
+  "fix": "",
+  "id": "01-03",
+  "ok": true,
+  "problems": [
+   "Hands have drawn fingers instead of plain oval mitten hands, and PAY's rolled-up paycheck is white rather than light green."
+  ],
+  "score": 4,
+  "file": "frames/003_01-03.png",
+  "mtime": 1792690578.6972554,
+  "at": "2026-10-23 10:13"
+ },
+ "01-06": {
+  "fix": "",
+  "id": "01-06",
+  "ok": true,
+  "problems": [],
+  "score": 5,
+  "file": "frames/006_01-06.png",
+  "mtime": 1792690961.842761,
+  "at": "2026-10-23 10:13"
+ }
+}

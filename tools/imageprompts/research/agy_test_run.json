@@ -1,0 +1,1 @@
+{"conversation_id":"5344d59b-48af-476d-81c3-ca993ec81b2f","status":"SUCCESS","response":"**Waiting for image generation to complete...**\n","duration_seconds":93.481251,"num_turns":1,"usage":{"input_tokens":71733,"output_tokens":4115,"thinking_tokens":2485,"cache_read_tokens":129988,"total_tokens":75848},"denied_actions":[{"action":"write_file","display_name":"WriteFile"}]}

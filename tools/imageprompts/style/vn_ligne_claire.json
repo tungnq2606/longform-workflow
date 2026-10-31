@@ -1,0 +1,13 @@
+{
+  "id": "vn-ligne-claire",
+  "aspect": "9:16",
+  "note": "Locked 2D hand-drawn ink-and-watercolor historical illustration style for Công Trường Lịch Sử (vn-history), calibrated to the approved Cổ Loa frames (K1A.png, B2.png, K5.png, cover_frame.png).",
+  "style": "Use the attached image ONLY as an art-style reference — do not copy its layout, buildings, or camera angle unless explicitly asked. Match its exact 2D hand-drawn ink-and-watercolor historical illustration style (ligne claire): clean thin dark-brown/charcoal ink outlines, subtle organic line hatching on wood, reeds and rock, flat two-tone cel shading, and a warm muted earth-tone palette (olive-sage greens, warm ochre-tan wood and soil, cool slate grey-blue rippled water, soft pale cream-apricot sky). Characters have natural semi-realistic human proportions (about 6 heads tall, clean ink linework, warm tan skin — NOT chibi, NOT big round heads, NOT stick figures). Vertical 9:16 portrait composition, no text, no letters, no UI, no watermark.",
+  "negative": "chibi, big round cartoon heads, stick figures, 3D low-poly, 3D render, photorealistic, neon saturated colors, mud-brown dirt-road water, modern ships, steel cranes, gunpowder cannons, plate armor, text, letters, user interface, health bars",
+  "style_refs": [
+    "channels/vn-history/brand/banner_src/K1A.png",
+    "channels/vn-history/brand/banner_src/B2.png",
+    "channels/vn-history/brand/banner_src/K5.png",
+    "channels/vn-history/test-001-co-loa/packaging/cover_frame.png"
+  ]
+}

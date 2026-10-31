@@ -1,0 +1,13 @@
+{
+  "note": "Example only, to show period clothing, an animal and continuity. Not a real script.",
+  "shots": [
+    {"id": "01-01", "location": "cave_mouth", "scene": "MAKER sits near the fire sewing a hide garment.", "camera": "medium wide shot",
+     "characters": [{"name": "MAKER", "pose": "sewing_seated", "expression": "determined", "facing": "the viewer"}]},
+    {"id": "01-02", "location": "camp", "scene": "MAKER stretches a hide on the drying frame while HUNTER walks into camp.", "camera": "wide shot",
+     "characters": [{"name": "MAKER", "pose": "stretching_hide", "expression": "neutral", "facing": "right"},
+                    {"name": "HUNTER", "pose": "walking_spear", "expression": "smiling", "facing": "left"}]},
+    {"id": "01-03", "location": "camp", "scene": "A wolf watches from the edge of the camp as MAKER inspects the finished hide.", "continue_from_previous": true, "camera": "wide shot",
+     "characters": [{"name": "MAKER", "pose": "inspecting", "expression": "happy", "facing": "right"},
+                    {"name": "WOLF", "pose": "wolf_sitting", "expression": "neutral", "facing": "left"}]}
+  ]
+}
