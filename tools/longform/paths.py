@@ -18,3 +18,10 @@ def library():
 
 def config():
     return os.path.join(root(), "config")
+
+
+def state():
+    """Studio runtime state (inbox, jobs, pause); gitignored."""
+    d = os.path.join(root(), "studio", "state")
+    os.makedirs(d, exist_ok=True)
+    return d
