@@ -11,7 +11,8 @@ import re
 import shutil
 import string
 
-from tools.longform import agy, claude_box, factbank, inbox, jobs, paths, progress, project, script, stylebook
+from tools.longform import (agy, claude_box, factbank, images, imgspec, inbox, jobs, library_index, paths, progress,
+                            project, script, stylebook)
 
 CLAUDE = "claude"
 PROMPTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
@@ -97,17 +98,17 @@ def _cwd(job):
     return job["params"]["run"]
 
 
-def _refuse(job, why):
+def _refuse(job, why, screen="script"):
     inbox.add(job["project"], "job_failed", "Kết quả của %s không dùng được: %s" % (job["kind"], why),
-              screen="script", key="job:%s" % job["id"])
+              screen=screen, key="job:%s" % job["id"])
 
 
-def _result(job, name="result.json"):
+def _result(job, name="result.json", screen="script"):
     """The parsed result file, or None after filing why it cannot be used."""
     path = os.path.join(job["params"]["run"], name)
     if not os.path.isfile(path):
         blocked = agy.denied(jobs.read_log(job["id"])[0])
-        _refuse(job, ("agy bị chặn quyền: %s" % ", ".join(blocked)) if blocked else "không có file %s" % name)
+        _refuse(job, ("agy bị chặn quyền: %s" % ", ".join(blocked)) if blocked else "không có file %s" % name, screen)
         return None
     if name.endswith(".jsonl"):
         return path
@@ -115,7 +116,7 @@ def _result(job, name="result.json"):
         with open(path, encoding="utf-8") as f:
             return json.load(f)
     except ValueError as e:
-        _refuse(job, "%s không phải JSON (%s)" % (name, e))
+        _refuse(job, "%s không phải JSON (%s)" % (name, e), screen)
         return None
 
 
@@ -310,6 +311,79 @@ def review_end(job):
     inbox.add(pid, "script_approve", "Kịch bản v%d chờ bạn chốt (đỏ %d, vàng %d)" % (v, r["red"], r["yellow"]),
               screen="script", key="script:%s" % pid)
 
+
+# ---------------------------------------------------------------- agy_shotlist (Plan 4)
+def library_listing():
+    """Reusable backgrounds and hero kits with their pose keys, for the shot list."""
+    kits = []
+    for c in library_index.summary()["characters"]:
+        try:
+            with open(os.path.join(paths.library(), "characters", c["id"], "kit.json"), encoding="utf-8") as f:
+                poses = sorted(json.load(f).get("images") or {})
+        except (OSError, ValueError):
+            continue
+        kits.append({"id": c["id"], "name": c["name"], "poses": poses})
+    return {"backgrounds": [b["id"] for b in library_index.summary()["backgrounds"]], "kits": kits}
+
+
+def shotlist_build(params):
+    pid, pdir = _project(params)
+    cur = script.load(pdir)
+    if not cur or not cur.get("approved"):
+        raise ValueError("kịch bản chưa chốt: chốt kịch bản trước khi lập danh sách ảnh")
+    if images.load(pdir):
+        raise ValueError("dự án đã có danh sách ảnh")
+    run = _new_run(pdir, "agy_shotlist")
+    _json_file(os.path.join(run, "script.json"), cur)
+    _json_file(os.path.join(run, "library.json"), library_listing())
+    _json_file(os.path.join(run, "style.json"), imgspec.style())
+    _task(run, "SHOTLIST.md", "shotlist.md", pdir)
+    params["run"] = run
+    return agy.argv("Read SHOTLIST.md in the current folder and do exactly what it says. " + agy.NO_TOOLS)
+
+
+def _shot_problems(pdir, items):
+    beats = {b for b, _ in script.sentences(script.load(pdir) or {})}
+    kits = {k["id"]: set(k["poses"]) for k in library_listing()["kits"]}
+    problems = []
+    for n, it in enumerate(items, 1):
+        if not isinstance(it, dict):
+            problems.append("mục %d hỏng" % n)
+            continue
+        label = "mục %d (%s %s)" % (n, it.get("type"), it.get("beat"))
+        if it.get("beat") not in beats:
+            problems.append("%s: không có cảnh %s trong kịch bản" % (label, it.get("beat")))
+        if it.get("type") == "pose" and it.get("pose_key") in kits.get(it.get("kit"), set()):
+            problems.append("%s: bộ %s đã có tư thế %s" % (label, it.get("kit"), it.get("pose_key")))
+        try:
+            images._check_new(it.get("type"), it.get("spec"), it.get("kit"), it.get("pose_key"), it.get("reuse"))
+        except ValueError as e:
+            problems.append("%s: %s" % (label, e))
+    return problems
+
+
+def shotlist_end(job):
+    if job["status"] != "done":
+        return
+    data = _result(job, screen="images")
+    if data is None:
+        return
+    pid, pdir = _project(job["params"])
+    items = data.get("items") if isinstance(data, dict) else None
+    if not isinstance(items, list) or not items:
+        return _refuse(job, "thiếu danh sách items", "images")
+    problems = _shot_problems(pdir, items)
+    if problems:
+        return _refuse(job, "; ".join(problems), "images")
+    added = [images.add(pdir, it["type"], it["spec"], beat=it.get("beat"), kit=it.get("kit"), pose_key=it.get("pose_key"),
+                        reuse=it.get("reuse")) for it in items]
+    for it in added:
+        if it["state"] == "queued":
+            jobs.enqueue("agy_image", {"project": pid, "item": it["id"]}, pid, "agy vẽ %s" % it["id"])
+    progress.set_step(pdir, "images", "doing" if any(i["state"] == "queued" for i in added) else "wait")
+
+
+jobs.register(jobs.Kind("agy_shotlist", "agy", shotlist_build, cwd=_cwd, on_end=_guarded(shotlist_end)))
 
 # Image kinds (agy_image, agy_image_review) live with their worker; importing it registers them.
 from tools.longform import image_worker  # noqa: E402,F401
