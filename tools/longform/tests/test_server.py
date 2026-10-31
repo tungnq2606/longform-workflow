@@ -154,6 +154,60 @@ class ServerTest(unittest.TestCase):
         self.assertEqual(self.req("GET", "/api/thumb/bg/..%2Fb1")[0], 404)
         self.assertEqual(self.req("GET", "/api/thumb/zz/b1")[0], 404)
 
+    def test_broken_project_json_skipped(self):
+        from tools.longform import project
+        project.create_project(1, "a", "A", [])
+        os.makedirs(os.path.join(self.root, "projects", "002-bad"))
+        open(os.path.join(self.root, "projects", "002-bad", "project.json"), "w").write("{broken")
+        st, home = self.req("GET", "/api/home")
+        self.assertEqual(st, 200)
+        self.assertEqual([p["id"] for p in home["projects"]], ["001-a"])
+
+    def test_unexpected_error_is_500_json(self):
+        os.makedirs(os.path.join(self.root, "library", "backgrounds"))
+        open(os.path.join(self.root, "library", "backgrounds", "bad.png"), "w").write("not a png")
+        st, out = self.req("GET", "/api/thumb/bg/bad")
+        self.assertEqual(st, 500)
+        self.assertIn("error", out)
+
+    def test_second_studio_does_not_touch_live_jobs(self):
+        cfg = json.load(open(os.path.join(self.root, "config", "studio.json")))
+        cfg["port"] = self.port  # the live test server holds this port
+        json.dump(cfg, open(os.path.join(self.root, "config", "studio.json"), "w"))
+        j = self.jobs.enqueue("claude", {}, None, "live")
+        self.jobs._write(dict(self.jobs.get(j["id"]), status="running"))
+        with self.assertRaises(OSError):
+            self.server_mod.main()
+        self.assertEqual(self.jobs.get(j["id"])["status"], "running")
+        self.assertEqual(self.inbox.open_items(), [])
+
+    def test_broken_project_json_skipped(self):
+        from tools.longform import project
+        project.create_project(1, "a", "A", [])
+        os.makedirs(os.path.join(self.root, "projects", "002-bad"))
+        open(os.path.join(self.root, "projects", "002-bad", "project.json"), "w").write("{broken")
+        st, home = self.req("GET", "/api/home")
+        self.assertEqual(st, 200)
+        self.assertEqual([p["id"] for p in home["projects"]], ["001-a"])
+
+    def test_unexpected_error_is_500_json(self):
+        os.makedirs(os.path.join(self.root, "library", "backgrounds"))
+        open(os.path.join(self.root, "library", "backgrounds", "bad.png"), "w").write("not a png")
+        st, out = self.req("GET", "/api/thumb/bg/bad")
+        self.assertEqual(st, 500)
+        self.assertIn("error", out)
+
+    def test_second_studio_does_not_touch_live_jobs(self):
+        cfg = json.load(open(os.path.join(self.root, "config", "studio.json")))
+        cfg["port"] = self.port  # the live test server holds this port
+        json.dump(cfg, open(os.path.join(self.root, "config", "studio.json"), "w"))
+        j = self.jobs.enqueue("claude", {}, None, "live")
+        self.jobs._write(dict(self.jobs.get(j["id"]), status="running"))
+        with self.assertRaises(OSError):
+            self.server_mod.main()
+        self.assertEqual(self.jobs.get(j["id"])["status"], "running")
+        self.assertEqual(self.inbox.open_items(), [])
+
     def test_claude_history(self):
         st, h = self.req("GET", "/api/claude/history")
         self.assertEqual((st, h), (200, []))

@@ -223,6 +223,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self._send(200, out)
                 except HttpError as e:
                     return self._send(e.code, {"error": e.message})
+                except Exception as e:  # noqa: BLE001  one broken file must not drop the connection
+                    return self._send(500, {"error": "lỗi trong Studio: %s" % e})
         return self._send(404, {"error": "không có"})
 
     def do_GET(self):
@@ -241,12 +243,13 @@ def make_server(port, runner):
 
 def main():
     cfg = studio_config()
+    srv = make_server(cfg["port"], None)  # bind first: a second Studio fails here, before touching the live one's jobs
     n = jobs.recover()
     if n:
         print("Studio: %d job bị ngắt từ lần trước (xem Cần bạn)" % n, flush=True)
     runner = jobs.Runner(cfg["lanes"])
+    srv.runner = runner
     runner.start()
-    srv = make_server(cfg["port"], runner)
     print("Studio: http://127.0.0.1:%d" % cfg["port"], flush=True)
     try:
         srv.serve_forever()

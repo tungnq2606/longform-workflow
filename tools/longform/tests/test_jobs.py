@@ -141,6 +141,52 @@ class JobsTest(unittest.TestCase):
         self.wait(j["id"], "done")
         self.assertEqual(jobs.read_log(j["id"])[0], "keep\n")
 
+    def test_crash_in_run_frees_lane(self):
+        def boom(job, line):
+            raise RuntimeError("on_line hỏng")
+        jobs.register(jobs.Kind("boom", "x", py("print('x')"), on_line=boom))
+        jobs.register(jobs.Kind("nul", "x", lambda p: [sys.executable, "-c", "print(1)\x00"]))
+        r = jobs.Runner({"x": 1})
+        self.runner = r
+        a = jobs.enqueue("boom", {}, None, "a")
+        self.assertEqual(self.wait(a["id"], "failed", "done"), "failed")
+        b = jobs.enqueue("nul", {}, None, "b")
+        self.assertEqual(self.wait(b["id"], "failed", "done"), "failed")
+        c = jobs.enqueue("hi", {}, None, "c")
+        self.assertEqual(self.wait(c["id"], "done"), "done")  # lane not blocked
+
+    def test_stop_kills_child_processes(self):
+        code = "import subprocess, sys, time; subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(30)']); time.sleep(30)"
+        jobs.register(jobs.Kind("tree", "x", py(code)))
+        j = jobs.enqueue("tree", {}, None, "tree")
+        self.runner.tick()
+        time.sleep(0.5)
+        jobs.stop(j["id"])
+        self.assertEqual(self.wait(j["id"], "stopped", timeout=8), "stopped")
+
+    def test_crash_in_run_frees_lane(self):
+        def boom(job, line):
+            raise RuntimeError("on_line hỏng")
+        jobs.register(jobs.Kind("boom", "x", py("print('x')"), on_line=boom))
+        jobs.register(jobs.Kind("nul", "x", lambda p: [sys.executable, "-c", "print(1)\x00"]))
+        r = jobs.Runner({"x": 1})
+        self.runner = r
+        a = jobs.enqueue("boom", {}, None, "a")
+        self.assertEqual(self.wait(a["id"], "failed", "done"), "failed")
+        b = jobs.enqueue("nul", {}, None, "b")
+        self.assertEqual(self.wait(b["id"], "failed", "done"), "failed")
+        c = jobs.enqueue("hi", {}, None, "c")
+        self.assertEqual(self.wait(c["id"], "done"), "done")  # lane not blocked
+
+    def test_stop_kills_child_processes(self):
+        code = "import subprocess, sys, time; subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(30)']); time.sleep(30)"
+        jobs.register(jobs.Kind("tree", "x", py(code)))
+        j = jobs.enqueue("tree", {}, None, "tree")
+        self.runner.tick()
+        time.sleep(0.5)
+        jobs.stop(j["id"])
+        self.assertEqual(self.wait(j["id"], "stopped", timeout=8), "stopped")
+
     def test_list_order(self):
         jobs.set_paused(True)
         a = jobs.enqueue("hi", {}, None, "a")

@@ -14,6 +14,8 @@ import uuid
 from tools.longform import jobs, paths
 
 PROJECT_ID = re.compile(r"^\d{3}-[a-z0-9-]+$")
+SESSION_ID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+SAFE_MODES = ("acceptEdits", "default", "plan")  # never bypassPermissions, even if the config file is edited
 MAX_MESSAGE = 8000
 _answers = {}  # job id -> assistant texts seen so far
 _lock = threading.Lock()
@@ -21,7 +23,21 @@ _lock = threading.Lock()
 
 def config():
     with open(os.path.join(paths.config(), "studio.json"), encoding="utf-8") as f:
-        return json.load(f)["claude"]
+        cfg = json.load(f)["claude"]
+    if cfg.get("permission_mode") not in SAFE_MODES:
+        raise ValueError("config/studio.json: permission_mode phải là một trong %s" % ", ".join(SAFE_MODES))
+    if any(not isinstance(t, str) or t.startswith("-") for t in cfg.get("allowed_tools", [])):
+        raise ValueError("config/studio.json: allowed_tools có mục không hợp lệ")
+    return cfg
+
+
+def saved_session(project):
+    """The session id of the project's last finished conversation, or None (a broken file counts as none)."""
+    try:
+        sid = open(os.path.join(session_dir(project), "session")).read().strip()
+    except OSError:
+        return None
+    return sid if SESSION_ID.match(sid) else None
 
 
 def check_project(project):
@@ -55,6 +71,8 @@ def build(params):
     message = params.get("message")
     if not isinstance(message, str) or not message.strip() or len(message) > MAX_MESSAGE:
         raise ValueError("tin nhắn trống hoặc dài quá %d ký tự" % MAX_MESSAGE)
+    if "\x00" in message:
+        raise ValueError("tin nhắn có ký tự không hợp lệ")
     project = check_project(params.get("project"))
     cfg = config()
     prompt = " " + message if message.startswith("-") else message  # a leading "-" would be read as a CLI flag
@@ -62,15 +80,10 @@ def build(params):
             "--permission-mode", cfg["permission_mode"], "--append-system-prompt", system_prompt(project)]
     if params.get("model") in cfg["models"]:
         argv += ["--model", params["model"]]
-    sfile = os.path.join(session_dir(project), "session")
-    sid = open(sfile).read().strip() if os.path.exists(sfile) else ""
-    if sid:
-        argv += ["--resume", sid]
-    else:
-        sid = str(uuid.uuid4())
-        with open(sfile, "w") as f:
-            f.write(sid)
-        argv += ["--session-id", sid]
+    sid = saved_session(project)
+    # A new session id is saved only when that job finishes well (on_end), so a failed first message never pins
+    # the box to a session that claude never created.
+    argv += ["--resume", sid] if sid else ["--session-id", str(uuid.uuid4())]
     argv += ["--allowedTools"] + cfg["allowed_tools"]
     _append(project, "owner", message)
     return argv
@@ -102,7 +115,12 @@ def on_line(job, line):
 def on_end(job):
     with _lock:
         texts = _answers.pop(job["id"], [])
-    _append(job["params"].get("project"), "claude", texts[-1] if texts else "(không có trả lời)")
+    project = job["params"].get("project")
+    argv = job.get("argv") or []
+    if job.get("status") == "done" and "--session-id" in argv:
+        with open(os.path.join(session_dir(project), "session"), "w") as f:
+            f.write(argv[argv.index("--session-id") + 1])
+    _append(project, "claude", texts[-1] if texts else "(không có trả lời)")
 
 
 def history(project):

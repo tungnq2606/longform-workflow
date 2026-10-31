@@ -76,7 +76,14 @@ def load_project(pdir):
 
 
 def list_projects():
-    return [load_project(os.path.dirname(p)) for p in sorted(glob.glob(os.path.join(paths.projects(), "*", "project.json")))]
+    """Every project whose project.json reads; a broken one is skipped so it cannot hide the others."""
+    out = []
+    for p in sorted(glob.glob(os.path.join(paths.projects(), "*", "project.json"))):
+        try:
+            out.append(load_project(os.path.dirname(p)))
+        except (OSError, ValueError):
+            continue
+    return out
 
 
 def main():

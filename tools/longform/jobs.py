@@ -127,11 +127,24 @@ def set_paused(on, reason=""):
     os.replace(_pause_file() + ".tmp", _pause_file())
 
 
+def _signal_group(p, sig):
+    """Jobs run in their own process group, so a stop also reaches the tools a job started."""
+    try:
+        os.killpg(p.pid, sig)
+    except OSError:
+        pass
+
+
 def _kill_later(p):
     try:
         p.wait(5)
     except subprocess.TimeoutExpired:
-        p.kill()
+        _signal_group(p, signal.SIGKILL)
+
+
+def _terminate(p):
+    _signal_group(p, signal.SIGTERM)
+    threading.Thread(target=_kill_later, args=(p,), daemon=True).start()
 
 
 def stop(job_id):
@@ -144,16 +157,10 @@ def stop(job_id):
             return True
         if job["status"] != "running":
             return False
-        _stopping.add(job_id)
+        _stopping.add(job_id)  # _run checks this right after it starts the process, so an early stop is not lost
         p = _procs.get(job_id)
     if p is not None:
-        p.send_signal(signal.SIGTERM)
-        threading.Thread(target=_kill_later, args=(p,), daemon=True).start()
-    elif job.get("pid"):
-        try:
-            os.kill(job["pid"], signal.SIGTERM)
-        except OSError:
-            pass
+        _terminate(p)
     return True
 
 
@@ -164,21 +171,20 @@ def _fail(job, error=None, code=None):
     return job
 
 
-def _run(job):
-    k = KINDS.get(job["kind"])
-    log = os.path.join(_dir(), job["id"] + ".log")
-    if k is None:
-        return _fail(job, error="loại job %s không còn" % job["kind"])
+def _execute(job, k, log):
     try:
         p = subprocess.Popen(job["argv"], cwd=k.cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
-                             encoding="utf-8", errors="replace", bufsize=1)
+                             encoding="utf-8", errors="replace", bufsize=1, start_new_session=True)
     except FileNotFoundError:
-        job = _fail(job, error="không tìm thấy lệnh %s" % job["argv"][0])
-    except OSError as e:
-        job = _fail(job, error="không chạy được lệnh %s: %s" % (job["argv"][0], e.strerror))
-    else:
-        with _lock:
-            _procs[job["id"]] = p
+        return _fail(job, error="không tìm thấy lệnh %s" % job["argv"][0])
+    except (OSError, ValueError) as e:
+        return _fail(job, error="không chạy được lệnh %s: %s" % (job["argv"][0], getattr(e, "strerror", None) or e))
+    with _lock:
+        _procs[job["id"]] = p
+        early_stop = job["id"] in _stopping
+    if early_stop:
+        _terminate(p)
+    try:
         job = _update(job["id"], pid=p.pid)
         with open(log, "a", encoding="utf-8") as fh:
             for line in p.stdout:
@@ -190,17 +196,31 @@ def _run(job):
                 fh.write(text if text.endswith("\n") else text + "\n")
                 fh.flush()
         code = p.wait()
+    except Exception:
+        _terminate(p)
+        raise
+    finally:
         with _lock:
             _procs.pop(job["id"], None)
             stopped = job["id"] in _stopping
             _stopping.discard(job["id"])
-        ended = time.strftime("%Y-%m-%dT%H:%M:%S")
-        if stopped:
-            job = _update(job["id"], status="stopped", ended=ended, exit=code)
-        elif code == 0:
-            job = _update(job["id"], status="done", ended=ended, exit=0)
-        else:
-            job = _fail(job, code=code)
+    ended = time.strftime("%Y-%m-%dT%H:%M:%S")
+    if stopped:
+        return _update(job["id"], status="stopped", ended=ended, exit=code)
+    if code == 0:
+        return _update(job["id"], status="done", ended=ended, exit=0)
+    return _fail(job, code=code)
+
+
+def _run(job):
+    k = KINDS.get(job["kind"])
+    log = os.path.join(_dir(), job["id"] + ".log")
+    if k is None:
+        return _fail(job, error="loại job %s không còn" % job["kind"])
+    try:
+        job = _execute(job, k, log)
+    except Exception as e:  # noqa: BLE001  any crash ends the job as failed, so its lane never stays blocked
+        job = _fail(job, error="lỗi trong Studio: %s" % e)
     if k.on_end:
         try:
             k.on_end(job)
