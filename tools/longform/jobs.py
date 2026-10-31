@@ -173,7 +173,8 @@ def _fail(job, error=None, code=None):
 
 def _execute(job, k, log):
     try:
-        p = subprocess.Popen(job["argv"], cwd=k.cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+        cwd = k.cwd(job) if callable(k.cwd) else k.cwd
+        p = subprocess.Popen(job["argv"], cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
                              encoding="utf-8", errors="replace", bufsize=1, start_new_session=True)
     except FileNotFoundError:
         return _fail(job, error="không tìm thấy lệnh %s" % job["argv"][0])

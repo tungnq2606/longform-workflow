@@ -187,6 +187,17 @@ class JobsTest(unittest.TestCase):
         jobs.stop(j["id"])
         self.assertEqual(self.wait(j["id"], "stopped", timeout=8), "stopped")
 
+    def test_cwd_from_job(self):
+        def build(params):
+            os.makedirs(os.path.join(self.root, "run1"))
+            params["run"] = os.path.join(self.root, "run1")  # build may add derived keys to params
+            return [sys.executable, "-c", "open('here.txt', 'w').write('x')"]
+        jobs.register(jobs.Kind("incwd", "x", build, cwd=lambda job: job["params"]["run"]))
+        j = jobs.enqueue("incwd", {}, None, "cwd")
+        self.assertEqual(j["params"]["run"], os.path.join(self.root, "run1"))
+        self.wait(j["id"], "done")
+        self.assertTrue(os.path.isfile(os.path.join(self.root, "run1", "here.txt")))
+
     def test_list_order(self):
         jobs.set_paused(True)
         a = jobs.enqueue("hi", {}, None, "a")
