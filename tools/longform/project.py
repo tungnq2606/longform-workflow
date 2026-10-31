@@ -5,12 +5,15 @@
 """
 import argparse
 import datetime as dt
+import fcntl
 import glob
 import json
 import os
 import re
+import tempfile
 import threading
 import unicodedata
+from contextlib import contextmanager
 
 from tools.longform import paths
 from tools.longform.languages import load_languages
@@ -75,22 +78,50 @@ def load_project(pdir):
         return json.load(f)
 
 
+@contextmanager
+def locked(pdir):
+    """Cross-process lock of project.json (Studio, job workers and CLI tools all write it)."""
+    with open(os.path.join(pdir, ".project.lock"), "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lk, fcntl.LOCK_UN)
+
+
+def write_meta(pdir, meta):
+    """Atomic write through a temp file of its own (never a shared name), then os.replace. Call it under locked()."""
+    fd, tmp = tempfile.mkstemp(prefix=".project.", suffix=".tmp", dir=pdir)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=1)
+        os.replace(tmp, os.path.join(pdir, "project.json"))
+    except BaseException:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise
+
+
+def update_meta(pdir, fn):
+    """Locked read-modify-write of project.json: fn(meta) changes meta in place. Returns the saved meta."""
+    with locked(pdir):
+        meta = load_project(pdir)
+        fn(meta)
+        write_meta(pdir, meta)
+    return meta
+
+
 def add_language(pdir, code):
     """Add a configured output language to a project and create its folders (Plan 6). Returns the new list."""
     if not isinstance(code, str) or code not in load_languages():
         raise ValueError("ngôn ngữ chưa khai báo trong config/languages.json: %s" % code)
-    with _new_lock:
-        meta = load_project(pdir)
+    def add(meta):
         if code in meta["languages"]:
             raise ValueError("dự án đã có ngôn ngữ %s" % code)
         for sub in LANG_DIRS:
             os.makedirs(os.path.join(pdir, "lang", code, sub), exist_ok=True)
         meta["languages"].append(code)
-        p = os.path.join(pdir, "project.json")
-        with open(p + ".tmp", "w", encoding="utf-8") as f:
-            json.dump(meta, f, ensure_ascii=False, indent=1)
-        os.replace(p + ".tmp", p)
-    return meta["languages"]
+    return update_meta(pdir, add)["languages"]
 
 
 def list_projects():

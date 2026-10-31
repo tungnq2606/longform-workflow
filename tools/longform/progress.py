@@ -6,6 +6,8 @@ States: todo, doing, wait (waiting for the owner), done.
 import json
 import os
 
+from tools.longform import project
+
 STEPS = [("topic", "Đề tài"), ("script", "Kịch bản"), ("images", "Hình ảnh"), ("scenes", "Cảnh"), ("langs", "Ngôn ngữ"),
          ("render", "Render"), ("upload", "Upload")]
 LANG_PARTS = [("script", "kịch bản"), ("voice", "giọng"), ("render", "render")]
@@ -15,13 +17,6 @@ STATES = ("todo", "doing", "wait", "done")
 def _load(pdir):
     with open(os.path.join(pdir, "project.json"), encoding="utf-8") as f:
         return json.load(f)
-
-
-def _save(pdir, meta):
-    p = os.path.join(pdir, "project.json")
-    with open(p + ".tmp", "w", encoding="utf-8") as f:
-        json.dump(meta, f, ensure_ascii=False, indent=1)
-    os.replace(p + ".tmp", p)
 
 
 def get(pdir):
@@ -41,17 +36,16 @@ def set_step(pdir, step_id, state):
     if step_id not in dict(STEPS):
         raise ValueError("không có bước %s" % step_id)
     _check_state(state)
-    meta = _load(pdir)
-    meta.setdefault("steps", {})[step_id] = state
-    _save(pdir, meta)
+    project.update_meta(pdir, lambda meta: meta.setdefault("steps", {}).__setitem__(step_id, state))
 
 
 def set_lang(pdir, code, part, state):
-    meta = _load(pdir)
-    if code not in meta["languages"]:
-        raise ValueError("dự án không có ngôn ngữ %s" % code)
     if part not in dict(LANG_PARTS):
         raise ValueError("không có phần %s" % part)
     _check_state(state)
-    meta.setdefault("lang_status", {}).setdefault(code, {})[part] = state
-    _save(pdir, meta)
+
+    def put(meta):
+        if code not in meta["languages"]:
+            raise ValueError("dự án không có ngôn ngữ %s" % code)
+        meta.setdefault("lang_status", {}).setdefault(code, {})[part] = state
+    project.update_meta(pdir, put)

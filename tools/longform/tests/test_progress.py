@@ -1,6 +1,9 @@
 import os
 import shutil
+import subprocess
+import sys
 import tempfile
+import threading
 import unittest
 
 WS = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -30,6 +33,39 @@ class ProgressTest(unittest.TestCase):
         self.progress.set_step(self.d, "script", "wait")
         self.assertEqual(self.progress.get(self.d)["steps"][1], {"id": "script", "label": "Kịch bản", "state": "wait"})
         self.assertEqual(self.project.load_project(self.d)["title"], "A")  # other keys kept
+
+    def test_concurrent_updates_keep_every_key(self):
+        """Threads and other processes update project.json at once: no update is lost, no shared temp file breaks."""
+        code = ("import sys; from tools.longform import progress\n"
+                "for _ in range(40):\n"
+                "    progress.set_lang(sys.argv[1], sys.argv[2], sys.argv[3], 'done')\n")
+        procs = [subprocess.Popen([sys.executable, "-c", code, self.d, lang, part], cwd=WS, env=dict(os.environ),
+                                  stderr=subprocess.PIPE, text=True)
+                 for lang in ("en", "ja") for part in ("script", "voice")]
+        errors = []
+
+        def steps(step):
+            try:
+                for _ in range(40):
+                    self.progress.set_step(self.d, step, "done")
+            except Exception as e:  # noqa: BLE001
+                errors.append(e)
+        threads = [threading.Thread(target=steps, args=(st,)) for st in ("topic", "script", "images", "scenes", "render")]
+        for t in threads:
+            t.start()
+        self.project.add_language(self.d, "de")
+        for t in threads:
+            t.join()
+        for p in procs:
+            self.assertEqual(p.wait(60), 0, p.stderr.read())
+        self.assertEqual(errors, [])
+        g = self.progress.get(self.d)
+        self.assertEqual({s["id"] for s in g["steps"] if s["state"] == "done"}, {"topic", "script", "images", "scenes", "render"})
+        langs = {l["code"]: l["parts"] for l in g["langs"]}
+        for lang in ("en", "ja"):
+            self.assertEqual((langs[lang]["script"], langs[lang]["voice"]), ("done", "done"))
+        self.assertIn("de", self.project.load_project(self.d)["languages"])
+        self.assertFalse([f for f in os.listdir(self.d) if f.endswith(".tmp") or f.startswith("tmp")])
 
     def test_set_step_unknown_raises(self):
         with self.assertRaises(ValueError):
