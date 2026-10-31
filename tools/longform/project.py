@@ -9,6 +9,7 @@ import glob
 import json
 import os
 import re
+import threading
 import unicodedata
 
 from tools.longform import paths
@@ -45,6 +46,28 @@ def create_project(num, slug, title, langs):
     with open(os.path.join(d, "project.json"), "w", encoding="utf-8") as f:
         json.dump(meta, f, ensure_ascii=False, indent=1)
     return d
+
+
+_new_lock = threading.Lock()
+
+
+def next_number():
+    nums = [int(os.path.basename(d)[:3]) for d in glob.glob(os.path.join(paths.projects(), "[0-9][0-9][0-9]-*"))]
+    return max(nums, default=0) + 1
+
+
+def new_project(title, langs):
+    """Studio's "Video mới": slug from the title, next free number."""
+    slug = ascii_slug(title)
+    if not slug:
+        raise ValueError("tên không có chữ Latin, không tạo được tên thư mục")
+    with _new_lock:
+        for _ in range(5):
+            try:
+                return create_project(next_number(), slug, title, langs)
+            except FileExistsError:
+                continue
+    raise FileExistsError("không tìm được số dự án trống")
 
 
 def load_project(pdir):
