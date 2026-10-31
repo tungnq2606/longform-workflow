@@ -428,6 +428,7 @@ ROUTES = [
     ("GET", r"/api/library/kits", library_kits),
     ("POST", r"/api/library/kits/([^/]+)/new_pose", new_pose),
 ]
+ROUTES += __import__("studio.routes_langs", fromlist=["ROUTES"]).ROUTES  # Plan 6: languages tab (studio/routes_langs.py)
 
 
 class Handler(BaseHTTPRequestHandler):

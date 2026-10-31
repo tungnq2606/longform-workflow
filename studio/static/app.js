@@ -1,5 +1,6 @@
 // Studio UI: hash router, polling, job bar, Claude box. User text only ever goes in via textContent.
 import {mountScript} from './script_view.js';
+import {mountLangs} from './langs_view.js';
 import {route, stateIcon, kindIcon, jobLine, runState, pauseButton, nextTheme, clock, stateLabel, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
 
 const $ = (id) => document.getElementById(id);
@@ -158,7 +159,7 @@ function renderProject(d, tab) {
   const tabs = h('nav', {class: 'tabs'}, Object.entries(TABS).map(([k, label]) =>
     h('a', {href: `#/p/${p.id}/${k}`, class: k === tab ? 'cur' : ''}, label)));
   const head = [h('h1', {}, `${p.id.slice(0, 3)} · ${p.title}`), h('section', {class: 'card phead'}, steps, langs), tabs];
-  if (tab === 'script') return head;  // the script screen itself is mounted once below the header (mountScript)
+  if (tab === 'script' || tab === 'langs') return head;  // these screens are mounted once below the header (mountScript, mountLangs)
   const body = tab === 'overview'
     ? h('section', {class: 'card'}, h('h2', {}, `🔔 Cần bạn (${d.inbox.length})`), inboxList(d.inbox, false))
     : h('p', {class: 'soon'}, `Màn hình ${TABS[tab]} làm ở Phần ${TAB_PLAN[tab]}.`);
@@ -167,8 +168,10 @@ function renderProject(d, tab) {
 
 let scriptMount = null;  // {pid, el}: kept across polls so typing and editing are never interrupted
 
-function scriptRoot(pid) {
-  if (!scriptMount || scriptMount.pid !== pid) scriptMount = {pid, el: mountScript(pid, {h, api})};
+function scriptRoot(pid, tab) {
+  if (!scriptMount || scriptMount.pid !== pid || scriptMount.tab !== tab) {
+    scriptMount = {pid, tab, el: (tab === 'langs' ? mountLangs : mountScript)(pid, {h, api})};
+  }
   return scriptMount.el;
 }
 
@@ -195,14 +198,14 @@ async function refresh() {
     nodes = [h('p', {class: 'error'}, `Không tải được: ${e.message}`), h('a', {href: '#/'}, '← Trang chủ')];
   }
   const key = JSON.stringify([location.hash, viewData, current.screen === 'home' ? lastJobs.map((j) => j.id + j.status) : 0]);
-  const onScript = current.screen === 'project' && current.tab === 'script' && viewData && viewData.project;
+  const onScript = current.screen === 'project' && (current.tab === 'script' || current.tab === 'langs') && viewData && viewData.project;
   if (onScript) {
     // header re-renders when its data changes; the mounted script screen is never torn down
     if (!$('phead') || key !== lastViewKey) {
       lastViewKey = key;
       const headEl = $('phead') || h('div', {id: 'phead'});
       headEl.replaceChildren(...nodes.flat());
-      const sv = scriptRoot(current.id);
+      const sv = scriptRoot(current.id, current.tab);
       if ($('view').firstChild !== headEl || headEl.nextSibling !== sv) $('view').replaceChildren(headEl, sv);
     }
   } else if (key !== lastViewKey) {

@@ -1,0 +1,32 @@
+/* Languages tab (Plan 6). Uses the colour tokens of style.css, so light and dark both work. */
+.lv-tabs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 12px; }
+.lv-tab { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 9px; color: var(--ink);
+  border: 1px solid var(--line); background: var(--card); font-weight: 600; }
+.lv-tab.cur { border-color: var(--accent); background: var(--accent-soft); }
+.lv-add { display: inline-flex; gap: 6px; align-items: center; margin-left: 6px; }
+.lv-add select { padding: 5px 8px; }
+.lv-msg { margin: 0 0 10px; color: var(--ok); }
+.lv-msg.error { color: var(--bad); }
+.lv-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.lv-bar .row { margin: 0; flex-wrap: wrap; }
+.lv-beats { display: flex; flex-direction: column; gap: 10px; max-height: 60vh; overflow: auto; }
+.lv-beat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 14px; border-top: 1px solid var(--line);
+  padding-top: 10px; }
+.lv-left .chips { margin-top: 4px; }
+.lv-flag { margin-top: 4px; padding: 6px 8px; border-left: 3px solid var(--warn); background: var(--card-2); border-radius: 6px; }
+.lv-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--gap); align-items: start; }
+.lv-parts li { flex-wrap: wrap; }
+.lv-parts .grow { flex: 1; min-width: 0; }
+.lv-parts code { font-size: 13px; }
+.lv-drop { display: block; margin-top: 10px; padding: 18px; border: 2px dashed var(--line); border-radius: 12px; text-align: center;
+  color: var(--muted); cursor: pointer; }
+.lv-drop.over { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.lv-field { margin-bottom: 10px; }
+.lv-field .grow { flex: 1; }
+.lv-field pre { white-space: pre-wrap; word-break: break-word; background: var(--card-2); border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px 10px; margin: 4px 0 0; font: inherit; font-size: 14px; max-height: 260px; overflow: auto; }
+.lv-thumb { width: 100%; max-width: 480px; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.lv-thumbform { display: grid; grid-template-columns: 1fr; gap: 6px; margin-top: 8px; max-width: 480px; }
+@media (max-width: 900px) {
+  .lv-grid, .lv-beat { grid-template-columns: minmax(0, 1fr); }
+}
