@@ -160,7 +160,8 @@ class ImageWorkerTest(ImgBase):
         self.assertEqual(j["lane"], "agy")
         self.assertEqual(j["argv"], [os.path.join(self.w.paths.WS, ".venv", "bin", "python"), "-m",
                                      "tools.longform.image_worker", "generate", self.pid, "BG01"])
-        self.assertFalse(any("claude" in a or "skip-permissions" in a for a in j["argv"]))
+        # argv[0] is checked exactly above; its folder may contain ".claude" (a worktree), so look at its name only
+        self.assertFalse(any("claude" in a or "skip-permissions" in a for a in [os.path.basename(j["argv"][0])] + j["argv"][1:]))
         r = self.jobs.enqueue("agy_image_review", {"project": self.pid, "item": "BG01"}, self.pid, "agy chấm BG01")
         self.assertEqual(r["argv"][-3:], ["review", self.pid, "BG01"])
         with self.assertRaises(ValueError):
