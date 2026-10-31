@@ -165,6 +165,19 @@ class LangScriptTest(Base):
         self.assertEqual(st["parts"]["script"], "done")
         self.assertEqual([i for i in self.inbox.open_items() if i["kind"] == "lang_flag"], [])
 
+    def test_review_number_words_block_auto_approve(self):
+        doc = en_doc(b01=[{"id": "s001", "text": "Have you ever wondered how a river can beat a fleet?", "facts": [], "kind": "question", "note": ""},
+                          {"id": "s002", "text": "In 1288, four hundred Yuan ships sailed into the Bach Dang River.", "facts": ["F001"],
+                           "kind": "fact", "note": ""}])
+        self.approve_source()
+        self.script.save(self.pdir, doc, "agy", lang="en")
+        self.fixture({"result.json": dict(doc, flags=[])})
+        j = self.jobs.enqueue("claude_review_lang", {"project": "001-a", "lang": "en"}, "001-a", "Claude soát EN")
+        self.assertEqual(self.run_job(j), "done")
+        self.assertEqual(self.row(self.ls.check(self.pdir, "en"), "s002")["colour"], "yellow")
+        self.assertFalse(self.script.load(self.pdir, "en")["approved"])
+        self.assertTrue(any(i["kind"] == "script_approve" for i in self.inbox.open_items()))
+
     def test_review_flags_go_to_inbox_with_back_translation(self):
         self.review(dict(en_doc(), flags=[{"sentence": "s003", "issue": "giọng hơi nặng",
                                            "back_translation_vi": "Quân của Trần Hưng Đạo bắt được Ô Mã Nhi."}]))

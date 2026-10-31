@@ -97,6 +97,30 @@ class ScriptTest(unittest.TestCase):
         self.assertEqual(c["colour"], "yellow")  # cannot compare words with the fact: the owner checks
         self.assertEqual(self.colour(s("Quân giặc có bốn trăm chiến thuyền.", ["F2"]))["colour"], "red")  # one B
 
+    def test_number_words_other_languages(self):
+        f = self.script.is_factual
+        for lang, yes, no in [
+                ("en", ["Four hundred ships were taken.", "Thirty ships sank.", "Twelve men rowed.", "A million arrows flew."],
+                 ["The river was calm.", "Someone shouted."]),
+                ("ja", ["三百隻の船が来た。", "兵は二十万人いた。", "十年後に戻った。"], ["川は静かだった。", "みんなで行こう。"]),
+                ("zh", ["三百艘船来了。"], ["河水很平静。"]),
+                ("de", ["Dreihundert Schiffe kamen.", "Zwanzig Boote sanken.", "Eine Million Pfeile.", "Tausende Krieger."],
+                 ["Ein Mann kam.", "Der Fluss war ruhig."]),
+                ("es", ["Trescientos barcos llegaron.", "Mil hombres remaron.", "Veinte barcos.", "Dos millones de flechas."],
+                 ["Un hombre llegó.", "El río estaba tranquilo."])]:
+            for t in yes:
+                self.assertTrue(f(s(t), lang), (lang, t))
+            for t in no:
+                self.assertFalse(f(s(t), lang), (lang, t))
+        c = self.script.colour(s("Four hundred ships were taken.", ["F1"]), SOURCES, FACTS, "en")
+        self.assertEqual(c["colour"], "yellow")
+        self.assertTrue(any(r.startswith(self.script.NUMBER_WORDS_YELLOW) for r in c["reasons"]), c["reasons"])
+        self.assertEqual(self.script.colour(s("Four hundred ships were taken."), SOURCES, FACTS, "en")["colour"], "red")
+        self.assertEqual(self.script.colour(s("三百隻の船が来た。", ["F2"]), SOURCES, FACTS, "ja")["colour"], "red")  # one B
+        # vi keeps its own words and text
+        self.assertIn("số viết bằng chữ: bạn tự đối chiếu với dữ kiện",
+                      self.colour(s("Quân giặc có bốn trăm chiến thuyền.", ["F1"]))["reasons"])
+
     def test_number_must_match_fact(self):
         self.assertEqual(self.colour(s("Có 999.999 chiếc thuyền.", ["F1"]))["colour"], "red")
         self.assertEqual(self.colour(s("Có 400 chiếc thuyền.", ["F1"]))["colour"], "green")

@@ -24,6 +24,22 @@ BANNED = ("chúng ta", "bạn nhỏ")
 USABLE = ("verified", "weak", "conflict")
 NUM_WORDS = re.compile(r"\b(mười|mươi|trăm|nghìn|ngàn|vạn|triệu|tỷ|tỉ)\b", re.IGNORECASE)
 DIGITS = re.compile(r"\d(?:[\d.,]*\d)?")
+_CJK_NUM = "一二三四五六七八九十百千万億"
+_CJK = re.compile(r"[%s]{2,}|[%s](?:年|月|日|人|名|隻|艘|歳|岁|騎|骑|里|世紀|世纪|個|个)" % (_CJK_NUM, _CJK_NUM))
+# Number words of the other languages (digits are caught separately). German compounds ("dreihundert") need no word
+# boundaries; single small numbers ("ein", "un") are too common to count, except English one…twenty.
+LANG_NUM_WORDS = {
+    "en": re.compile(r"\b(hundreds?|thousands?|millions?|billions?|one|two|three|four|five|six|seven|eight|nine|ten|"
+                     r"eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|"
+                     r"fifty|sixty|seventy|eighty|ninety)\b", re.IGNORECASE),
+    "de": re.compile(r"(hundert|tausend|million|milliarde|zwanzig|dreißig|dreissig|vierzig|fünfzig|sechzig|siebzig|"
+                     r"achtzig|neunzig)", re.IGNORECASE),
+    "es": re.compile(r"\b(cien|\w*cient[oa]s|quinient[oa]s|mil|miles|millón|millones|veinte|veinti\w+|treinta|cuarenta|"
+                     r"cincuenta|sesenta|setenta|ochenta|noventa)\b", re.IGNORECASE),
+    "ja": _CJK,
+    "zh": _CJK,
+}
+NUMBER_WORDS_YELLOW = "số viết bằng chữ"  # prefix of the yellow reason; blocks the automatic approval of a language
 SOURCE = "vi"
 LEGEND_WORDS = {"en": "legend", "ja": "伝説", "de": "legende", "es": "leyenda"}
 PROOF_WORDS = {"en": "prove", "ja": "証明", "de": "beweis", "es": "demostr", "fr": "prouv"}
@@ -117,12 +133,18 @@ def update(pdir, fn, by, base=None, lang=None):
         return _save(pdir, fn(load(pdir, lang)), by, base, lang)
 
 
+def number_words(text, lang=None):
+    """True when the text writes a number in words (vi: mười, trăm…; other languages: LANG_NUM_WORDS)."""
+    pat = NUM_WORDS if _src(lang) else LANG_NUM_WORDS.get(lang)
+    return bool(pat and pat.search(text))
+
+
 def is_factual(sentence, lang=None):
     if sentence.get("kind") == "fact":
         return True
     text = sentence.get("text", "")
-    if not _src(lang):  # capitals mean nothing for German nouns or Japanese: digits, kind and linked facts decide
-        return bool(re.search(r"\d", text))
+    if not _src(lang):  # capitals mean nothing for German nouns or Japanese: digits, number words, kind and facts decide
+        return bool(re.search(r"\d", text) or number_words(text, lang))
     if re.search(r"\d", text) or NUM_WORDS.search(text):
         return True
     start = True
@@ -158,7 +180,7 @@ def colour(sentence, sources, facts, lang=None):
     factual = is_factual(sentence, lang) or bool(sentence.get("facts"))
     if factual and not linked and not any("dữ kiện" in r for r in red):
         red.append("câu nêu sự kiện nhưng chưa gắn dữ kiện đã kiểm")
-    has_digits, has_words = bool(re.search(r"\d", text)), bool(src and NUM_WORDS.search(text))
+    has_digits, has_words = bool(re.search(r"\d", text)), number_words(text, lang)
     if (has_digits or has_words) and linked:
         as_checked = [dict(f, status="verified") if f["status"] == "conflict" else f for f in linked]
         if not factbank.supports_number(as_checked, sources):
@@ -168,7 +190,7 @@ def colour(sentence, sources, facts, lang=None):
         if missing:
             red.append("số %s không có trong dữ kiện đã gắn" % ", ".join(missing))
         if has_words:
-            yellow.append("số viết bằng chữ: bạn tự đối chiếu với dữ kiện")
+            yellow.append(NUMBER_WORDS_YELLOW + (": bạn tự đối chiếu với dữ kiện" if src else ", bạn tự đối chiếu với dữ kiện"))
     legend = "tương truyền" if src else LEGEND_WORDS.get(lang, "tương truyền")
     if any(f.get("legend") for f in linked) and legend not in low:
         red.append('dữ kiện truyền thuyết: phải có "%s"' % legend)

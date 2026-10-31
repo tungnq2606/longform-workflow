@@ -230,7 +230,9 @@ def review_end(job):
         return _refuse(job, str(e))
     c = record_check(pdir, lang)
     r = c["report"]
-    if not r["red"] and not c["glossary_misses"] and not c["problems"] and not clean["flags"]:
+    # a number written in words cannot be compared with the facts by code: the owner checks it, never auto
+    words = sum(any(x.startswith(script.NUMBER_WORDS_YELLOW) for x in row["reasons"]) for row in r["sentences"])
+    if not r["red"] and not c["glossary_misses"] and not c["problems"] and not clean["flags"] and not words:
         script.approve(pdir, "auto", lang=lang)
         inbox.add(pid, "lang_done", "Kịch bản %s v%d tự chốt: kiểm tự động và Claude đều sạch" % (lang.upper(), v),
                   screen=SCREEN, notify_owner=False)
@@ -239,9 +241,9 @@ def review_end(job):
     for f in clean["flags"]:
         inbox.add(pid, "lang_flag", "%s câu %s: %s — dịch lại: %s" % (lang.upper(), f["sentence"], f["issue"], f["back_translation_vi"]),
                   screen=SCREEN, key="langflag:%s:%s:%s" % (pid, lang, f["sentence"]))
-    if r["red"] or c["glossary_misses"] or c["problems"]:
-        inbox.add(pid, "script_approve", "Kịch bản %s v%d chờ bạn (đỏ %d, tên lệch bảng thuật ngữ %d)"
-                  % (lang.upper(), v, r["red"], c["glossary_misses"]), screen=SCREEN, key=script.approve_key(pdir, lang))
+    if r["red"] or c["glossary_misses"] or c["problems"] or words:
+        inbox.add(pid, "script_approve", "Kịch bản %s v%d chờ bạn (đỏ %d, tên lệch bảng thuật ngữ %d, số viết bằng chữ %d)"
+                  % (lang.upper(), v, r["red"], c["glossary_misses"], words), screen=SCREEN, key=script.approve_key(pdir, lang))
 
 
 # ---------------------------------------------------------------- on-screen labels (dates, names, places) per language
