@@ -2,6 +2,7 @@
 
   GET  /api/projects/<id>/langs/<lang>                  {source, script, check, outline, facts, voice, timing, upload, render, thumb}
   POST /api/projects/<id>/langs/<lang>/rewrite          agy_rewrite job
+  POST /api/projects/<id>/langs/<lang>/labels           agy_labels job (on-screen texts of the scene file)
   POST /api/projects/<id>/langs/<lang>/review           claude_review_lang job
   POST /api/projects/<id>/langs/<lang>/approve          owner approval
   POST /api/projects/<id>/langs/<lang>/voice/prepare    part texts + parts.json
@@ -125,6 +126,7 @@ LANG = r"/api/projects/([^/]+)/langs/([a-z]{2,3})"
 ROUTES = [
     ("GET", LANG, get_lang),
     ("POST", LANG + r"/rewrite", _job("agy_rewrite", "agy viết lại")),
+    ("POST", LANG + r"/labels", _job("agy_labels", "agy viết nhãn chữ")),
     ("POST", LANG + r"/review", _job("claude_review_lang", "Claude soát")),
     ("POST", LANG + r"/approve", approve),
     ("POST", LANG + r"/voice/prepare", voice_prepare),

@@ -1,7 +1,7 @@
 // Pure helpers for the Studio UI (no DOM), tested with `node --test studio/static/`.
 
 export const TABS = {overview: 'Tổng quan', script: 'Kịch bản', images: 'Hình ảnh', scenes: 'Cảnh', langs: 'Ngôn ngữ'};
-export const TAB_PLAN = {scenes: 5};
+export const TAB_PLAN = {};
 const PROJECT_ID = /^\d{3}-[a-z0-9-]+$/;
 const ITEM_ID = /^[A-Z]+\d+$/;
 

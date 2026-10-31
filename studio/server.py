@@ -449,6 +449,7 @@ ROUTES = [
     ("POST", r"/api/library/kits/([^/]+)/new_pose", new_pose),
 ]
 ROUTES += __import__("studio.routes_langs", fromlist=["ROUTES"]).ROUTES  # Plan 6: languages tab (studio/routes_langs.py)
+from studio import routes_scenes; ROUTES += routes_scenes.ROUTES  # noqa: E402,E702  Plan 5 scene board
 
 
 class Handler(BaseHTTPRequestHandler):

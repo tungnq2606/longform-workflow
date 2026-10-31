@@ -101,6 +101,12 @@ class ServerLangsTest(unittest.TestCase):
         self.assertEqual((st, out["missing"]), (200, []))
         self.assertTrue(any(j["kind"] == "timing_build" for j in self.jobs.list_jobs()))
 
+    def test_labels_job_route(self):
+        os.makedirs(os.path.join(self.pdir, "scenes"), exist_ok=True)
+        json.dump({"d": {"vi": "Mùa xuân 1288"}}, open(os.path.join(self.pdir, "scenes", "labels.json"), "w"))
+        st, job = self.req("POST", "/api/projects/001-a/langs/en/labels", {})
+        self.assertEqual((st, job["kind"]), (200, "agy_labels"))
+
     def test_add_language(self):
         st, out = self.req("POST", "/api/projects/001-a/languages", {"add": "de"})
         self.assertEqual(st, 200)

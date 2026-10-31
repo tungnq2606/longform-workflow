@@ -244,6 +244,38 @@ def review_end(job):
                   % (lang.upper(), v, r["red"], c["glossary_misses"]), screen=SCREEN, key=script.approve_key(pdir, lang))
 
 
+# ---------------------------------------------------------------- on-screen labels (dates, names, places) per language
+def labels_build(params):
+    pid, pdir, lang = _target(params)
+    from tools.longform import scenes
+    lbls = scenes.own_labels(pdir)
+    if not lbls:
+        raise ValueError("chưa có nhãn chữ trên màn hình (Claude dựng cảnh trước)")
+    run = _new_run(pdir, "agy_labels", lang)
+    workers._json_file(os.path.join(run, "labels.json"), {k: v.get("vi", "") for k, v in lbls.items()})
+    workers._json_file(os.path.join(run, "glossary.json"), glossary.load(lang))
+    _task(run, "LABELS.md", "labels.md", pdir, lang)
+    params["run"] = run
+    return agy.argv("Read LABELS.md in the current folder and do exactly what it says. " + agy.NO_TOOLS)
+
+
+def labels_end(job):
+    if job["status"] != "done":
+        return
+    data = workers._result(job)
+    if data is None:
+        return
+    from tools.longform import scenes
+    pid, pdir, lang = _target(job["params"])
+    if not isinstance(data, dict):
+        return _refuse(job, "result.json phải là object")
+    try:
+        scenes.set_lang_labels(pdir, lang, data)
+    except ValueError as e:
+        return _refuse(job, str(e))
+
+
+jobs.register(jobs.Kind("agy_labels", "agy", labels_build, cwd=workers._cwd, on_end=_guarded(labels_end)))
 jobs.register(jobs.Kind("agy_rewrite", "agy", rewrite_build, cwd=workers._cwd, on_end=_guarded(rewrite_end)))
 jobs.register(jobs.Kind("claude_review_lang", "claude", review_build, cwd=workers._cwd, on_line=claude_box.on_line,
                         on_end=_guarded(review_end)))

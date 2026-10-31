@@ -77,6 +77,8 @@ export function mountLangs(pid, {h, api}) {
           c.glossary_misses ? h('span', {class: 'muted'}, ` · tên lệch bảng thuật ngữ ${c.glossary_misses}`) : null),
         h('div', {class: 'row'}, rewrite,
           h('button', {class: 'ghost', onclick: () => act(() => api(`${base()}/review`, {}), 'Đã giao Claude soát')}, '🔍 Soát (Claude)'),
+          h('button', {class: 'ghost', title: 'Ngày, tên, nhãn bản đồ trên màn hình (cần file cảnh)',
+            onclick: () => act(() => api(`${base()}/labels`, {}), 'Đã giao agy viết nhãn chữ')}, '🏷 Nhãn chữ (agy)'),
           approve));
     }
     const problems = (c.problems || []).length ? h('p', {class: 'error'}, c.problems.join(' · ')) : null;

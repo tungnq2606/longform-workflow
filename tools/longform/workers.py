@@ -397,3 +397,8 @@ jobs.register(jobs.Kind("agy_research", "agy", research_build, cwd=_cwd, on_end=
 jobs.register(jobs.Kind("claude_verify", "claude", verify_build, cwd=_cwd, on_line=claude_box.on_line, on_end=_guarded(verify_end)))
 jobs.register(jobs.Kind("agy_draft", "agy", draft_build, cwd=_cwd, on_end=_guarded(draft_end)))
 jobs.register(jobs.Kind("claude_review", "claude", review_build, cwd=_cwd, on_line=claude_box.on_line, on_end=_guarded(review_end)))
+
+# Plan 5 kinds register themselves on import.
+from tools.longform import timing  # noqa: E402,F401
+from tools.longform import scenes  # noqa: E402,F401
+from tools.longform import render  # noqa: E402,F401

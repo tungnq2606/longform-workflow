@@ -26,3 +26,14 @@ Evidence links: ElevenLabs pricing https://elevenlabs.io/pricing ; Microsoft fon
 - Downloaded from https://github.com/google/fonts/raw/main/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf (folder https://github.com/google/fonts/tree/main/ofl/notosansjp) on 2026-11-01.
 - SHA-256: `c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f`
 - Licence: SIL Open Font License 1.1 (`OFL.txt` in the same folder: "Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'"). Commercial use and embedding in videos/images allowed; the font itself must not be sold alone. Status: OK.
+
+# Long-form workflow (2026-11-01, Plan 5)
+
+| Item | What we use | Status | Evidence / action |
+|---|---|---|---|
+| Font | Be Vietnam Pro ExtraBold (`tools/kit/fonts/BeVietnamPro-ExtraBold.ttf`): on-screen text in vi/en/de/es | OK | SIL Open Font License 1.1 (`tools/kit/fonts/LICENSE_BeVietnamPro.txt`), https://github.com/bettergui/BeVietnamPro |
+| Remotion 4.0.537 (`tools/anim/`) | Renders every long-form video | CHECK | Free for an individual or a company with up to 3 employees (`tools/anim/node_modules/remotion/LICENSE.md`); a larger company needs the Company License (remotion.pro). |
+| Real-ESRGAN ncnn-vulkan v0.2.5.0 + realesr-animevideov3 (`tools/upscale/vendor/`) | Upscales agy images | OK | BSD-3-Clause, https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan ; no claim on output images. |
+| Natural Earth (`library/maps/vn_region.json`) | Coastline and land drawn by code on maps | OK | Public domain, https://www.naturalearthdata.com/about/terms-of-use/ (download URL and SHA-256 below). |
+| Natural Earth download (2026-11-01) | Source of `library/maps/vn_region.json` (cropped to 100–125 E, 7–26 N, simplified by `python -m tools.longform.mapdata`) | OK | https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_coastline.geojson SHA-256 `6f75ae0e0de157b14946e2255eb1f5486d9a13819032e26d4610852d296788f6`; https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_land.geojson SHA-256 `1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416`. Downloads kept in `tools/maps/vendor/` (gitignored). |
+| Music and SFX (`library/audio/`) | Chapter music and light sound effects | per file | Each file needs a licence for monetised YouTube; `python -m tools.longform.audio_lib add` refuses a file without one and lists it in the table below. |
