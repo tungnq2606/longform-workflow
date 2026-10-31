@@ -69,6 +69,20 @@ class UploadTest(Base):
         self.assertEqual(json.load(open(os.path.join(self.pdir, "lang", "vi", "upload", "upload.json")))["title"],
                          "How Vietnam Beat the Mongol Fleet")
 
+    def test_numbers_must_come_from_the_approved_script(self):
+        self.seed_bank(claim("S1", "quân Nguyên đến sông Bạch Đằng", source_title="Đại Việt sử ký toàn thư 1697",
+                             claim_vi="Năm 1288 quân Nguyên đến sông Bạch Đằng"))
+        self.fb.set_status(self.pdir, "F001", "verified", "claude", "", "A")
+        d = doc("vi")
+        d["chapters"][0]["beats"][0]["sentences"][0]["text"] = "Năm 1288, quân Nguyên đến sông Bạch Đằng."
+        self.script.save(self.pdir, d, "owner")
+        ok = texts(title="Bạch Đằng 1288", description="Trận năm 1.288.\n0:00 Mở 99\nNguồn: Đại Việt sử ký toàn thư 1697")
+        self.assertTrue(any("chưa chốt" in p for p in self.up.validate(ok, "vi", self.pdir)))
+        self.script.approve(self.pdir, "owner")
+        self.assertEqual(self.up.validate(ok, "vi", self.pdir), [])  # chapter lines and real source names excepted
+        bad = self.up.validate(texts(title="Bạch Đằng 1287", description="400 thuyền.\nNguồn: A"), "vi", self.pdir)
+        self.assertTrue(any("1287" in p and "400" in p for p in bad), bad)
+
     def test_job_writes_after_validation(self):
         self.seed_bank(claim("S1", "quân Nguyên đến sông Bạch Đằng", source_title="Đại Việt sử ký toàn thư"))
         self.fb.set_status(self.pdir, "F001", "verified", "claude", "", "A")

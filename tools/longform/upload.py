@@ -30,8 +30,25 @@ def _nfc(text):
     return unicodedata.normalize("NFC", text or "")
 
 
-def validate(texts, lang):
-    """Vietnamese problems; empty when the texts can be used."""
+CHAPTER_LINE = re.compile(r"^\d{1,2}:\d{2}(:\d{2})?\s")
+
+
+def _numbers(pdir, lang, title, desc):
+    """Numbers in the title and description that the approved script of that language does not have."""
+    data = script.load(pdir, lang)
+    if not data or not data.get("approved"):
+        return ["kịch bản %s chưa chốt: không kiểm được con số" % lang.upper()]
+    known = " ".join([s["text"] for _, s in script.sentences(data)] + [ch.get("title", "") for ch in data.get("chapters", [])]
+                     + ["%s %s" % (n["title"], n["publisher"]) for n in source_names(pdir, data)])
+    known = set(script.digit_groups(known))
+    text = "\n".join([title] + [ln for ln in desc.splitlines() if not CHAPTER_LINE.match(ln.strip())])
+    missing = list(dict.fromkeys(n for n in script.digit_groups(text) if n not in known))
+    return ["số %s không có trong kịch bản %s đã chốt" % (", ".join(missing), lang.upper())] if missing else []
+
+
+def validate(texts, lang, pdir=None):
+    """Vietnamese problems; empty when the texts can be used. With pdir, every number in the title and description
+    must be in that language's approved script (chapter lines and the sources' own names excepted)."""
     if not isinstance(texts, dict) or not isinstance(texts.get("title"), str) or not isinstance(texts.get("description"), str) \
             or not isinstance(texts.get("tags"), list) or not all(isinstance(t, str) for t in texts["tags"]):
         return ["cần title (chuỗi), description (chuỗi) và tags (danh sách chuỗi)"]
@@ -55,6 +72,8 @@ def validate(texts, lang):
         out.append("dòng nguồn quá dài (tối đa %d ký tự)" % MAX_SOURCES_LINE)
     if len(",".join(texts["tags"])) > MAX_TAGS:
         out.append("tags dài quá %d ký tự" % MAX_TAGS)
+    if pdir is not None:
+        out += _numbers(pdir, lang, title, desc)
     return out
 
 
@@ -166,7 +185,7 @@ def end(job):
     if data is None:
         return
     pid, pdir, lang = _target(job["params"])
-    problems = validate(data, lang)
+    problems = validate(data, lang, pdir)
     if problems:
         return workers._refuse(job, "; ".join(problems), SCREEN)
     write(pdir, lang, {"title": data["title"].strip(), "description": data["description"].strip(),

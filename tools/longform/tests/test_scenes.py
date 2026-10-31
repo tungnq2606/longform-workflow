@@ -18,6 +18,15 @@ class ScenesTest(SceneBase):
         d["beats"]["B01"]["map"] = map_doc()
         self.assertEqual(self.problems(d), [])
 
+    def test_card_label_numbers_need_the_sentence_or_its_facts(self):
+        d = self.doc()
+        bad = dict(labels_doc(), date_1288={"vi": "Năm 1287"})  # 1287 is in neither s002 nor its fact
+        self.assertTrue(any("1287" in p for p in self.problems(d, bad)), self.problems(d, bad))
+        d["beats"]["B01"]["cards"][0]["sentence"] = "s001"  # "Bạn có biết không?" has no number and no fact
+        self.assertTrue(any("1288" in p for p in self.problems(d)), self.problems(d))
+        d = self.doc()
+        self.assertEqual(self.problems(d, dict(labels_doc(), date_1288={"vi": "Năm 1.288"})), [])  # separators ignored
+
     def test_validator_unknown_refs(self):
         d = self.doc()
         b = d["beats"]["B01"]

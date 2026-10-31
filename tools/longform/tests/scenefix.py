@@ -14,7 +14,7 @@ def scenes_doc():
         "background": {"id": "library:river-01", "camera": {"from": {"zoom": 1, "x": 0, "y": 0}, "to": {"zoom": 1.1, "x": -40, "y": 0}}},
         "heroes": [{"key": "hero-a/stand.calm", "x": 1900, "enter": "right", "keys": [{"sentence": "s002", "key": "hero-a/point.angry"}]}],
         "crowds": [{"faction": "nguyen", "count": 20, "path": "background", "speed": 0.001}],
-        "cards": [{"type": "date", "sentence": "s001", "text_key": "date_1288"}],
+        "cards": [{"type": "date", "sentence": "s002", "text_key": "date_1288"}],
         "map": None,
         "sfx": [{"sentence": "s002", "id": "oar-01", "offset": 0.3, "gain": 0.4}]}}}
 
@@ -55,7 +55,7 @@ class SceneBase(Base):
         with open(os.path.join(lib, "audio", "index.json"), "w") as f:
             json.dump({"music": [{"id": "open-01", "file": "music/open-01.mp3", "kind": "music", "mood": "opening", "license": "L"}],
                        "sfx": [{"id": "oar-01", "file": "sfx/oar-01.mp3", "kind": "sfx", "tags": ["oar"], "license": "L"}]}, f)
-        self.seed_bank(claim("c1", "quân Nguyên đến sông Bạch Đằng"))
+        self.seed_bank(claim("c1", "quân Nguyên đến sông Bạch Đằng", claim_vi="Năm 1288 quân Nguyên đến sông Bạch Đằng"))
         self.fact = sorted(self.fb.load(self.pdir)[1])[0]
         self.fb.set_status(self.pdir, self.fact, "verified", "test", "")
         from tools.longform import images as images_mod, scenes

@@ -48,6 +48,17 @@ class LangLabelsTest(Base):
         self.run_labels({"date_1288": "x" * 200, "name_thd": "Tran Hung Dao"})
         self.assertNotIn("en", self.scenes.own_labels(self.pdir)["name_thd"])
 
+    def test_label_numbers_must_match_vi(self):
+        self.run_labels({"date_1288": "Spring 1287", "name_thd": "Tran Hung Dao"})
+        self.assertNotIn("en", self.scenes.own_labels(self.pdir)["date_1288"])
+        self.assertTrue(any("1287" in i["text"] or "1288" in i["text"] for i in self.inbox.open_items()))
+        with self.assertRaises(ValueError):
+            self.scenes.set_lang_labels(self.pdir, "en", {"date_1288": "Spring", "name_thd": "Tran Hung Dao"})
+        with self.assertRaises(ValueError):
+            self.scenes.set_lang_labels(self.pdir, "en", {"date_1288": "Spring 1288", "name_thd": "Tran Hung Dao 2"})
+        self.scenes.set_lang_labels(self.pdir, "ja", {"date_1288": "１２８８年春", "name_thd": "チャン・フン・ダオ"})
+        self.assertEqual(self.scenes.own_labels(self.pdir)["date_1288"]["ja"], "１２８８年春")
+
     def test_requires_labels_file(self):
         os.remove(os.path.join(self.pdir, "scenes", "labels.json"))
         with self.assertRaises(ValueError):

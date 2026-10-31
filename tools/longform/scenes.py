@@ -229,6 +229,24 @@ def _beat(pdir, bid, b, sids, kits, audio, facts, lbls, out):
             p("hiệu ứng %s: gain phải 0.01–%.1f (nhẹ, dưới giọng)" % (s.get("id"), MAX_GAIN))
 
 
+def _card_numbers(bid, b, sents, allfacts, lbls, out):
+    """Every number on a card (vi label) must be in its sentence or in the facts that sentence links."""
+    for c in b.get("cards") or []:
+        if not isinstance(c, dict) or c.get("sentence") not in sents:
+            continue
+        s = sents[c["sentence"]]
+        known = set(script.digit_groups(s.get("text", "")))
+        for fid in s.get("facts", []):
+            f = allfacts.get(fid) or {}
+            known.update(script.digit_groups("%s %s" % (f.get("claim", ""), f.get("quote", ""))))
+        for key in (c.get("text_key"), c.get("text_key2")):
+            v = lbls.get(key)
+            missing = [n for n in script.digit_groups(v.get("vi") if isinstance(v, dict) else "") if n not in known]
+            if missing:
+                out.append("%s: thẻ chữ %s có số %s không có trong câu %s hay dữ kiện của câu"
+                           % (bid, key, ", ".join(missing), c["sentence"]))
+
+
 def validate(pdir, data, lbls=None):
     """Problems (Vietnamese) that refuse the scene file; empty when it can be saved and rendered.
     lbls: the labels to check against (default: the project's labels.json)."""
@@ -242,14 +260,16 @@ def validate(pdir, data, lbls=None):
         return out + ["chưa có kịch bản"]
     if not isinstance(data, dict) or not isinstance(data.get("beats"), dict):
         return out + ["file cảnh hỏng: thiếu beats"]
-    beat_sids, chapter_ids = {}, []
+    beat_sids, beat_sents, chapter_ids = {}, {}, []
     for ch in doc.get("chapters", []):
         chapter_ids.append(ch["id"])
         for b in ch.get("beats", []):
             beat_sids[b["id"]] = {s["id"] for s in b.get("sentences", [])}
+            beat_sents[b["id"]] = {s["id"]: s for s in b.get("sentences", [])}
     idx = audio_lib.load()
     audio = {"music": {e["id"] for e in idx["music"]}, "sfx": {e["id"] for e in idx["sfx"]}}
-    facts = {f["id"] for f in factbank.load(pdir)[1].values() if f["status"] in workers.USABLE}
+    allfacts = factbank.load(pdir)[1]
+    facts = {f["id"] for f in allfacts.values() if f["status"] in workers.USABLE}
     kits = kit_keys()
     chapters = data.get("chapters") or []
     if not isinstance(chapters, list):
@@ -270,6 +290,7 @@ def validate(pdir, data, lbls=None):
             continue
         try:
             _beat(pdir, bid, b, beat_sids[bid], kits, audio, facts, lbls, out)
+            _card_numbers(bid, b, beat_sents[bid], {k: v for k, v in allfacts.items() if k in facts}, lbls, out)
         except (TypeError, AttributeError, KeyError, ValueError) as e:
             out.append("%s: cảnh hỏng (%s)" % (bid, e))
     return out
@@ -321,6 +342,11 @@ def set_lang_labels(pdir, lang, texts):
         long = [k for k in lbls if len(texts[k]) > 120]
         if long:
             raise ValueError("nhãn dài quá 120 ký tự: %s" % ", ".join(long))
+        nums = [k for k in lbls if sorted(script.digit_groups(texts[k])) != sorted(script.digit_groups(lbls[k].get("vi", "")))]
+        if nums:
+            raise ValueError("số trong nhãn phải giữ đúng như tiếng Việt: %s" % "; ".join(
+                "%s (vi: %s; %s: %s)" % (k, " ".join(script.digit_groups(lbls[k].get("vi", ""))) or "không có số", lang,
+                                         " ".join(script.digit_groups(texts[k])) or "không có số") for k in nums))
         for k in lbls:
             lbls[k] = dict(lbls[k], **{lang: texts[k].strip()})
         _write(_dir(pdir, "labels.json"), lbls)

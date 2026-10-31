@@ -15,6 +15,7 @@ import json
 import os
 import re
 import time
+import unicodedata
 from contextlib import contextmanager
 
 from tools.longform import factbank, inbox, jobs, progress
@@ -24,6 +25,7 @@ BANNED = ("chúng ta", "bạn nhỏ")
 USABLE = ("verified", "weak", "conflict")
 NUM_WORDS = re.compile(r"\b(mười|mươi|trăm|nghìn|ngàn|vạn|triệu|tỷ|tỉ)\b", re.IGNORECASE)
 DIGITS = re.compile(r"\d(?:[\d.,]*\d)?")
+DIGIT_GROUP = re.compile(r"\d(?:[\d.,'’\u00a0\u202f]*\d)?")
 _CJK_NUM = "一二三四五六七八九十百千万億"
 _CJK = re.compile(r"[%s]{2,}|[%s](?:年|月|日|人|名|隻|艘|歳|岁|騎|骑|里|世紀|世纪|個|个)" % (_CJK_NUM, _CJK_NUM))
 # Number words of the other languages (digits are caught separately). German compounds ("dreihundert") need no word
@@ -131,6 +133,11 @@ def update(pdir, fn, by, base=None, lang=None):
     """Locked read-modify-write: fn(current script) -> new script. Returns the new version."""
     with _locked(pdir, lang):
         return _save(pdir, fn(load(pdir, lang)), by, base, lang)
+
+
+def digit_groups(text):
+    """The numbers written in digits, separators dropped and full-width digits folded ("1.288", "１２８８" -> "1288")."""
+    return [re.sub(r"\D", "", unicodedata.normalize("NFKC", g)) for g in DIGIT_GROUP.findall(text or "")]
 
 
 def number_words(text, lang=None):
