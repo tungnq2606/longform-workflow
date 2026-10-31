@@ -194,7 +194,9 @@ def generate_item(pdir, item_id):
     except imagegen.QuotaExhausted:
         jobs.set_paused(True, "agy hết quota")
         inbox.add(pid, "quota", "agy hết lượt tạo ảnh; Studio đã tạm dừng", screen="images", key="quota:agy")
-        return images.update(pdir, item_id, state="queued", note="agy hết quota")
+        it = images.update(pdir, item_id, state="queued", note="agy hết quota")
+        jobs.enqueue("agy_image", {"project": pid, "item": item_id}, pid, "agy vẽ %s" % item_id)  # held until resume
+        return it
     found = _checks(it, raw, pdir)
     files = {"raw": images.rel(raw), "final": None, "cutout": None}
     if not found:

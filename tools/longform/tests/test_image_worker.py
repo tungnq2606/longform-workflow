@@ -148,6 +148,13 @@ class ImageWorkerTest(ImgBase):
         self.assertEqual(self.jobs.paused(), {"on": True, "reason": "agy hết quota", "since": self.jobs.paused()["since"]})
         self.assertTrue(any(i["kind"] == "quota" for i in self.inbox.open_items()))
 
+    def test_quota_requeues_generate_job(self):
+        """The item goes back to queued with an agy_image job, held by the paused runner until resume."""
+        self.images.add(self.pdir, "bg", bg_spec())
+        with mock.patch.object(self.imagegen, "generate", mock.Mock(side_effect=self.imagegen.QuotaExhausted("q"))):
+            self.w.generate_item(self.pdir, "BG01")
+        self.assertEqual([j["params"]["item"] for j in self.queued("agy_image")], ["BG01"])
+
     def test_quota_exit_code_zero(self):
         self.images.add(self.pdir, "bg", bg_spec())
         with mock.patch.object(self.imagegen, "generate", mock.Mock(side_effect=self.imagegen.QuotaExhausted("q"))):
