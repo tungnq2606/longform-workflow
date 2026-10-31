@@ -1,5 +1,5 @@
 // Studio UI: hash router, polling, job bar, Claude box. User text only ever goes in via textContent.
-import {route, stateIcon, kindIcon, jobLine, runState, nextTheme, clock, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
+import {route, stateIcon, kindIcon, jobLine, runState, pauseButton, nextTheme, clock, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -34,6 +34,9 @@ let lastJobs = [];
 function showRunState() {
   $('runstate').textContent = runState(isPaused, lastJobs);
   $('runstate').classList.toggle('paused', isPaused);
+  const label = pauseButton(isPaused, lastJobs);
+  $('pause').hidden = !label;
+  if (label) $('pause').textContent = label;
 }
 let lastClaudeJobs = '';
 let viewData = null;
@@ -187,7 +190,6 @@ async function refresh() {
   if (paused) {
     isPaused = paused.on;
     showRunState();
-    $('pause').textContent = paused.on ? 'Chạy tiếp' : 'Tạm dừng';
     $('pause').dataset.on = paused.on ? '1' : '';
     $('pausebar').hidden = !paused.on;
     $('pausebar').textContent = paused.on ? `Đang tạm dừng: job đang chạy sẽ làm nốt, job mới chưa bắt đầu. (${paused.reason || ''})` : '';

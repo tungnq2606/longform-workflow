@@ -60,3 +60,9 @@ export const FLOW = [
   ['Render', '1440p cho mỗi ngôn ngữ'],
   ['Upload', 'bạn đăng, Studio soạn sẵn chữ'],
 ];
+
+// Pause button label, or null to hide it: nothing to pause while the queue is empty.
+export function pauseButton(paused, jobs) {
+  if (paused) return 'Chạy tiếp';
+  return jobs.some((j) => j.status === 'running' || j.status === 'queued') ? 'Tạm dừng' : null;
+}

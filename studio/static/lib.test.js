@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {route, stateIcon, kindIcon, progressBar, jobLine, runState, nextTheme, clock} from './lib.js';
+import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock} from './lib.js';
 
 test('route', () => {
   assert.deepEqual(route(''), {screen: 'home'});
@@ -64,4 +64,13 @@ test('nextTheme cycles auto → dark → light → auto', () => {
 test('clock', () => {
   assert.equal(clock('2026-10-31T21:36:05'), '21:36');
   assert.equal(clock(null), '');
+});
+
+test('pauseButton hidden when idle', () => {
+  const j = (status) => ({status});
+  assert.equal(pauseButton(false, []), null);
+  assert.equal(pauseButton(false, [j('done'), j('failed')]), null);
+  assert.equal(pauseButton(false, [j('queued')]), 'Tạm dừng');
+  assert.equal(pauseButton(false, [j('running')]), 'Tạm dừng');
+  assert.equal(pauseButton(true, []), 'Chạy tiếp');
 });
