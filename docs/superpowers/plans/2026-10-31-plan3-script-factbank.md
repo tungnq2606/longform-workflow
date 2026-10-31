@@ -27,7 +27,7 @@ Four new job kinds run through Plan 2's queue. Each kind's prompt is a template 
 - `agy_draft`;
 - `claude_review`.
 
-The chat is a fifth kind, `script_chat`. It is Claude with a script-specific system prompt and a small CLI (`python -m tools.longform.script_cli`), so Claude can read the bank and the script and queue agy work. The UI is a three-column screen: Chat | Ngân hàng dữ kiện | Kịch bản.
+The chat is a fifth kind, `agy_chat`: the owner's message goes straight to agy, never through Claude (owner, 2026-10-31). Studio gives agy the script, the fact bank and the style rules as a context file. agy answers with a structured result that Studio applies. Claude takes part only through the verify and review jobs that Studio starts. The UI is a three-column screen: Chat | Ngân hàng dữ kiện | Kịch bản.
 
 **Tech Stack:** Python 3.9 stdlib + Pillow (existing); Plan 2 `jobs`, `inbox`, `progress`, `claude_box`; agy CLI (`~/.local/bin/agy`, `--sandbox`, no shell commands, never skip-permissions); `claude -p` (subscription); vanilla JS ES modules.
 
@@ -242,42 +242,49 @@ The chat is a fifth kind, `script_chat`. It is Claude with a script-specific sys
 
 ---
 
-### Task 5: Script chat (Claude with script tools)
+### Task 5: Script chat (agy directly, no Claude in between)
+
+Owner rule, 2026-10-31: on the dashboard, agy work runs as agy itself; Claude never launches or relays agy. The chat goes straight to agy. Claude takes part only through the `claude_verify` and `claude_review` jobs, which Studio starts.
 
 **Files:**
-- Create: `tools/longform/script_cli.py`
-- Modify: `tools/longform/claude_box.py` (a `script` mode)
-- Test: `tools/longform/tests/test_script_cli.py`
+- Create: `tools/longform/chat.py`, `tools/longform/prompts/chat.md`
+- Test: `tools/longform/tests/test_chat.py`
 
 **Interfaces:**
+- Consumes: `agy.argv`, `jobs.Kind/register/enqueue`, `factbank.load`, `script.load/save`, `stylebook.kept/propose`.
 - Produces:
-  - `python -m tools.longform.script_cli <project> <command>`, with these commands:
-    - `facts [--status S]`: prints a compact table;
-    - `fact F001`: prints the claim, quote, source and status;
-    - `script`: prints the sentences with ids, colours and facts;
-    - `set-sentence s012 "text" --facts F001,F004`;
-    - `add-sentence B03 --after s012 "text" --facts …`;
-    - `research "request"`: enqueues `agy_research`;
-    - `draft "request"`: enqueues `agy_draft`;
-    - `review`: enqueues `claude_review`;
-    - `propose-rule "text"`: calls `stylebook.propose`.
-  - Each edit goes through `script.save(by="claude-chat")`. It refuses a fact id that is missing or rejected (exit code 2, Vietnamese message).
-  - `claude_box.build` accepts `params["mode"] == "script"`. That mode appends a system prompt saying:
-    - you are the script assistant for projects/<id>;
-    - use only `script_cli`;
-    - never state a fact that is not in the bank;
-    - for new facts, run `research`;
-    - when the owner corrects the voice, run `propose-rule`.
-  - It also adds the allowed tool `Bash(.venv/bin/python -m tools.longform.script_cli *)`.
-  - The chat history is shared with the project's Claude box (one session per project).
+  - Job kind `agy_chat`, lane `agy`, params `{"project", "message"}`.
+  - **Context.** `build` writes a context file in a new run folder `research/runs/agy_chat-<n>/`:
+    - the last 20 chat lines from `script/chat.jsonl`;
+    - the current script, with sentence ids, colours and facts;
+    - the fact bank, as a compact list of `id`, `status`, `claim`;
+    - the kept style rules.
+  - **Prompt.** `prompts/chat.md` says:
+    - answer the owner in Vietnamese;
+    - use only facts in the bank;
+    - never run shell commands or call MCP tools;
+    - write exactly one `result.json`.
+  - **Result format** (`result.json`): `{"reply": str, "edits": [{"op": "set|add|delete", "id", "beat", "after", "text", "facts"}], "research": str | null, "draft": str | null, "rule": str | null}`.
+  - **`on_end`** (when the job is `done`):
+    - append the owner's message and `reply` to `script/chat.jsonl`;
+    - apply `edits` through `script.save(by="agy-chat")`, after checking every fact id exists and is not rejected. A bad edit is refused whole, and the reply says why;
+    - `research`, if present, enqueues `agy_research` directly;
+    - `draft`, if present, enqueues `agy_draft` directly;
+    - `rule`, if present, calls `stylebook.propose`.
+  - `chat.history(pdir) -> list[dict]`: the last 50 entries `{"role": "owner"|"agy"|"system", "text", "at"}`.
+  - The chat buttons map straight to jobs, with no AI routing:
+    - "Tìm tư liệu" → `agy_research`;
+    - "Viết nháp" → `agy_draft`;
+    - "Soát lại" → `claude_review`.
 - [ ] **Step 1: Write failing tests:**
-  - `test_cli_facts_lists`
-  - `test_cli_set_sentence_saves_version`
-  - `test_cli_rejects_rejected_fact`
-  - `test_cli_research_enqueues`
-  - `test_script_mode_prompt_and_tools`
+  - `test_build_writes_context_no_claude`: the argv starts with the agy binary, and `"claude"` is not in the argv.
+  - `test_edits_applied`
+  - `test_edit_with_rejected_fact_refused_whole`
+  - `test_research_request_enqueues_agy_research`
+  - `test_rule_proposed`
+  - `test_bad_result_keeps_script`
 - [ ] **Steps 2–4:** Run, implement, run. Expected: FAIL, then PASS.
-- [ ] **Step 5: Commit** `feat: script chat via Claude with script CLI`.
+- [ ] **Step 5: Commit** `feat: script chat runs agy directly`.
 
 ---
 
@@ -300,7 +307,8 @@ The chat is a fifth kind, `script_chat`. It is Claude with a script-specific sys
 | POST | `/api/projects/<id>/research` | `{"request"}` → `agy_research` job |
 | POST | `/api/projects/<id>/draft` | `{"request"}` → `agy_draft` job |
 | POST | `/api/projects/<id>/review` | → `claude_review` job |
-| POST | `/api/projects/<id>/chat` | `{"message", "model"}` → claude job with `mode: "script"` |
+| POST | `/api/projects/<id>/chat` | `{"message"}` → `agy_chat` job (agy directly) |
+| GET | `/api/projects/<id>/chat` | `chat.history` |
 | POST | `/api/projects/<id>/facts/<F>/status` | owner override `{"status", "note"}` (by `owner`) |
 | POST | `/api/projects/<id>/sources/upload` | `{"name", "data": base64}` ≤ 30 MB, PDF/JPG/PNG/TXT only → `research/uploads/`; then an `agy_research` job with request "rút dữ kiện từ file <name>" |
 | GET | `/api/stylebook/<lang>` | the book |
