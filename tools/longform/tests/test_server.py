@@ -307,6 +307,96 @@ class ServerTest(unittest.TestCase):
         self.assertEqual((st, h), (200, []))
         self.assertEqual(self.req("GET", "/api/claude/history?project=..%2Fx")[0], 404)
 
+    # ------------------------------------------------------------ images (Plan 4)
+    def make_images(self):
+        """A project with BG01 (pass, final drawn) and BG02 (queued), plus the style lock and one kit."""
+        from PIL import Image
+        from tools.longform import images, project
+        from tools.longform.tests.imgfix import bg_spec
+        lib = os.path.join(self.root, "library")
+        os.makedirs(os.path.join(lib, "style"))
+        shutil.copy(os.path.join(WS, "library", "style", "longform_v1.json"), os.path.join(lib, "style"))
+        kdir = os.path.join(lib, "characters", "hero-a")
+        os.makedirs(kdir)
+        st = Image.new("RGBA", (120, 300), (0, 0, 0, 0))
+        st.paste((200, 30, 30, 255), (20, 20, 100, 290))
+        st.save(os.path.join(kdir, "stand_calm.png"))
+        with open(os.path.join(kdir, "kit.json"), "w") as f:
+            json.dump({"id": "hero-a", "name": "Hero A", "height": 530,
+                       "images": {"stand.calm": {"file": "stand_calm.png", "anchor": [60, 289], "size": [120, 300]}}}, f)
+        pdir = project.create_project(1, "a", "A", [])
+        images.add(pdir, "bg", bg_spec())
+        images.add(pdir, "bg", bg_spec())
+        final = os.path.join(pdir, "images", "final", "BG01.png")
+        os.makedirs(os.path.dirname(final))
+        Image.new("RGB", (1600, 900), (100, 120, 90)).save(final)
+        images.update(pdir, "BG01", state="pass", score=5, files={"raw": None, "final": images.rel(final), "cutout": None})
+        return pdir
+
+    def test_images_list_and_approve(self):
+        self.make_images()
+        st, out = self.req("GET", "/api/projects/001-a/images")
+        self.assertEqual(st, 200)
+        self.assertEqual([i["id"] for i in out["items"]], ["BG01", "BG02"])
+        self.assertEqual(out["counts"], {"pass": 1, "queued": 1})
+        self.assertEqual(out["lanes"]["agy"], 4)
+        st, it = self.req("POST", "/api/projects/001-a/images/BG01/approve", {})
+        self.assertEqual((st, it["state"]), (200, "approved"))
+        st, err = self.req("POST", "/api/projects/001-a/images/BG02/approve", {})
+        self.assertEqual(st, 400)
+        st, out = self.req("POST", "/api/projects/001-a/images/approve_many", {"ids": ["BG01", "BG02"]})
+        self.assertEqual(sorted(out["errors"]), ["BG01", "BG02"])  # BG01 already approved
+        self.assertEqual(self.req("POST", "/api/projects/001-a/images/BG01/to_library", {"name": "Sông 1"})[1], {"id": "song-1"})
+        self.assertEqual(self.req("POST", "/api/projects/001-a/images/BG02/reject", {})[1]["state"], "rejected")
+        self.assertEqual(self.req("POST", "/api/projects/001-a/images/BG77/reject", {})[0], 404)
+
+    def test_image_file_route_only_known_items(self):
+        self.make_images()
+        st, body = self.req("GET", "/api/projects/001-a/images/BG01/final")
+        self.assertEqual((st, body[:4]), (200, b"\x89PNG"))
+        st, body = self.req("GET", "/api/projects/001-a/images/BG01/thumb")
+        self.assertEqual((st, body[:3]), (200, b"\xff\xd8\xff"))
+        self.assertEqual(self.req("GET", "/api/projects/001-a/images/BG01/raw")[0], 404)  # no raw file recorded
+        self.assertEqual(self.req("GET", "/api/projects/001-a/images/BG02/final")[0], 404)  # nothing drawn yet
+        self.assertEqual(self.req("GET", "/api/projects/001-a/images/BG99/final")[0], 404)
+        self.assertEqual(self.req("GET", "/api/projects/001-a/images/..%2F..%2Fproject.json/final")[0], 404)
+        self.assertEqual(self.req("GET", "/api/projects/001-a/images/BG01/..%2Fitems.json")[0], 404)
+
+    def test_lanes_endpoint_caps(self):
+        from studio import server
+        runner = self.jobs.Runner({"agy": 4, "claude": 1})
+        with mock.patch.object(server, "RUNNER", runner):
+            st, out = self.req("POST", "/api/lanes", {"agy": 6})
+            self.assertEqual((st, out), (200, {"agy": 6}))
+            self.assertEqual(runner.lanes["agy"], 6)
+            self.assertEqual(server.studio_config()["lanes"]["agy"], 6)
+            self.assertEqual(server.studio_config()["lanes"]["claude"], 1)  # rest of the config kept
+            for bad in (0, 9, "4", None, 2.5):
+                self.assertEqual(self.req("POST", "/api/lanes", {"agy": bad})[0], 400, bad)
+            self.assertEqual(runner.lanes["agy"], 6)
+
+    def test_redo_and_shotlist_and_new_pose(self):
+        self.make_images()
+        st, it = self.req("POST", "/api/projects/001-a/images/BG01/redo", {"note": "Bỏ ngôi chùa"})
+        self.assertEqual((st, it["state"], it["fix"]), (200, "queued", "Bỏ ngôi chùa"))
+        self.assertEqual(self.req("POST", "/api/projects/001-a/shotlist", {})[0], 400)  # script not approved
+        st, kits = self.req("GET", "/api/library/kits")
+        self.assertEqual(kits, [{"id": "hero-a", "name": "Hero A", "height": 530,
+                                 "poses": [{"key": "stand.calm", "thumb": "/api/thumb/pose/hero-a~stand.calm"}]}])
+        st, body = self.req("GET", "/api/thumb/pose/hero-a~stand.calm")
+        self.assertEqual((st, body[:4]), (200, b"\x89PNG"))
+        self.assertEqual(self.req("GET", "/api/thumb/pose/hero-a~nope")[0], 404)
+        st, it = self.req("POST", "/api/library/kits/hero-a/new_pose",
+                          {"project": "001-a", "pose_key": "point.determined", "description": "pointing ahead with the right arm"})
+        self.assertEqual((st, it["id"], it["type"], it["kit"]), (200, "H01", "pose", "hero-a"))
+        self.assertIn("pointing ahead with the right arm", it["prompt"])
+        self.assertEqual(self.req("POST", "/api/library/kits/hero-a/new_pose",
+                                  {"project": "001-a", "pose_key": "stand.calm", "description": "standing"})[0], 400)
+        self.assertEqual(self.req("POST", "/api/library/kits/nobody/new_pose",
+                                  {"project": "001-a", "pose_key": "a.b", "description": "x"})[0], 404)
+        queued = [j["params"]["item"] for j in self.jobs.list_jobs() if j["kind"] == "agy_image"]
+        self.assertEqual(sorted(queued), ["BG01", "H01"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -12,7 +12,7 @@ from PIL import Image
 from tools.longform import paths
 
 THUMB_W = {"bg": 1600}
-THUMB_H = {"char": 480}
+THUMB_H = {"char": 480, "pose": 240}
 
 
 def _json(p):
@@ -54,13 +54,25 @@ def _source(kind, item):
         k, d = _characters()[item]
         first = next(iter(k["images"].values()))
         return os.path.join(d, first["file"])
+    if kind == "pose":  # item = "<kit>~<pose.expr>"
+        kid, _, key = item.partition("~")
+        k, d = _characters()[kid]
+        return os.path.join(d, k["images"][key]["file"])
     raise KeyError(kind)
+
+
+def kits():
+    """Every hero kit with its pose keys and thumbnail URLs, for Studio's library screen."""
+    return [{"id": cid, "name": k.get("name", cid), "height": k.get("height"),
+             "poses": [{"key": key, "thumb": "/api/thumb/pose/%s~%s" % (cid, key)} for key in sorted(k["images"])]}
+            for cid, (k, _) in _characters().items()]
 
 
 def thumb(kind, item):
     """Path of a cached thumbnail; KeyError when the kind or id is not in the library."""
     src = _source(kind, item)
     ext = ".jpg" if kind == "bg" else ".png"
+    item = item.replace("~", "_").replace(".", "_")
     out_dir = os.path.join(paths.state(), "thumbs")
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, "%s-%s%s" % (kind, item, ext))

@@ -14,13 +14,15 @@ import re
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from tools.longform import (chat, claude_box, factbank, inbox, jobs, languages, library_index, paths, progress, project,
-                            script, stylebook, workers)
+from tools.longform import (castsheet, chat, claude_box, factbank, images, inbox, jobs, languages, library_index, paths,
+                            progress, project, script, stylebook, workers)
 
 STATIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 HEX_ID = re.compile(r"^[0-9a-f]{32}$")
 MAX_UPLOAD = 30 * 1024 * 1024
 UPLOAD_TYPES = (".pdf", ".jpg", ".jpeg", ".png", ".txt")
+MAX_LANE = 8
+RUNNER = None  # the live jobs.Runner (set by main), so lane changes apply at once
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
          ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".json": "application/json"}
 
@@ -271,6 +273,122 @@ def decide_rule(q, body, lang, rid):
         raise HttpError(404, "không có quy tắc %s" % rid)
 
 
+# ---------------------------------------------------------------- images step (Plan 4)
+def _lanes():
+    return dict(RUNNER.lanes) if RUNNER is not None else dict(studio_config()["lanes"])
+
+
+def get_images(q, body, pid):
+    pdir = project_dir(pid)
+    return {"items": images.load(pdir), "counts": images.counts(pdir), "lanes": _lanes()}
+
+
+def _item_call(fn, pdir, iid, *args):
+    try:
+        return fn(pdir, iid, *args)
+    except KeyError:
+        raise HttpError(404, "không có ảnh %s" % iid)
+    except ValueError as e:
+        raise HttpError(400, str(e))
+
+
+def image_file(q, body, pid, iid, which):
+    pdir = project_dir(pid)
+    try:
+        return FileReply(images.thumb(pdir, iid) if which == "thumb" else images.file_of(pdir, iid, which))
+    except KeyError:
+        raise HttpError(404, "không có ảnh")
+
+
+def image_action(q, body, pid, iid, action):
+    pdir = project_dir(pid)
+    if action == "approve":
+        return _item_call(images.approve, pdir, iid)
+    if action == "reject":
+        return _item_call(images.reject, pdir, iid)
+    if action == "redo":
+        note = body.get("note")
+        if not isinstance(note, str) or len(note) > 2000:
+            raise HttpError(400, "ghi chú không hợp lệ")
+        return _item_call(images.redo, pdir, iid, note)
+    if action == "to_library":
+        return {"id": _item_call(images.save_background, pdir, iid, body.get("name"))}
+    raise HttpError(404, "không có")
+
+
+def approve_many(q, body, pid):
+    ids = body.get("ids")
+    if not isinstance(ids, list) or not all(isinstance(i, str) for i in ids):
+        raise HttpError(400, "danh sách ảnh không hợp lệ")
+    return images.approve_many(project_dir(pid), ids)
+
+
+def start_shotlist(q, body, pid):
+    project_dir(pid)
+    return _enqueue("agy_shotlist", {"project": pid}, pid, "agy lập danh sách ảnh")
+
+
+def build_cast_sheet(q, body, pid):
+    try:
+        castsheet.build(project_dir(pid))
+    except ValueError as e:
+        raise HttpError(400, str(e))
+    return {"ok": True}
+
+
+def get_cast_sheet(q, body, pid):
+    path = os.path.join(project_dir(pid), "images", "cast_sheet.png")
+    if not os.path.isfile(path):
+        raise HttpError(404, "chưa có ảnh tổng nhân vật")
+    return FileReply(path)
+
+
+def set_lanes(q, body):
+    n = body.get("agy")
+    if type(n) is not int or not 1 <= n <= MAX_LANE:
+        raise HttpError(400, "số luồng agy phải từ 1 đến %d" % MAX_LANE)
+    if RUNNER is not None:
+        RUNNER.lanes["agy"] = n
+    cfg = studio_config()
+    cfg["lanes"]["agy"] = n
+    p = os.path.join(paths.config(), "studio.json")
+    with open(p + ".tmp", "w", encoding="utf-8") as f:
+        json.dump(cfg, f, ensure_ascii=False, indent=1)
+    os.replace(p + ".tmp", p)
+    return {"agy": n}
+
+
+def library_kits(q, body):
+    return library_index.kits()
+
+
+def new_pose(q, body, kit_id):
+    if kit_id not in {k["id"] for k in library_index.kits()}:
+        raise HttpError(404, "không có bộ nhân vật %s" % kit_id)
+    pid = body.get("project")
+    if not isinstance(pid, str):
+        raise HttpError(400, "chọn dự án cho tư thế mới")
+    pdir = project_dir(pid)
+    key = body.get("pose_key")
+    if key in {p["key"] for k in library_index.kits() if k["id"] == kit_id for p in k["poses"]}:
+        raise HttpError(400, "bộ %s đã có tư thế %s" % (kit_id, key))
+    spec = body.get("spec")
+    if spec is None:
+        desc = body.get("description")
+        if not isinstance(desc, str) or not desc.strip() or len(desc) > 1000:
+            raise HttpError(400, "thiếu mô tả tư thế")
+        spec = {"shot": "full body", "angle": "eye level", "layout": "one figure centred, feet near the bottom edge",
+                "setting": "plain flat chroma green #00B140, nothing else", "people": desc.strip(),
+                "props": "only what the model sheet shows", "light": "flat even light",
+                "must_not": ["second figure", "model sheet layout", "scenery", "floor or shadow"]}
+    try:
+        it = images.add(pdir, "pose", spec, kit=kit_id, pose_key=key)
+    except ValueError as e:
+        raise HttpError(400, str(e))
+    jobs.enqueue("agy_image", {"project": pid, "item": it["id"]}, pid, "agy vẽ tư thế mới %s %s" % (kit_id, key))
+    return it
+
+
 ROUTES = [
     ("GET", r"/api/home", home),
     ("GET", r"/api/languages", langs),
@@ -299,6 +417,16 @@ ROUTES = [
     ("POST", r"/api/projects/([^/]+)/sources/upload", upload_source),
     ("GET", r"/api/stylebook/([^/]+)", get_stylebook),
     ("POST", r"/api/stylebook/([^/]+)/([^/]+)/decide", decide_rule),
+    ("GET", r"/api/projects/([^/]+)/images", get_images),
+    ("POST", r"/api/projects/([^/]+)/images/approve_many", approve_many),
+    ("GET", r"/api/projects/([^/]+)/images/([A-Z]+[0-9]+)/(raw|final|cutout|thumb)", image_file),
+    ("POST", r"/api/projects/([^/]+)/images/([A-Z]+[0-9]+)/(approve|redo|reject|to_library)", image_action),
+    ("POST", r"/api/projects/([^/]+)/shotlist", start_shotlist),
+    ("POST", r"/api/projects/([^/]+)/cast_sheet", build_cast_sheet),
+    ("GET", r"/api/projects/([^/]+)/cast_sheet", get_cast_sheet),
+    ("POST", r"/api/lanes", set_lanes),
+    ("GET", r"/api/library/kits", library_kits),
+    ("POST", r"/api/library/kits/([^/]+)/new_pose", new_pose),
 ]
 
 
@@ -397,8 +525,9 @@ def main():
     n = jobs.recover()
     if n:
         print("Studio: %d job bị ngắt từ lần trước (xem Cần bạn)" % n, flush=True)
+    global RUNNER
     runner = jobs.Runner(cfg["lanes"])
-    srv.runner = runner
+    srv.runner = RUNNER = runner
     runner.start()
     print("Studio: http://127.0.0.1:%d" % cfg["port"], flush=True)
     try:

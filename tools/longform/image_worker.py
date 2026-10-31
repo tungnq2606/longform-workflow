@@ -45,8 +45,6 @@ RUBRIC = {
              "Matches the style lock: ink outlines, flat muted watercolour fills."],
 }
 NOT_SCORED = "agy không chấm được ảnh này"
-CUTOUT_VI = {"no transparency": "không tách được nền xanh", "touches edge": "nhân vật chạm mép ảnh",
-             "key colour left on figure": "còn màu xanh nền trên người nhân vật"}
 
 
 def _pdir(pid):
@@ -113,7 +111,7 @@ def _pose_checks(path):
         try:
             cutout.cut(src, cut)
             for p in cutout.check(cut, source=src):
-                vi = next((v for k, v in CUTOUT_VI.items() if p.startswith(k)), p)
+                vi = next((v for k, v in images.CUTOUT_VI.items() if p.startswith(k)), p)
                 out.append((vi, "Clean cutout needed: %s. Keep the whole figure inside the frame with green around it." % p))
         except ValueError:
             out.append(("không tách được nhân vật khỏi nền xanh", "Draw one clear figure on flat chroma green #00B140."))

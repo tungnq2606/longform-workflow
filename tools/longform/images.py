@@ -12,10 +12,13 @@ import fcntl
 import json
 import os
 import re
+import shutil
 import time
 from contextlib import contextmanager
 
-from tools.longform import imgspec, paths, progress
+from PIL import Image
+
+from tools.longform import cutout, imgspec, inbox, jobs, kit, paths, progress, project
 
 STATES = ("queued", "generating", "reviewing", "pass", "wait", "approved", "rejected", "failed")
 PREFIX = {"bg": "BG", "prop": "P", "pose": "H"}
@@ -23,6 +26,9 @@ RUNNING = ("queued", "generating", "reviewing")
 FINISHED = ("approved", "rejected")
 POSE_KEY = re.compile(r"^[a-z0-9-]+\.[a-z0-9-]+$")
 KIT_ID = re.compile(r"^[a-z0-9-]+$")
+CUTOUT_VI = {"no transparency": "không tách được nền xanh", "touches edge": "nhân vật chạm mép ảnh",
+             "key colour left on figure": "còn màu xanh nền trên người nhân vật"}
+DECIDABLE = ("pass", "wait", "failed")  # the owner may approve, redo or reject these
 
 
 def _now():
@@ -172,3 +178,134 @@ def update(pdir, item_id, note="", **fields):
                 _save(pdir, items)
                 return it
     raise KeyError(item_id)
+
+
+# ---------------------------------------------------------------- owner actions (Studio grid)
+def _key(pdir, item_id):
+    return "img:%s:%s" % (os.path.basename(pdir), item_id)
+
+
+def _cutout_problems(it):
+    files = it.get("files") or {}
+    if not files.get("cutout") or not os.path.isfile(abspath(files["cutout"])):
+        return ["chưa có ảnh đã tách nền"]
+    out = []
+    for p in cutout.check(abspath(files["cutout"]), source=abspath(files["final"])):
+        out.append(next((v for k, v in CUTOUT_VI.items() if p.startswith(k)), p))
+    return out
+
+
+def approve(pdir, item_id):
+    it = get(pdir, item_id)
+    final = (it.get("files") or {}).get("final")
+    if it["state"] not in DECIDABLE or not final or not os.path.isfile(abspath(final)):
+        raise ValueError("%s chưa có ảnh để duyệt" % item_id)
+    if it["type"] == "pose":
+        problems = _cutout_problems(it)
+        if problems:
+            raise ValueError("Không duyệt được %s: %s" % (item_id, "; ".join(problems)))
+        problems = kit.add_image(it["kit"], it["pose_key"], abspath(final))
+        if problems:
+            raise ValueError("Bộ nhân vật %s báo lỗi: %s" % (it["kit"], "; ".join(problems)))
+        try:
+            kit.write_ts(kit.TS_OUT)
+        except SystemExit as e:
+            raise ValueError(str(e))
+    it = update(pdir, item_id, state="approved", note="bạn duyệt")
+    inbox.resolve_key(_key(pdir, item_id))
+    return it
+
+
+def approve_many(pdir, ids):
+    out = {"approved": [], "errors": {}}
+    for i in ids:
+        try:
+            approve(pdir, i)
+            out["approved"].append(i)
+        except KeyError:
+            out["errors"][i] = "không có ảnh %s" % i
+        except ValueError as e:
+            out["errors"][i] = str(e)
+    return out
+
+
+def redo(pdir, item_id, note):
+    """Redraw with the owner's note as the fix. Attempts stay as they are: the owner's redo is not an auto redo."""
+    it = get(pdir, item_id)
+    if it.get("reuse"):
+        raise ValueError("%s là nền dùng lại từ thư viện" % item_id)
+    if it["state"] in RUNNING:
+        raise ValueError("%s đang được làm" % item_id)
+    pid = os.path.basename(pdir)
+    it = update(pdir, item_id, state="queued", fix=str(note or "").strip(), note="bạn yêu cầu vẽ lại: %s" % (note or ""))
+    jobs.enqueue("agy_image", {"project": pid, "item": item_id}, pid, "agy vẽ lại %s (bạn yêu cầu)" % item_id)
+    inbox.resolve_key(_key(pdir, item_id))
+    return it
+
+
+def reject(pdir, item_id):
+    it = get(pdir, item_id)
+    if it["state"] in ("generating", "reviewing"):
+        raise ValueError("%s đang được làm" % item_id)
+    it = update(pdir, item_id, state="rejected", note="bạn bỏ")
+    inbox.resolve_key(_key(pdir, item_id))
+    return it
+
+
+def save_background(pdir, item_id, name):
+    """Copy an approved background into the library, with an empty geometry sidecar (filled in Plan 5)."""
+    it = get(pdir, item_id)
+    if it["type"] != "bg" or it["state"] != "approved" or it.get("reuse"):
+        raise ValueError("chỉ nền đã duyệt (không phải nền dùng lại) mới đưa vào thư viện")
+    slug = project.ascii_slug(str(name or ""))
+    if not slug:
+        raise ValueError("thiếu tên nền")
+    d = os.path.join(paths.library(), "backgrounds")
+    os.makedirs(d, exist_ok=True)
+    if os.path.exists(os.path.join(d, slug + ".png")):
+        raise ValueError("thư viện đã có nền %s" % slug)
+    shutil.copyfile(abspath(it["files"]["final"]), os.path.join(d, slug + ".png"))
+    with open(os.path.join(d, slug + ".json"), "w", encoding="utf-8") as f:
+        json.dump({"horizonY": None, "groundY": None, "path": []}, f)
+    update(pdir, item_id, library=slug)
+    return slug
+
+
+THUMB_W = 480
+
+
+def file_of(pdir, item_id, which):
+    """Absolute path of one of an item's own files (raw, final, cutout), looked up from the item, never from the
+    caller's text. KeyError when the item or that file does not exist."""
+    if which not in ("raw", "final", "cutout"):
+        raise KeyError(which)
+    rel_path = (get(pdir, item_id).get("files") or {}).get(which)
+    if not rel_path or not os.path.isfile(abspath(rel_path)):
+        raise KeyError(which)
+    return abspath(rel_path)
+
+
+def thumb(pdir, item_id):
+    """A small cached preview for the grid: the cutout of a pose (PNG), else the final or raw image (JPEG)."""
+    for which in ("cutout", "final", "raw"):
+        try:
+            src = file_of(pdir, item_id, which)
+            break
+        except KeyError:
+            continue
+    else:
+        raise KeyError(item_id)
+    png = which == "cutout"
+    d = os.path.join(pdir, "images", "thumbs")
+    os.makedirs(d, exist_ok=True)
+    out = os.path.join(d, item_id + (".png" if png else ".jpg"))
+    if os.path.exists(out) and os.path.getmtime(out) >= os.path.getmtime(src):
+        return out
+    with Image.open(src) as im:
+        im.thumbnail((THUMB_W, THUMB_W))
+        if png:
+            im.convert("RGBA").save(out + ".tmp", "PNG")
+        else:
+            im.convert("RGB").save(out + ".tmp", "JPEG", quality=85)
+    os.replace(out + ".tmp", out)
+    return out
