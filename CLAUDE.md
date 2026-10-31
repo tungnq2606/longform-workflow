@@ -8,7 +8,9 @@ The owner talks to Claude in Vietnamese.
 
 - Design (approved 2026-10-31): `docs/superpowers/specs/2026-10-31-longform-workflow-design.md`
 - Roadmap (6 plans): `docs/superpowers/plans/2026-10-31-longform-roadmap.md`
-- Current plan: `docs/superpowers/plans/2026-10-31-plan1-foundation-spike.md`
+- Plans done: 1 (foundation + spike, `2026-10-31-plan1-foundation-spike.md`), 2 (Studio shell, `2026-10-31-plan2-studio-shell.md`)
+- Next: Plan 3 (script chat + fact bank), written when started
+- Handoff for another agent: `HANDOFF.md`
 
 ## Folder map
 
@@ -18,6 +20,9 @@ projects/NNN-slug/          one video: project.json, research/, script/, images/
 library/                    shared by every video: characters/ (hero kits), crowds/, backgrounds/, style/,
                             glossary/, stylebook/
 config/languages.json       voice engine, speed, font, line breaking per language
+config/studio.json          Studio port, job lanes, Claude box permissions (acceptEdits + allowed tools)
+config/secrets/             Telegram secret (gitignored: never print or commit)
+studio/                     Studio dashboard: server.py (API), static/ (UI); runtime state in studio/state/ (gitignored)
 tools/longform/             Python package for the new workflow (stdlib + Pillow, unittest)
 tools/anim/                 Remotion project; new long-form components in src/longform/
 tools/gemini/               agy image generation/review, lessons (MUST block), pre-flight
@@ -25,13 +30,14 @@ tools/imageprompts/         older prompt builder and style files (reference for 
 tools/research/scout.py     YouTube demand/competition measurement (yt-dlp)
 tools/kit/storyboard.py     sentence timing from audio pauses (reused later)
 tools/edge-tts-batch/       Edge extension for batch ElevenLabs voice
-tools/notify.py             Telegram (secret in dashboard/secrets/telegram.json: never print or commit)
-dashboard/                  OLD dashboard, kept until Plan 2 replaces it
-channels/vn-history/        old Shorts-era channel files (brand, LESSONS.md, prompt_lessons.json) until Plan 2
+tools/notify.py             Telegram: send(text), link(project, screen) (secret in config/secrets/telegram.json)
+channels/vn-history/        LESSONS.md, prompt_lessons.json, research/ (move to library/ in Plan 4); brand moved to
+                            /Users/quoctung/Documents/AI/brand/cong-truong-lich-su/
 ```
 
-Python: `.venv/bin/python` (Pillow 11.3.0). Tests: `.venv/bin/python -m unittest discover -s tools/longform/tests -v`
-and `cd tools/anim && node --test src/longform/`.
+Python: `.venv/bin/python` (Pillow 11.3.0). Tests: `.venv/bin/python -m unittest discover -s tools/longform/tests -v`,
+`node --test studio/static/` and `cd tools/anim && node --test src/longform/ && npx tsc --noEmit -p .`.
+Start Studio: `.venv/bin/python -m studio`, then open http://127.0.0.1:8765 (localhost only; see `studio/README.md`).
 
 ## Rules (do not break)
 
