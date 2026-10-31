@@ -1,9 +1,0 @@
-{
- "id": "{{ID}}",
- "name": "{{NAME}}",
- "handle": "@{{HANDLE}}",
- "about": "one line: niche, audience, promise (Gemini and Claude read this as channel context)",
- "language": "en",
- "style": "stickman-v1",
- "status": "active"
-}

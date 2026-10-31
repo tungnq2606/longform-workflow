@@ -3,4 +3,3 @@ export * from './theme';
 export * from './draw';
 export * from './Figure';
 export * from './scene';
-export type {Beat, Cam, Scenes} from './Video';

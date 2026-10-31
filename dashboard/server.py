@@ -1406,15 +1406,6 @@ class H(BaseHTTPRequestHandler):
                 return self.send(200, open(os.path.join(DASH, "favicon.svg"), "rb").read(), "image/svg+xml")
             if u.path in ("/", "/index.html"):
                 return self.send(200, open(os.path.join(DASH, "index.html"), "rb").read(), "text/html; charset=utf-8")
-            if u.path in ("/office", "/office/", "/office.html"):  # 3D office view of the same jobs (decorative, read-only)
-                return self.send(200, open(os.path.join(DASH, "office", "index.html"), "rb").read(), "text/html; charset=utf-8")
-            if u.path.startswith(("/vendor/", "/office/")):  # bundled libraries and the office page files, only inside these folders
-                f = os.path.realpath(os.path.join(DASH, urllib.parse.unquote(u.path).lstrip("/")))
-                top = os.path.join(DASH, u.path.strip("/").split("/")[0])
-                if f.startswith(top + os.sep) and os.path.isfile(f):
-                    ctype = {".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".woff2": "font/woff2", ".json": "application/json",
-                             ".md": "text/plain; charset=utf-8"}.get(os.path.splitext(f)[1]) or mimetypes.guess_type(f)[0] or "application/octet-stream"
-                    return self.send(200, open(f, "rb").read(), ctype)
             if u.path == "/api/state":
                 return self.send(200, state())
             if u.path == "/api/video":
