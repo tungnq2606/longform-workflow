@@ -1,0 +1,10 @@
+{
+ "note": "Output languages. vi is the source. 'voice' is set by the owner (voice name in Vbee / ElevenLabs). line_break: space = break at spaces; cjk = Japanese rules (no spaces).",
+ "languages": {
+  "vi": {"name": "Tiếng Việt", "voice_engine": "vbee", "voice": "", "speed": 1.13, "font": "Be Vietnam Pro", "line_break": "space"},
+  "en": {"name": "English", "voice_engine": "elevenlabs", "voice": "", "speed": 1.0, "font": "Be Vietnam Pro", "line_break": "space"},
+  "ja": {"name": "日本語", "voice_engine": "elevenlabs", "voice": "", "speed": 1.0, "font": "Noto Sans JP", "line_break": "cjk"},
+  "de": {"name": "Deutsch", "voice_engine": "elevenlabs", "voice": "", "speed": 1.0, "font": "Be Vietnam Pro", "line_break": "space"},
+  "es": {"name": "Español", "voice_engine": "elevenlabs", "voice": "", "speed": 1.0, "font": "Be Vietnam Pro", "line_break": "space"}
+ }
+}

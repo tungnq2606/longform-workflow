@@ -1,0 +1,77 @@
+"""Long-form projects: one folder per video, one sub-folder per output language.
+
+  python -m tools.longform.project new 1 "Bạch Đằng 1288" --title "..." --lang vi,en,ja
+  python -m tools.longform.project list
+"""
+import argparse
+import datetime as dt
+import glob
+import json
+import os
+import re
+import unicodedata
+
+from tools.longform import paths
+from tools.longform.languages import load_languages
+
+SOURCE_LANG = "vi"
+SHARED_DIRS = ("research", "script", "images/raw", "scenes", "audio")
+LANG_DIRS = ("script", "audio", "render", "upload")
+
+
+def ascii_slug(text):
+    text = text.replace("đ", "d").replace("Đ", "D")
+    text = unicodedata.normalize("NFD", text).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def create_project(num, slug, title, langs):
+    known = load_languages()
+    unknown = [c for c in langs if c not in known]
+    if unknown:
+        raise ValueError("unknown language code(s): %s (known: %s)" % (", ".join(unknown), ", ".join(known)))
+    if glob.glob(os.path.join(paths.projects(), "%03d-*" % num)):
+        raise FileExistsError("project number %03d already exists" % num)
+    order = [SOURCE_LANG] + [c for c in langs if c != SOURCE_LANG]
+    pid = "%03d-%s" % (num, ascii_slug(slug))
+    d = os.path.join(paths.projects(), pid)
+    for sub in SHARED_DIRS:
+        os.makedirs(os.path.join(d, sub))
+    for c in order:
+        for sub in LANG_DIRS:
+            os.makedirs(os.path.join(d, "lang", c, sub))
+    meta = {"id": pid, "num": num, "slug": ascii_slug(slug), "title": title, "source_lang": SOURCE_LANG,
+            "languages": order, "created": dt.date.today().isoformat()}
+    with open(os.path.join(d, "project.json"), "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False, indent=1)
+    return d
+
+
+def load_project(pdir):
+    with open(os.path.join(pdir, "project.json"), encoding="utf-8") as f:
+        return json.load(f)
+
+
+def list_projects():
+    return [load_project(os.path.dirname(p)) for p in sorted(glob.glob(os.path.join(paths.projects(), "*", "project.json")))]
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    n = sub.add_parser("new")
+    n.add_argument("num", type=int)
+    n.add_argument("slug")
+    n.add_argument("--title", default="")
+    n.add_argument("--lang", default=SOURCE_LANG)
+    sub.add_parser("list")
+    a = ap.parse_args()
+    if a.cmd == "new":
+        print(create_project(a.num, a.slug, a.title or a.slug, [c.strip() for c in a.lang.split(",") if c.strip()]))
+    else:
+        for p in list_projects():
+            print("%s  %s  [%s]" % (p["id"], p["title"], ", ".join(p["languages"])))
+
+
+if __name__ == "__main__":
+    main()
