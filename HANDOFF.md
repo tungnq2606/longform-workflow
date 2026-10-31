@@ -67,7 +67,7 @@ Start it with `.venv/bin/python -m studio`, then open http://127.0.0.1:8765. Det
 | 1 Foundation + spike | done, merged |
 | 2 Studio shell | done on branch `longform-plan2` (merge after the owner's check) |
 | 3 Script chat + fact bank | next. agy drafts; Claude reviews; every factual sentence links to a verbatim quote |
-| 4 Images + streaming review | agy for every image; reviews in parallel; move `channels/vn-history/` lessons into `library/` |
+| 4 Images + streaming review | agy for every image; reviews in parallel; lessons in `library/lessons/` |
 | 5 Scene board + production Remotion | beat-keyed scenes, map, music + light SFX |
 | 6 Languages + voice + upload | native rewrite per language, beat alignment, voice drop-in, thumbnails |
 

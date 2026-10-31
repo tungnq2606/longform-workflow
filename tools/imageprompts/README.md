@@ -16,7 +16,8 @@ which pastes the style block word for word and refuses to write prompts that bre
      It is never generated: `agy_images.py` pastes the approved model sheets together (`compose_cast_sheet.py`)
      as soon as the last one is approved, so it cannot drift from them;
    - the scenes.
-3. `python3 tools/gemini/agy_images.py VIDEO` generates the images with Gemini through the Antigravity CLI.
+3. (Shorts era; `agy_images.py` and the rest of `tools/gemini/` are archived in
+   `/Users/quoctung/Documents/AI/archive/2026-10-31/workspace-code/tools/gemini/`) `agy_images.py VIDEO` generated the images with Gemini through the Antigravity CLI.
    It finds the files itself, keeps every variant in `images/raw/`, checks size and ratio, and turns scenes into
    2560x1440 frames in `images/frames/`. Sheets stop for approval: `--approve ID [--variant N]` copies the chosen
    sheet to `images/refs/`. Everything after a sheet waits until that sheet is approved.

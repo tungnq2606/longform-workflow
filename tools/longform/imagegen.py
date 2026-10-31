@@ -3,7 +3,7 @@ no gflow/Flow).
 
   generate(prompt, refs, out_dir, name, aspect="16:9") -> [saved paths]
 
-Same contracts as tools/gemini/agy_images.py (preamble, output discovery, quota stop words), without sips.
+Same contracts as the archived Shorts-era agy_images.py (preamble, output discovery, quota stop words), without sips.
 """
 import glob
 import json

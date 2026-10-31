@@ -5,4 +5,6 @@
 - `crowds/`: crowd faction definitions for the code-drawn stick figures (helmet, tunic colour, weapon).
 - `style/`: style locks (`longform_v1.json`): background and character prompt blocks, negative list, chroma colour, owner verdict.
 - `glossary/<code>.json`: history terms and proper-name spellings/pronunciations per language (e.g. Trần Hưng Đạo in Japanese).
+- `lessons/`: `prompt_lessons.json` (rules added as a MUST block to every image prompt, `tools/longform/lessons.py`) and `LESSONS.md` (process notes from the Shorts era).
+- `research/`: topic scouting data (`tools/research/scout.py`).
 - `stylebook/<code>.md`: writing-style rules per language, including rules the owner kept from chat edits.

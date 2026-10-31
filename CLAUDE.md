@@ -18,20 +18,20 @@ The owner talks to Claude in Vietnamese.
 projects/NNN-slug/          one video: project.json, research/, script/, images/, scenes/, audio/
   lang/<code>/              per language: script/, audio/, render/, upload/
 library/                    shared by every video: characters/ (hero kits), crowds/, backgrounds/, style/,
-                            glossary/, stylebook/
+                            glossary/, stylebook/, lessons/, research/
 config/languages.json       voice engine, speed, font, line breaking per language
 config/studio.json          Studio port, job lanes, Claude box permissions (acceptEdits + allowed tools)
 config/secrets/             Telegram secret (gitignored: never print or commit)
 studio/                     Studio dashboard: server.py (API), static/ (UI); runtime state in studio/state/ (gitignored)
 tools/longform/             Python package for the new workflow (stdlib + Pillow, unittest)
 tools/anim/                 Remotion project; new long-form components in src/longform/
-tools/gemini/               agy image generation/review, lessons (MUST block), pre-flight
 tools/imageprompts/         older prompt builder and style files (reference for the prompt standard)
 tools/research/scout.py     YouTube demand/competition measurement (yt-dlp)
 tools/kit/storyboard.py     sentence timing from audio pauses (reused later)
 tools/edge-tts-batch/       Edge extension for batch ElevenLabs voice
 tools/notify.py             Telegram: send(text), link(project, screen) (secret in config/secrets/telegram.json)
-channels/vn-history/        LESSONS.md, prompt_lessons.json, research/ (move to library/ in Plan 4); brand moved to
+library/lessons/            prompt_lessons.json (MUST block of every image prompt), LESSONS.md; library/research/ scout
+                            data (moved from channels/vn-history/ in Plan 4); channel brand is in
                             /Users/quoctung/Documents/AI/brand/cong-truong-lich-su/
 ```
 
