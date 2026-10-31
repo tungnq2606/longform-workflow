@@ -391,6 +391,7 @@ jobs.register(jobs.Kind("agy_shotlist", "agy", shotlist_build, cwd=_cwd, on_end=
 from tools.longform import image_worker  # noqa: E402,F401
 from tools.longform import langscript  # noqa: E402,F401  Plan 6: agy_rewrite, claude_review_lang
 from tools.longform import upload  # noqa: E402,F401  Plan 6: agy_upload_texts
+from tools.longform import thumb  # noqa: E402,F401  Plan 6: render_thumb
 
 jobs.register(jobs.Kind("agy_research", "agy", research_build, cwd=_cwd, on_end=_guarded(research_end)))
 jobs.register(jobs.Kind("claude_verify", "claude", verify_build, cwd=_cwd, on_line=claude_box.on_line, on_end=_guarded(verify_end)))
