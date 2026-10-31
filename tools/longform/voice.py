@@ -1,8 +1,9 @@
 """Voice parts per language. The owner makes the voice by hand on the web (Vbee for vi, ElevenLabs for the others);
 Studio prepares the text of each part and its file name, then takes the mp3 files back.
 
-  lang/<code>/audio/parts.json       [{"part": "01", "file": "parts/01.mp3", "sentences": [...], "chars", "seconds", "flags"}]
-                                     (Plan 5 timing reads part, file (relative to audio/) and sentences)
+  lang/<code>/audio/parts.json       [{"part": "01", "file": "parts/01.mp3", "sentences": [...], "hash", "chars", "seconds",
+                                       "flags"}] (Plan 5 timing reads part, file (relative to audio/) and sentences;
+                                     hash = the part's text when prepared: an edited sentence makes the part stale)
   lang/<code>/audio/parts/NN.txt     the text to paste
   lang/<code>/audio/parts/NN.mp3     the owner's file
 
@@ -10,6 +11,7 @@ A part stays under the tool limit (Vbee: ~55 s, it inserts a system sentence pas
 characters). A sentence is never split: one longer than the limit becomes its own part, flagged to cut by hand.
 When every part is present, the timing job (Plan 5 kind timing_build, lane cpu) is queued.
 """
+import hashlib
 import json
 import os
 import re
@@ -87,6 +89,10 @@ def _key(pdir, lang):
     return "voice:%s:%s" % (_pid(pdir), lang)
 
 
+def text_hash(text):
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
+
+
 def _sentences(pdir, lang):
     data = script.load(pdir, lang)
     return [(s["id"], s["text"]) for _, s in script.sentences(data or {})], data
@@ -102,7 +108,8 @@ def prepare(pdir, lang):
     pdir_parts = _parts_dir(pdir, lang)
     os.makedirs(pdir_parts, exist_ok=True)
     old = load_parts(pdir, lang) or []
-    if [p["sentences"] for p in old] != [p["sentences"] for p in parts]:  # different parts: move the old files away
+    if [(p["sentences"], p.get("hash")) for p in old] != [(p["sentences"], text_hash(p["text"])) for p in parts]:
+        # different parts or texts: move the old files away
         stash = os.path.join(pdir_parts, "old", time.strftime("%Y%m%d-%H%M%S"))
         for name in os.listdir(pdir_parts):
             if re.fullmatch(r"\d{2}\.(mp3|txt)", name):
@@ -113,7 +120,7 @@ def prepare(pdir, lang):
         with open(os.path.join(pdir_parts, p["part"] + ".txt"), "w", encoding="utf-8") as f:
             f.write(p["text"])
         rows.append({"part": p["part"], "file": "parts/%s.mp3" % p["part"], "sentences": p["sentences"],
-                     "chars": len(p["text"]), "seconds": p["seconds"], "flags": p["flags"]})
+                     "hash": text_hash(p["text"]), "chars": len(p["text"]), "seconds": p["seconds"], "flags": p["flags"]})
     _write_json(os.path.join(_audio(pdir, lang), "parts.json"), rows)
     progress.set_lang(pdir, lang, "voice", "wait")
     inbox.add(_pid(pdir), "voice_needed", "Giọng %s: %d phần chờ bạn tạo (%s)" % (lang.upper(), len(rows), _engine(cfg)),
@@ -125,11 +132,15 @@ def status(pdir, lang):
     parts = load_parts(pdir, lang) or []
     sents, _ = _sentences(pdir, lang)
     order = [sid for sid, _ in sents]
-    stale = bool(parts) and [sid for p in parts for sid in p["sentences"]] != order
+    texts = dict(sents)
+    # a part prepared before hashes existed (no "hash") is judged by its sentence ids only
+    stale_parts = [p["part"] for p in parts if p.get("hash") and
+                   p["hash"] != text_hash("\n".join(texts.get(sid, "") for sid in p["sentences"]))]
+    stale = bool(parts) and ([sid for p in parts for sid in p["sentences"]] != order or bool(stale_parts))
     rows = [{"part": p["part"], "file": p["file"], "chars": p.get("chars"), "seconds": p.get("seconds"),
              "flags": p.get("flags", []), "present": os.path.isfile(os.path.join(_audio(pdir, lang), p["file"]))} for p in parts]
     return {"parts": rows, "missing": [r["part"] for r in rows if not r["present"]], "stale": stale,
-            "stale_text": STALE if stale else ""}
+            "stale_parts": stale_parts, "stale_text": STALE if stale else ""}
 
 
 def part_text(pdir, lang, part):

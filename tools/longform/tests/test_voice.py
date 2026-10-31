@@ -154,6 +154,25 @@ class VoiceTest(unittest.TestCase):
         moved = [f for _, _, files in os.walk(old) for f in files]
         self.assertIn("01.mp3", moved)
 
+    def test_stale_after_text_edit_same_ids(self):
+        """An edited sentence keeps its id: the part's text hash still tells that its mp3 is old."""
+        self.approved(["Câu một.", "Câu hai."])
+        rows = self.v.prepare(self.pdir, "vi")
+        self.assertTrue(all(r.get("hash") for r in rows))
+        self.v.drop(self.pdir, "vi", "01.mp3", MP3)
+        self.approved(["Câu một đã sửa.", "Câu hai."])
+        st = self.v.status(self.pdir, "vi")
+        self.assertTrue(st["stale"])
+        self.assertEqual(st["stale_parts"], ["01"])
+        with self.assertRaises(ValueError):
+            self.v.drop(self.pdir, "vi", "01.mp3", MP3)
+        self.v.prepare(self.pdir, "vi")  # same ids, new text: the old mp3 is still moved away
+        st = self.v.status(self.pdir, "vi")
+        self.assertFalse(st["stale"])
+        self.assertEqual(st["missing"], ["01"])
+        with open(os.path.join(self.pdir, "lang", "vi", "audio", "parts", "01.txt"), encoding="utf-8") as f:
+            self.assertIn("đã sửa", f.read())
+
 
 if __name__ == "__main__":
     unittest.main()

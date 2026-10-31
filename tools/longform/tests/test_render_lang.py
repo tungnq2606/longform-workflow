@@ -74,6 +74,30 @@ class RenderLangTest(SceneBase):
             json.dump(meta, f)
         self.assertTrue(any("date_1288" in p and "de" in p for p in self.r.check(self.pdir, "de")))
 
+    def test_render_refuses_unapproved_or_red_script(self):
+        self.voice()
+        self.assertEqual(self.r.check(self.pdir, "vi"), [])
+        self.approve_script(approved=False)
+        self.assertTrue(any("chưa chốt" in p for p in self.r.check(self.pdir, "vi")), self.r.check(self.pdir, "vi"))
+        self.approve_script()
+        path = os.path.join(self.pdir, "script", "script.json")
+        with open(path, encoding="utf-8") as f:
+            d = json.load(f)
+        d["chapters"][0]["beats"][0]["sentences"][0]["facts"] = ["F999"]  # not in the bank: red
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False)
+        self.assertTrue(any("câu đỏ" in p for p in self.r.check(self.pdir, "vi")), self.r.check(self.pdir, "vi"))
+
+    def test_render_refuses_stale_voice(self):
+        self.voice()
+        path = os.path.join(self.pdir, "lang", "vi", "audio", "parts.json")
+        with open(path) as f:
+            parts = json.load(f)
+        parts[0]["hash"] = "0" * 16  # recorded for a text that is no longer in the script
+        with open(path, "w") as f:
+            json.dump(parts, f)
+        self.assertTrue(any("giọng" in p and "cũ" in p for p in self.r.check(self.pdir, "vi")), self.r.check(self.pdir, "vi"))
+
     def test_render_writes_video_srt_chapters(self):
         self.voice()
         out = self.r.render_lang(self.pdir, "vi")

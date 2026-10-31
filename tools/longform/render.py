@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 from tools.longform import (audio_lib, claude_box, inbox, jobs, languages, paths, progress, project, scenes, script, stage,
-                            timing)
+                            timing, voice)
 
 ANIM = os.path.join(paths.WS, "tools", "anim")
 PY = os.path.join(paths.WS, ".venv", "bin", "python")
@@ -113,7 +113,16 @@ def check(pdir, lang):
     if lang not in meta["languages"]:
         return ["dự án không có ngôn ngữ %s" % lang]
     out = []
+    data = script.load(pdir, lang)
+    if not data or not data.get("approved"):
+        out.append("kịch bản %s chưa chốt" % lang)
+    else:
+        red = script.report(pdir, lang)["red"]
+        if red:
+            out.append("kịch bản %s còn %d câu đỏ" % (lang, red))
     parts = timing.load_parts(pdir, lang)
+    if parts and voice.status(pdir, lang)["stale"]:
+        out.append("giọng %s cũ: kịch bản đã đổi, chuẩn bị lại các phần giọng" % lang)
     if not parts:
         out.append("chưa có giọng %s (chưa chuẩn bị các phần giọng)" % lang)
     else:
