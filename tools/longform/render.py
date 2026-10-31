@@ -1,6 +1,6 @@
 """Render a long-form composition from a project's staged public dir (never the whole workspace).
 
-  python -m tools.longform.render projects/000-spike Spike projects/000-spike/render/spike_1440p.mp4 [--frame 150] [--props '{"boil": true}']
+  python -m tools.longform.render projects/001-bach-dang Spike projects/001-bach-dang/render/spike_1440p.mp4 [--frame 150] [--props '{"boil": true}']
 """
 import argparse
 import json

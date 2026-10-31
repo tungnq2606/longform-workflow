@@ -47,7 +47,7 @@ The owner has not confirmed it yet.
 - Images are upscaled with Real-ESRGAN `realesr-animevideov3` (`tools/longform/upscale.py`; the binary sits in the
   gitignored `tools/upscale/vendor/`).
 - Output: 2560x1440, 30 fps, ~16 Mbps H.264.
-- The 10-second spike is `projects/000-spike/`. Trần Hưng Đạo's kit height is 530 px in a 1440p frame.
+- The 10-second spike project is archived in `archive/2026-10-31/test-projects/000-spike/`; its approved assets stay in `library/`. Trần Hưng Đạo's kit height is 530 px in a 1440p frame.
 
 ## 5. Studio (Plan 2)
 
