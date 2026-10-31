@@ -1,0 +1,116 @@
+{
+ "lang": "vi",
+ "rules": [
+  {
+   "id": "R01",
+   "text": "Giọng người kể chuyện lịch sử; không dùng giọng \"Hôm nay, bạn sẽ xây…\" của video Short.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R02",
+   "text": "Thỉnh thoảng hỏi thẳng người xem.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R03",
+   "text": "Hài nhẹ, dễ hiểu cho khán giả trẻ; không hàn lâm, không đọc như bài giảng.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R04",
+   "text": "Câu ngắn, mỗi câu một ý.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R05",
+   "text": "Mỗi đoạn có thể chốt bằng một câu đùa gọn.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R06",
+   "text": "Tiếng lóng Việt nhẹ được; không dùng lóng tiếng Anh (giọng đọc máy đọc sai).",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R07",
+   "text": "Mở đầu bằng một câu hỏi thật; không mở bằng \"chúc mừng\".",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R08",
+   "text": "Gọi người xem là \"bạn\"; không dùng \"chúng ta\", không dùng \"bạn nhỏ\".",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R09",
+   "text": "Đùa không được bẻ sự thật.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R10",
+   "text": "Kết bằng một twist khảo cổ hoặc \"ngày nay còn lại gì\".",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R11",
+   "text": "Số đọc cho dễ nghe: đọc số tròn, số chính xác để trên thẻ chữ trên màn hình.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R12",
+   "text": "Không đọc tên nguồn hiện đại (tác giả, bài báo, bảo tàng, đường link). Khi các ghi chép vênh nhau, nêu cả hai bằng lời thường: \"sử nhà Trần chép…, còn sử nhà Nguyên lại ghi…\".",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R13",
+   "text": "Mức chắc chắn: \"tương truyền\" cho truyền thuyết, \"có ý kiến cho rằng\" cho chỗ tranh cãi, \"cho thấy\" (không \"chứng minh\") cho khảo cổ.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R14",
+   "text": "Mỗi 60–90 giây mở một câu hỏi mới để giữ người xem.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  },
+  {
+   "id": "R15",
+   "text": "Mỗi video chỉ đưa 1–3 chỗ các ghi chép vênh nhau, chọn chỗ quan trọng nhất cho câu chuyện.",
+   "status": "kept",
+   "from": "spec §4.4 (chủ kênh duyệt 2026-10-31)",
+   "added": "2026-10-31"
+  }
+ ],
+ "examples": [
+  "/Users/quoctung/Documents/AI/archive/2026-10-31/vn-history-shorts/002-bach-dang/script/script.txt",
+  "/Users/quoctung/Documents/AI/archive/2026-10-31/vn-history-shorts/003-dia-dao-cu-chi/script/script.txt",
+  "/Users/quoctung/Documents/AI/archive/2026-10-31/vn-history-shorts/004-trong-dong-dong-son/script/script.txt",
+  "/Users/quoctung/Documents/AI/archive/2026-10-31/vn-history-shorts/test-001-co-loa/script/script.txt"
+ ]
+}
