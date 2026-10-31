@@ -2,7 +2,7 @@
 export const KITS = {
  "tran-hung-dao": {
   "name": "Trần Hưng Đạo",
-  "height": 620,
+  "height": 530,
   "images": {
    "stand.calm": {
     "file": "library/characters/tran-hung-dao/stand_calm.png",
