@@ -39,7 +39,9 @@ def script_doc(facts=("F001",)):
         {"id": "s002", "text": "Rồi quân Nguyên đến sông Bạch Đằng.", "facts": list(facts), "kind": "fact", "note": ""}]}]}]}
 
 
-class WorkersTest(unittest.TestCase):
+class Base(unittest.TestCase):
+    """Temp root, fake agy/claude, runner and helpers; no tests of its own (test_chat reuses it)."""
+
     def setUp(self):
         self.root = tempfile.mkdtemp()
         os.makedirs(os.path.join(self.root, "config"))
@@ -51,10 +53,13 @@ class WorkersTest(unittest.TestCase):
         from tools.longform import agy, factbank, inbox, jobs, project, script, workers
         self.agy, self.fb, self.inbox, self.jobs, self.script, self.w = agy, factbank, inbox, jobs, script, workers
         self.patches = [mock.patch.object(inbox.notify, "send", lambda t: True)]
-        fake = os.path.join(self.root, "fake.py")
-        open(fake, "w").write(FAKE)
-        os.chmod(fake, os.stat(fake).st_mode | stat.S_IEXEC)
-        self.patches += [mock.patch.object(agy, "AGY", fake), mock.patch.object(workers, "CLAUDE", fake)]
+        fakes = []
+        for name in ("fake_agy.py", "fake_claude.py"):  # two files, so a test can tell which binary a job runs
+            fake = os.path.join(self.root, name)
+            open(fake, "w").write(FAKE)
+            os.chmod(fake, os.stat(fake).st_mode | stat.S_IEXEC)
+            fakes.append(fake)
+        self.patches += [mock.patch.object(agy, "AGY", fakes[0]), mock.patch.object(workers, "CLAUDE", fakes[1])]
         for p in self.patches:
             p.start()
         self.pdir = project.create_project(1, "a", "A", [])
@@ -97,6 +102,8 @@ class WorkersTest(unittest.TestCase):
     def queued(self, kind):
         return [j for j in self.jobs.list_jobs() if j["kind"] == kind and j["status"] == "queued"]
 
+
+class WorkersTest(Base):
     def test_agy_argv_no_skip(self):
         argv = self.agy.argv("do it")
         self.assertEqual(argv[:3], [self.agy.AGY, "-p", "do it"])
