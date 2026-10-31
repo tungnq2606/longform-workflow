@@ -56,7 +56,8 @@ Start it with `.venv/bin/python -m studio`, then open http://127.0.0.1:8765. Det
 - Home page: the "🔔 Cần bạn" inbox, the projects, and "Video mới".
 - Project page: the step bar, the language strip, and the project's inbox.
 - Bottom bar: jobs (with stop and log) and the Claude box (one session per project).
-- The Kịch bản, Hình ảnh, Cảnh, Ngôn ngữ and Thư viện screens are placeholders until Plans 3–6.
+- Screens: Kịch bản (Plan 3), Hình ảnh (Plan 4), Cảnh (Plan 5), Ngôn ngữ (Plan 6: tabs per language, script, voice,
+  render, upload + thumbnail).
 - Later plans add job kinds (`jobs.register`), inbox items (`inbox.add`) and step states (`progress.set_step`).
 - Telegram: `tools/notify.py`. The secret is in `config/secrets/telegram.json`; never print or commit it.
 
@@ -64,17 +65,38 @@ Start it with `.venv/bin/python -m studio`, then open http://127.0.0.1:8765. Det
 
 | Plan | State |
 |---|---|
-| 1 Foundation + spike | done, merged |
-| 2 Studio shell | done on branch `longform-plan2` (merge after the owner's check) |
-| 3 Script chat + fact bank | next. agy drafts; Claude reviews; every factual sentence links to a verbatim quote |
-| 4 Images + streaming review | agy for every image; reviews in parallel; lessons in `library/lessons/` |
-| 5 Scene board + production Remotion | beat-keyed scenes, map, music + light SFX |
-| 6 Languages + voice + upload | native rewrite per language, beat alignment, voice drop-in, thumbnails |
+| 1 Foundation + spike | built, merged |
+| 2 Studio shell | built |
+| 3 Script chat + fact bank | built (branch `longform-plan3`). agy drafts; Claude reviews; every factual sentence links to a verbatim quote |
+| 4 Images + streaming review | built (branch `longform-plan3`). agy for every image; reviews in parallel; lessons in `library/lessons/` |
+| 5 Scene board + production Remotion | built in a parallel worktree; timing, scenes, `Longform`, `render_lang`, `Cards.tsx` |
+| 6 Languages + voice + upload | built in its own worktree: native rewrite per language, checks + Claude review, voice drop-in, upload texts, thumbnails |
+
+Merge notes for Plans 5 + 6: Plan 6 enqueues Plan 5's `timing_build` by name and its render button posts to Plan 5's
+`/api/projects/<id>/render/<lang>`; `jabreak.lines` (Plan 6) still has to be passed to Plan 5's `Cards.tsx` for ja.
 
 Each plan is written in detail only when it starts (superpowers writing-plans → executing-plans, with the ledger in
 `.superpowers/sdd/<plan>/`).
 
-## 7. Rules you must not break
+## 7. Per video, step by step (what the owner does)
+
+1. **Đề tài**: measure demand with `tools/research/scout.py`; "Video mới" in Studio (title + languages).
+2. **Kịch bản** (chat screen): ask agy to research; Claude checks every fact against its quote; ask agy for a draft;
+   Claude reviews it. Fix red sentences, decide yellow ones, then "Chốt kịch bản".
+3. **Hình ảnh**: agy writes the shot list and draws; each image is reviewed as soon as it exists. Approve the 3/5
+   images, redo or reject the rest; new hero poses go into the kit.
+4. **Cảnh**: Claude writes the beat-keyed scene file; check the previews on the scene board.
+5. **Ngôn ngữ** (per language tab): "Viết lại (agy)" → code checks → Claude review runs by itself. A clean language
+   is approved automatically; otherwise read the flags in "Cần bạn" (each with a Vietnamese back-translation) and
+   "Chốt" or ask for a new rewrite/review. Glossary rows are proposals until confirmed.
+6. **Giọng**: "Chuẩn bị phần giọng", copy each part into Vbee (vi) or ElevenLabs (others, paid plan), save as the
+   shown `NN.mp3`, drop all files on the tab. When every part is there, timing runs by itself.
+7. **Render**: press Render for the language (Plan 5); the final 1440p MP4, `.srt` and chapters land in `lang/<code>/render/`.
+8. **Upload**: "Viết text upload (agy)", "Tạo thumbnail" (approved background + hero pose + title), copy title,
+   description (one sources line, no links) and tags; on YouTube set altered/synthetic content = Yes. Never add an
+   "AI illustration" line.
+
+## 8. Rules you must not break
 
 All of `CLAUDE.md`, and in particular:
 

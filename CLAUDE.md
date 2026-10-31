@@ -8,17 +8,19 @@ The owner talks to Claude in Vietnamese.
 
 - Design (approved 2026-10-31): `docs/superpowers/specs/2026-10-31-longform-workflow-design.md`
 - Roadmap (6 plans): `docs/superpowers/plans/2026-10-31-longform-roadmap.md`
-- Plans done: 1 (foundation + spike, `2026-10-31-plan1-foundation-spike.md`), 2 (Studio shell, `2026-10-31-plan2-studio-shell.md`)
-- Next: Plan 3 (script chat + fact bank), written when started
+- Plans built: 1 (foundation + spike), 2 (Studio shell), 3 (script chat + fact bank), 4 (images), 5 (scenes + Remotion),
+  6 (languages + voice + upload); plans in `docs/superpowers/plans/2026-10-31-plan*.md`. State and merge notes: `HANDOFF.md` §6
 - Handoff for another agent: `HANDOFF.md`
 
 ## Folder map
 
 ```
 projects/NNN-slug/          one video: project.json, research/, script/, images/, scenes/, audio/
-  lang/<code>/              per language: script/, audio/, render/, upload/
+  lang/<code>/              per language: script/ (script.json, check.json), audio/ (parts.json, parts/NN.txt + NN.mp3),
+                            timing.json, render/, upload/ (upload.md, upload.json, thumb.png)
 library/                    shared by every video: characters/ (hero kits), crowds/, backgrounds/, style/,
-                            glossary/, stylebook/, lessons/, research/
+                            glossary/<lang>.json (names + readings, seeds checked:false), stylebook/<lang>.json,
+                            localization/GUIDE.md (agy rewrite guide), lessons/, research/
 config/languages.json       voice engine, speed, font, line breaking per language
 config/studio.json          Studio port, job lanes, Claude box permissions (acceptEdits + allowed tools)
 config/secrets/             Telegram secret (gitignored: never print or commit)
@@ -38,6 +40,18 @@ library/lessons/            prompt_lessons.json (MUST block of every image promp
 Python: `.venv/bin/python` (Pillow 11.3.0). Tests: `.venv/bin/python -m unittest discover -s tools/longform/tests -v`,
 `node --test studio/static/` and `cd tools/anim && node --test src/longform/ && npx tsc --noEmit -p .`.
 Start Studio: `.venv/bin/python -m studio`, then open http://127.0.0.1:8765 (localhost only; see `studio/README.md`).
+
+## Languages (Plan 6)
+
+- Other languages are **rewritten** natively by agy (`agy_rewrite`) from the beat outline (goal + fact claims and
+  quotes), the glossary, the language style book and the guide; agy never gets the Vietnamese sentences. Same beat ids;
+  each beat may use only the facts the source script used in that beat (else red).
+- `lang_check` (code, `langscript.check` → `check.json`), then `claude_review_lang` (Claude): clean → approved
+  automatically; flags → "Cần bạn" with a Vietnamese back-translation.
+- Voice by hand on the web: `voice.prepare` writes part texts (Vbee ≤ ~55 s, ElevenLabs ≤ 4,500 chars, a sentence is
+  never split); dropping all `NN.mp3` queues Plan 5's `timing_build`.
+- `agy_upload_texts` (title, description with one sources line, tags; chapters from the timing) and `render_thumb`
+  (Remotion `Thumb`, Noto Sans JP + `jabreak.ts` kinsoku for ja).
 
 ## Rules (do not break)
 
