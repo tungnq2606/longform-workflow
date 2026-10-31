@@ -42,10 +42,11 @@ def _mask(im, key, tol):
     return [_alpha(c, key, tol) for c in im.getdata()]
 
 
-def cut(src, dst, tol=60, pad=16):
+def cut(src, dst, tol=60, pad=16, box=None, key=None):
+    """box/key: reuse another cut's crop box and key (a blink image must line up with its pose)."""
     im = Image.open(src).convert("RGB")
     w, h = im.size
-    key = _border_key(im)
+    key = tuple(key) if key else _border_key(im)
     alpha = _mask(im, key, tol)
     out = Image.new("RGBA", (w, h))
     pix = []
@@ -60,7 +61,7 @@ def cut(src, dst, tol=60, pad=16):
         raise ValueError("no figure found in %s (everything matches the key %s)" % (src, key))
     x0, x1 = min(p[0] for p in solid), max(p[0] for p in solid)
     y0, y1 = min(p[1] for p in solid), max(p[1] for p in solid)
-    box = (max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad + 1), min(h, y1 + pad + 1))
+    box = tuple(box) if box else (max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad + 1), min(h, y1 + pad + 1))
     out = out.crop(box)
     band = max(1, round((y1 - y0 + 1) * 0.03))
     feet = [p[0] for p in solid if p[1] > y1 - band]
@@ -68,7 +69,7 @@ def cut(src, dst, tol=60, pad=16):
     meta = PngImagePlugin.PngInfo()
     meta.add_text("chroma_key", json.dumps(list(key)))
     out.save(dst, pnginfo=meta)
-    return {"width": out.size[0], "height": out.size[1], "anchor": anchor, "key": list(key)}
+    return {"width": out.size[0], "height": out.size[1], "anchor": anchor, "key": list(key), "box": list(box)}
 
 
 def check(path, source=None, tol=60):
