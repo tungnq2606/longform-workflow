@@ -1,11 +1,12 @@
 // One beat on screen: background under an eased camera, code-drawn crowds, kit heroes (pose changes on sentences),
-// text cards on their sentence. Frames inside are local to the beat's <Sequence>.
+// a code-drawn map when the beat has one, text cards on their sentence. Frames inside are local to the beat's <Sequence>.
 import React from 'react';
 import {AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {ChapterCard, DateCard, NameLabel, TwoSourceCard} from './Cards';
 import type {LineBreaker} from './Cards';
 import {Crowd} from './Crowd';
 import {Hero} from './Hero';
+import {MapView} from './MapView';
 import type {HeroKey} from './kits.generated';
 import type {Pt} from './path';
 import {camera, sentenceFrame} from './timeline';
@@ -49,6 +50,7 @@ export const Scene: React.FC<{
             keys={(h.keys ?? []).map((k) => ({at: local(k.sentence), image: k.key as HeroKey})).filter((k) => k.at >= 0)} />
         ))}
       </AbsoluteFill>
+      {spec.map && <MapView map={spec.map} labels={labels} lang={lang} font={font} arrowsAt={(spec.map.arrows ?? []).map((a) => local(a.sentence))} />}
       {(spec.cards ?? []).map((c, i) => {
         const at = local(c.sentence);
         if (at < 0 || at >= beat.durationInFrames) return null;

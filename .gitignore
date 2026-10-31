@@ -17,3 +17,4 @@ __pycache__/
 tools/upscale/vendor/
 projects/*/.studio/
 studio/state/
+tools/maps/vendor/
