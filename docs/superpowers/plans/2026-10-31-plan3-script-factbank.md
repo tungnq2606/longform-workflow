@@ -212,7 +212,7 @@ The chat is a fifth kind, `script_chat`. It is Claude with a script-specific sys
 - Consumes: `jobs.Kind/register/enqueue`, `factbank.*`, `script.*`, `stylebook.kept`, `inbox.add`, `claude_box.config`.
 - Produces:
   - `agy.argv(prompt: str) -> list[str]`: `[AGY, "-p", prompt, "--model", MODEL, "--sandbox", "--output-format", "json", "--print-timeout", "0"]`. It never includes `--dangerously-skip-permissions`.
-  - agy workers use only web search, URL reading and file tools. Every prompt says "never run shell commands": headless agy denies the `command` permission, and a `--settings` allowlist was tested on 2026-10-31 and did not apply.
+  - agy workers use only built-in `search_web`, URL reading and file tools. Every prompt says "never run shell commands, never call MCP tools" (a denied call ends the run; perplexity MCP was denied on 2026-10-31): headless agy denies the `command` permission, and a `--settings` allowlist was tested on 2026-10-31 and did not apply.
   - `agy.denied(result_json) -> list[str]` reads `denied_actions` from agy's JSON output. When it is non-empty and no result file exists, the job fails with "agy bị chặn quyền: <actions>".
   - The four job kinds. Each job works in its own run folder `research/runs/<kind>-<n>/` (n = next free number), which is also its `cwd`. Each writes exactly one result file, `result.json`, or `sources.jsonl` for research.
 
