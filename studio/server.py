@@ -12,12 +12,12 @@ import re
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from tools.longform import claude_box, inbox, jobs, languages, paths, progress, project
+from tools.longform import claude_box, inbox, jobs, languages, library_index, paths, progress, project
 
 STATIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 HEX_ID = re.compile(r"^[0-9a-f]{32}$")
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
-         ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json"}
+         ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".json": "application/json"}
 
 
 class HttpError(Exception):
@@ -41,11 +41,13 @@ def project_dir(pid):
 
 def project_card(meta):
     g = progress.get(os.path.join(paths.projects(), meta["id"]))
-    return {"id": meta["id"], "title": meta["title"], "languages": meta["languages"], "done": g["done"], "total": g["total"]}
+    return {"id": meta["id"], "title": meta["title"], "languages": meta["languages"], "done": g["done"], "total": g["total"],
+            "steps": [s["state"] for s in g["steps"]]}
 
 
 def home(q, body):
-    return {"inbox": inbox.open_items(), "projects": [project_card(m) for m in project.list_projects()], "paused": jobs.paused()}
+    return {"inbox": inbox.open_items(), "projects": [project_card(m) for m in project.list_projects()], "paused": jobs.paused(),
+            "library": library_index.summary()}
 
 
 def langs(q, body):
@@ -118,6 +120,18 @@ def claude_models(q, body):
     return studio_config()["claude"]["models"]
 
 
+class FileReply:
+    def __init__(self, path):
+        self.path = path
+
+
+def thumb(q, body, kind, item):
+    try:
+        return FileReply(library_index.thumb(kind, item))
+    except KeyError:
+        raise HttpError(404, "không có ảnh")
+
+
 def inbox_done(q, body, iid):
     if not HEX_ID.match(iid):
         raise HttpError(404, "không có việc này")
@@ -137,6 +151,7 @@ ROUTES = [
     ("GET", r"/api/claude/history", claude_history),
     ("GET", r"/api/claude/models", claude_models),
     ("POST", r"/api/inbox/([^/]+)/done", inbox_done),
+    ("GET", r"/api/thumb/([a-z]+)/([^/]+)", thumb),
 ]
 
 
@@ -146,12 +161,12 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
-    def _send(self, code, data, ctype="application/json"):
+    def _send(self, code, data, ctype="application/json", cache="no-store"):
         raw = data if isinstance(data, bytes) else json.dumps(data, ensure_ascii=False).encode()
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(raw)))
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Cache-Control", cache)
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.end_headers()
@@ -200,7 +215,12 @@ class Handler(BaseHTTPRequestHandler):
             m = re.fullmatch(pattern, url.path)
             if method == self.command and m:
                 try:
-                    return self._send(200, fn(q, body, *[urllib.parse.unquote(g) for g in m.groups()]))
+                    out = fn(q, body, *[urllib.parse.unquote(g) for g in m.groups()])
+                    if isinstance(out, FileReply):
+                        with open(out.path, "rb") as f:
+                            return self._send(200, f.read(), TYPES.get(os.path.splitext(out.path)[1], "application/octet-stream"),
+                                              cache="private, max-age=3600")
+                    return self._send(200, out)
                 except HttpError as e:
                     return self._send(e.code, {"error": e.message})
         return self._send(404, {"error": "không có"})

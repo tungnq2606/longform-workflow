@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {route, stateIcon, kindIcon, progressBar, jobLine, runState} from './lib.js';
+import {route, stateIcon, kindIcon, progressBar, jobLine, runState, nextTheme, clock} from './lib.js';
 
 test('route', () => {
   assert.deepEqual(route(''), {screen: 'home'});
@@ -52,4 +52,16 @@ test('runState', () => {
   assert.equal(runState(false, [j('running'), j('queued'), j('queued')]), '▶ 1 job đang chạy · 2 job chờ');
   assert.equal(runState(true, []), '🟡 Tạm dừng');
   assert.equal(runState(true, [j('running'), j('queued')]), '🟡 Tạm dừng · 1 job làm nốt · 1 job chờ');
+});
+
+test('nextTheme cycles auto → dark → light → auto', () => {
+  assert.equal(nextTheme(''), 'dark');
+  assert.equal(nextTheme('dark'), 'light');
+  assert.equal(nextTheme('light'), '');
+  assert.equal(nextTheme('weird'), 'dark');
+});
+
+test('clock', () => {
+  assert.equal(clock('2026-10-31T21:36:05'), '21:36');
+  assert.equal(clock(null), '');
 });

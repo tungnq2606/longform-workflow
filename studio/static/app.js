@@ -1,5 +1,5 @@
 // Studio UI: hash router, polling, job bar, Claude box. User text only ever goes in via textContent.
-import {route, stateIcon, kindIcon, progressBar, jobLine, runState, TABS, TAB_PLAN} from './lib.js';
+import {route, stateIcon, kindIcon, jobLine, runState, nextTheme, clock, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -36,6 +36,14 @@ function showRunState() {
   $('runstate').classList.toggle('paused', isPaused);
 }
 let lastClaudeJobs = '';
+let viewData = null;
+let lastViewKey = '';
+
+function applyTheme(t) {
+  if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+  $('theme').textContent = THEME_LABEL[t];
+  try { if (t) localStorage.setItem('studio-theme', t); else localStorage.removeItem('studio-theme'); } catch { /* private mode */ }
+}
 
 // ---------------------------------------------------------------- views
 function inboxList(items, showProject) {
@@ -49,18 +57,83 @@ function inboxList(items, showProject) {
   )));
 }
 
+const STEP_NAMES = FLOW.map(([name]) => name);
+const thumb = (kind, id) => `/api/thumb/${kind}/${encodeURIComponent(id)}`;
+
+function stat(n, label) {
+  return h('div', {class: 'stat'}, h('b', {}, String(n)), h('span', {}, label));
+}
+
+function renderHero(d) {
+  const lib = d.library, bg = lib.backgrounds[0], hero = lib.characters[0];
+  const running = lastJobs.filter((j) => j.status === 'running').length;
+  const langs = new Set(d.projects.flatMap((p) => p.languages));
+  const el = h('section', {class: 'hero'},
+    hero ? h('img', {class: 'figure', src: thumb('char', hero.id), alt: ''}) : null,
+    h('div', {class: 'hero-body'},
+      h('div', {class: 'kicker'}, 'Công Trường Lịch Sử'),
+      h('h1', {}, 'Công xưởng video dài'),
+      h('p', {}, 'Video lịch sử 10–15 phút · một bộ hình, nhiều thứ tiếng · không câu nào thiếu nguồn'),
+      h('div', {class: 'stats'},
+        stat(d.projects.length, 'dự án'),
+        stat(d.inbox.length, 'việc chờ bạn'),
+        stat(running, 'job đang chạy'),
+        stat(langs.size || 0, 'ngôn ngữ đang làm')),
+      h('button', {onclick: openNew}, '+ Video mới')));
+  if (bg) el.style.backgroundImage = `url("${thumb('bg', bg.id)}")`;
+  return el;
+}
+
+function projectCard(p) {
+  return h('div', {class: 'pcard', onclick: () => { location.hash = `#/p/${p.id}`; }},
+    h('div', {class: 'num'}, `VIDEO ${p.id.slice(0, 3)}`),
+    h('div', {class: 'title'}, p.title),
+    h('div', {class: 'dots'}, p.steps.map((st, i) => h('span', {class: `dot ${st}`, title: `${STEP_NAMES[i]}: ${stateIcon(st)}`}))),
+    h('div', {class: 'foot'}, h('span', {}, `${p.done}/${p.total} bước`),
+      h('span', {class: 'tag'}, p.languages.map((c) => c.toUpperCase()).join(' '))));
+}
+
+function renderActivity() {
+  const ended = lastJobs.filter((j) => j.status !== 'running' && j.status !== 'queued').slice(0, 6);
+  return h('section', {class: 'card'}, h('h2', {}, 'Hoạt động gần đây'),
+    ended.length
+      ? h('ul', {class: 'list activity'}, ended.map((j) => h('li', {},
+          h('time', {}, clock(j.ended)), h('span', {class: 'grow'}, jobLine(j)))))
+      : h('p', {class: 'empty'}, 'Chưa có job nào xong.'));
+}
+
+function renderLibraryCard(lib) {
+  const style = lib.styles.find((s) => s.approved);
+  return h('section', {class: 'card'}, h('h2', {}, 'Thư viện'),
+    lib.characters.length
+      ? h('div', {class: 'lib-chars'}, lib.characters.map((c) => h('div', {class: 'lib-char'},
+          h('img', {src: thumb('char', c.id), alt: ''}),
+          h('div', {}, h('b', {}, c.name), h('div', {class: 'muted'}, `${c.poses} tư thế`)))))
+      : h('p', {class: 'empty'}, 'Chưa có nhân vật nào.'),
+    lib.backgrounds.length
+      ? h('div', {class: 'lib-bgs'}, lib.backgrounds.slice(0, 6).map((b) => h('img', {src: thumb('bg', b.id), alt: b.id, title: b.id})))
+      : null,
+    h('p', {class: 'muted'}, `${lib.backgrounds.length} nền dùng lại · style ${style ? style.id + ' ✅ đã khóa' : 'chưa khóa'} · `,
+      h('a', {href: '#/library'}, 'mở thư viện')));
+}
+
+function renderFlow() {
+  return h('section', {class: 'card'}, h('h2', {}, 'Quy trình 7 bước'),
+    h('ol', {class: 'flow'}, FLOW.map(([name, who]) => h('li', {}, h('div', {}, h('b', {}, name), h('span', {}, who))))));
+}
+
 function renderHome(d) {
-  const projects = d.projects.length
-    ? h('ul', {class: 'list'}, d.projects.map((p) => h('li', {class: 'click', onclick: () => { location.hash = `#/p/${p.id}`; }},
-        h('span', {class: 'grow'}, h('b', {}, p.id.slice(0, 3)), ' ', p.title),
-        h('span', {class: 'bar'}, progressBar(p.done, p.total)),
-        h('span', {class: 'muted'}, `${p.done}/${p.total}`),
-        h('span', {class: 'tag'}, p.languages.map((c) => c.toUpperCase()).join(' ')))))
-    : h('p', {class: 'empty'}, 'Chưa có dự án.');
+  const projects = h('div', {class: 'projects'},
+    d.projects.map(projectCard),
+    h('div', {class: 'pcard newcard', onclick: openNew}, d.projects.length ? '+ Video mới' : '+ Bắt đầu video đầu tiên'));
   return [
-    h('section', {class: 'card'}, h('h2', {}, `🔔 Cần bạn (${d.inbox.length})`), inboxList(d.inbox, true)),
-    h('section', {class: 'card'}, h('h2', {}, 'Dự án'), projects,
-      h('div', {class: 'row'}, h('button', {onclick: openNew}, '+ Video mới'))),
+    renderHero(d),
+    h('div', {class: 'home-grid'},
+      h('div', {},
+        h('section', {class: 'card'}, h('h2', {}, '🔔 Cần bạn', h('span', {class: 'count'}, String(d.inbox.length))),
+          inboxList(d.inbox, true)),
+        h('section', {class: 'card'}, h('h2', {}, 'Dự án', h('span', {class: 'count'}, String(d.projects.length))), projects)),
+      h('div', {}, renderActivity(), renderLibraryCard(d.library), renderFlow())),
   ];
 }
 
@@ -97,17 +170,20 @@ async function refresh() {
   try {
     if (current.screen === 'project') {
       const d = await api(`/api/projects/${current.id}`);
+      viewData = d;
       nodes = renderProject(d, current.tab);
       paused = (await api('/api/home')).paused;
     } else {
       const d = await api('/api/home');
+      viewData = d;
       paused = d.paused;
       nodes = current.screen === 'library' ? renderLibrary() : renderHome(d);
     }
   } catch (e) {
     nodes = [h('p', {class: 'error'}, `Không tải được: ${e.message}`), h('a', {href: '#/'}, '← Trang chủ')];
   }
-  $('view').replaceChildren(...nodes.flat());
+  const key = JSON.stringify([location.hash, viewData, current.screen === 'home' ? lastJobs.map((j) => j.id + j.status) : 0]);
+  if (key !== lastViewKey) { lastViewKey = key; $('view').replaceChildren(...nodes.flat()); }
   if (paused) {
     isPaused = paused.on;
     showRunState();
@@ -206,6 +282,8 @@ async function createNew(e) {
 }
 
 // ---------------------------------------------------------------- start
+applyTheme(document.documentElement.dataset.theme || '');
+$('theme').addEventListener('click', () => applyTheme(nextTheme(document.documentElement.dataset.theme || '')));
 $('pause').addEventListener('click', async () => { await api('/api/pause', {on: !$('pause').dataset.on}); refresh(); });
 $('claude-form').addEventListener('submit', sendClaude);
 $('msg').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) sendClaude(e); });

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Studio</title>
+  <script>try { const t = localStorage.getItem('studio-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -13,6 +14,7 @@
       <a href="#/">Trang chủ</a>
       <a href="#/library">Thư viện</a>
       <span id="runstate" class="runstate"></span>
+      <button id="theme" class="ghost" type="button" title="Đổi giao diện sáng/tối"></button>
       <button id="pause" class="ghost" type="button" title="Job đang chạy sẽ làm nốt, job mới chưa bắt đầu">Tạm dừng</button>
     </nav>
   </header>

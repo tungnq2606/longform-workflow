@@ -66,6 +66,7 @@ class ServerTest(unittest.TestCase):
         self.assertEqual(st, 200)
         self.assertEqual([p["id"] for p in home["projects"]], ["001-a"])
         self.assertEqual(home["projects"][0]["total"], 7)
+        self.assertEqual(home["projects"][0]["steps"], ["todo"] * 7)
         self.assertEqual([i["text"] for i in home["inbox"]], ["việc chờ"])
         self.assertFalse(home["paused"]["on"])
 
@@ -137,6 +138,21 @@ class ServerTest(unittest.TestCase):
         it = self.inbox.add(None, "test", "x")
         self.assertEqual(self.req("POST", "/api/inbox/%s/done" % it["id"], {})[1], {"ok": True})
         self.assertEqual(self.inbox.open_items(), [])
+
+    def test_home_has_library(self):
+        st, home = self.req("GET", "/api/home")
+        self.assertEqual(home["library"], {"characters": [], "backgrounds": [], "styles": []})
+
+    def test_thumb(self):
+        from PIL import Image
+        os.makedirs(os.path.join(self.root, "library", "backgrounds"))
+        Image.new("RGB", (1920, 1080), (1, 2, 3)).save(os.path.join(self.root, "library", "backgrounds", "b1.png"))
+        st, body = self.req("GET", "/api/thumb/bg/b1")
+        self.assertEqual(st, 200)
+        self.assertEqual(body[:3], b"\xff\xd8\xff")  # JPEG
+        self.assertEqual(self.req("GET", "/api/thumb/bg/nope")[0], 404)
+        self.assertEqual(self.req("GET", "/api/thumb/bg/..%2Fb1")[0], 404)
+        self.assertEqual(self.req("GET", "/api/thumb/zz/b1")[0], 404)
 
     def test_claude_history(self):
         st, h = self.req("GET", "/api/claude/history")

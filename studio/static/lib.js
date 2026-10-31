@@ -42,3 +42,21 @@ export function runState(paused, jobs) {
   if (!running && !queued) return '⚪ Rảnh: không có job nào';
   return '▶ ' + parts.join(' · ');
 }
+
+// Theme toggle: '' follows the system, then forced dark, then forced light.
+const THEMES = ['', 'dark', 'light'];
+export const nextTheme = (t) => THEMES[(Math.max(0, THEMES.indexOf(t)) + 1) % THEMES.length];
+export const THEME_LABEL = {'': '🖥 Theo máy', dark: '🌙 Tối', light: '☀️ Sáng'};
+
+export const clock = (iso) => (iso ? iso.slice(11, 16) : '');
+
+// The 7 steps and who does each (spec §4.3 and the owner's split of work).
+export const FLOW = [
+  ['Đề tài', 'bạn chọn, số liệu nhu cầu từ scout'],
+  ['Kịch bản', 'agy tìm nguồn và viết nháp, Claude soát'],
+  ['Hình ảnh', 'agy vẽ và chấm, bạn duyệt ảnh 3/5'],
+  ['Cảnh', 'Claude dựng cảnh bằng Remotion'],
+  ['Ngôn ngữ', 'agy viết lại cho từng thứ tiếng'],
+  ['Render', '1440p cho mỗi ngôn ngữ'],
+  ['Upload', 'bạn đăng, Studio soạn sẵn chữ'],
+];
