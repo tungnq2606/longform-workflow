@@ -1,7 +1,7 @@
 // Chapter title card drawn on the picture: small spaced kicker, bold title, underline drawn left to right,
 // optional subtitle typed letter by letter (all text comes from Remotion, never from AI images).
 import React, {useEffect, useState} from 'react';
-import {continueRender, delayRender, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {cancelRender, continueRender, delayRender, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {INK} from './factions';
 
 const FONT = 'BeVietnamPro';
@@ -9,7 +9,7 @@ const useFont = () => {
   const [handle] = useState(() => delayRender('font'));
   useEffect(() => {
     const f = new FontFace(FONT, `url(${staticFile('tools/kit/fonts/BeVietnamPro-ExtraBold.ttf')})`);
-    f.load().then((ff) => { document.fonts.add(ff); continueRender(handle); });
+    f.load().then((ff) => { document.fonts.add(ff); continueRender(handle); }).catch((e) => cancelRender(e));
   }, [handle]);
 };
 
