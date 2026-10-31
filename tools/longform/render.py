@@ -16,8 +16,8 @@ SPIKE_FILES = ["library/backgrounds/bach-dang-path-01.png", "library/characters/
 def command(composition, out, public, frame=None, props=None):
     if frame is not None:
         c = ["npx", "remotion", "still", "src/index.ts", composition, out, "--frame=%d" % frame]
-    else:  # ~16 Mbps H.264 at 1440p with crf 16; AAC 48 kHz when audio exists
-        c = ["npx", "remotion", "render", "src/index.ts", composition, out, "--codec=h264", "--crf=16", "--audio-codec=aac"]
+    else:  # H.264 at 16 Mbps comes from tools/anim/remotion.config.ts (setting --crf as well is an error)
+        c = ["npx", "remotion", "render", "src/index.ts", composition, out, "--codec=h264", "--audio-codec=aac"]
     c += ["--public-dir", public]
     if props:
         c.append("--props=%s" % json.dumps(props))

@@ -10,7 +10,7 @@ class RenderTest(unittest.TestCase):
         self.assertEqual(c[4:6], ["Spike", "/o.mp4"])
         self.assertEqual(c[c.index("--public-dir") + 1], "/pub")
         self.assertIn('--props={"boil": true}', c)
-        self.assertIn("--crf=16", c)
+        self.assertFalse(any(x.startswith("--crf") for x in c))  # remotion.config.ts sets 16M bitrate; crf conflicts
 
     def test_still_command(self):
         c = render.command("Spike", "/o.png", "/pub", frame=150)
