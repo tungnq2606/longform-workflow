@@ -9,19 +9,42 @@ Each image is reviewed as soon as it exists: generate enqueues its own review, s
 """
 import collections
 import hashlib
+import json
 import os
+import shutil
+import string
+import subprocess
 import sys
 import tempfile
 
 from PIL import Image
 
-from tools.longform import claude_box, cutout, imagegen, images, inbox, jobs, paths, upscale
+from tools.longform import agy, claude_box, cutout, imagegen, images, imgspec, inbox, jobs, lessons, paths, upscale
 
 PY = os.path.join(paths.WS, ".venv", "bin", "python")
 MIN_LONG_SIDE = 1024
 MAX_CHECK_FAILS = 3
 THUMB = 256
 FIGURE_SHARE = 0.02  # an opaque blob bigger than this share of all opaque pixels counts as a figure
+MAX_REDOS = 2
+REVIEW_TIMEOUT = 900
+PROMPTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts")
+KIND_NAME = {"bg": "background", "prop": "prop", "pose": "hero pose"}
+RUBRIC = {
+    "bg": ["No people and no animals anywhere, not even far away or as silhouettes.",
+           "No text, letters, numbers or writing-like marks anywhere.",
+           "Matches the style lock: ink outlines, flat muted watercolour fills, eye-level camera.",
+           "A clear ground line or path where figures can stand or walk.",
+           "Buildings, boats, clothes and objects fit the period and place in the spec."],
+    "pose": ["Matches the kit's model sheet (ref images): same face, costume colours and proportions (about 4 heads tall).",
+             "Shows the requested pose and expression.",
+             "Exactly one figure, full body, feet visible: not a sheet, no second view, no extra people.",
+             "Clean edges on flat chroma green: the cutout has no green fringe and nothing cut off."],
+    "prop": ["Shows the object exactly as the spec describes (shape, material, size against the body or other objects).",
+             "No text, letters, numbers or writing-like marks anywhere.",
+             "Matches the style lock: ink outlines, flat muted watercolour fills."],
+}
+NOT_SCORED = "agy không chấm được ảnh này"
 CUTOUT_VI = {"no transparency": "không tách được nền xanh", "touches edge": "nhân vật chạm mép ảnh",
              "key colour left on figure": "còn màu xanh nền trên người nhân vật"}
 
@@ -192,8 +215,80 @@ def generate_item(pdir, item_id):
     return it
 
 
+def _review_run(pdir, it):
+    base = os.path.join(pdir, "images", "runs")
+    os.makedirs(base, exist_ok=True)
+    prefix = "review-%s-" % it["id"]
+    n = 1 + max([int(d[len(prefix):]) for d in os.listdir(base) if d.startswith(prefix) and d[len(prefix):].isdigit()], default=0)
+    run = os.path.join(base, prefix + str(n))
+    os.makedirs(run)
+    files = it.get("files") or {}
+    shutil.copyfile(images.abspath(files["final"]), os.path.join(run, "image.png"))
+    listing = ["- `image.png`: the image to review" + (" (upscaled, still on chroma green)" if it["type"] == "pose" else "")]
+    if files.get("cutout"):
+        shutil.copyfile(images.abspath(files["cutout"]), os.path.join(run, "cutout.png"))
+        listing.append("- `cutout.png`: the same figure cut out of the green (transparent background): check its edges")
+    for i, r in enumerate(it.get("refs") or [], 1):
+        if os.path.isfile(images.abspath(r)):
+            shutil.copyfile(images.abspath(r), os.path.join(run, "ref%d.png" % i))
+            listing.append("- `ref%d.png`: approved reference of this character (%s)" % (i, os.path.basename(r)))
+    with open(os.path.join(PROMPTS, "image_review.md"), encoding="utf-8") as f:
+        text = string.Template(f.read()).safe_substitute(
+            item_id=it["id"], kind_name=KIND_NAME[it["type"]], files="\n".join(listing), prompt=it.get("prompt") or "",
+            rubric="\n".join("- " + r for r in RUBRIC[it["type"]]),
+            must_not="\n".join("- " + x for x in list((it.get("spec") or {}).get("must_not") or []) + [imgspec.style()["negative"]]))
+    with open(os.path.join(run, "REVIEW.md"), "w", encoding="utf-8") as f:
+        f.write(text)
+    return run
+
+
+def _read_review(run):
+    try:
+        with open(os.path.join(run, "review.json"), encoding="utf-8") as f:
+            r = json.load(f)
+    except (OSError, ValueError):
+        return None
+    if not isinstance(r, dict) or type(r.get("score")) is not int or not 1 <= r["score"] <= 5:
+        return None
+    probs, hits = r.get("problems") or [], r.get("must_not_hits") or []
+    if not isinstance(probs, list) or not isinstance(hits, list):
+        return None
+    return {"score": r["score"], "problems": [str(p) for p in probs if str(p).strip()],
+            "must_not_hits": [str(h) for h in hits if str(h).strip()], "fix": str(r.get("fix") or "")}
+
+
 def review_item(pdir, item_id):
-    raise NotImplementedError
+    """agy scores the image (rubric per type); then pass, wait for the owner, or redo (spec §3 review rule)."""
+    pid = os.path.basename(pdir)
+    it = images.get(pdir, item_id)
+    run = _review_run(pdir, it)
+    p = subprocess.run(agy.argv("Read REVIEW.md in the current folder and do exactly what it says. " + agy.NO_TOOLS),
+                       cwd=run, capture_output=True, text=True, timeout=REVIEW_TIMEOUT)
+    r = _read_review(run)
+    if r is None and any(w in ((p.stderr or "") + (p.stdout or "")).lower() for w in imagegen.STOP_WORDS):
+        jobs.set_paused(True, "agy hết quota")
+        inbox.add(pid, "quota", "agy hết lượt chấm ảnh; Studio đã tạm dừng", screen="images", key="quota:agy")
+        jobs.enqueue("agy_image_review", {"project": pid, "item": item_id}, pid, "agy chấm %s" % item_id)
+        return images.get(pdir, item_id)
+    if r is None:
+        blocked = agy.denied(p.stdout or "")
+        why = NOT_SCORED + ((" (agy bị chặn quyền: %s)" % ", ".join(blocked)) if blocked else "")
+        return _wait(pdir, item_id, [NOT_SCORED], why)
+    score = min(r["score"], 3) if r["must_not_hits"] else r["score"]
+    problems = r["problems"] + ["có thứ bị cấm: %s" % h for h in r["must_not_hits"]]
+    if score <= 3:
+        lessons.add(r["problems"] or problems, "%s/%s" % (pid, item_id))
+    images.update(pdir, item_id, score=score, problems=problems)
+    if score >= 4:
+        return images.update(pdir, item_id, state="pass", note="%d/5" % score)
+    if score == 3:
+        return _wait(pdir, item_id, problems, "được 3/5: %s" % "; ".join(problems))
+    if it["attempts"] < MAX_REDOS:
+        it = images.update(pdir, item_id, state="queued", attempts=it["attempts"] + 1, fix=r["fix"] or "; ".join(problems),
+                           note="%d/5, vẽ lại" % score)
+        jobs.enqueue("agy_image", {"project": pid, "item": item_id}, pid, "agy vẽ lại %s (%d/5)" % (item_id, score))
+        return it
+    return _wait(pdir, item_id, problems, "được %d/5 sau %d lần vẽ lại: %s" % (score, it["attempts"], "; ".join(problems)))
 
 
 def job_end(job):
