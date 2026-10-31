@@ -102,7 +102,9 @@ async function refresh() {
   }
   $('view').replaceChildren(...nodes.flat());
   if (paused) {
-    $('pause').textContent = paused.on ? '▶ Chạy tiếp' : '⏸ Tạm dừng';
+    $('runstate').textContent = paused.on ? '🟡 Đang tạm dừng' : '🟢 Đang chạy';
+    $('runstate').classList.toggle('paused', paused.on);
+    $('pause').textContent = paused.on ? 'Chạy tiếp' : 'Tạm dừng';
     $('pause').dataset.on = paused.on ? '1' : '';
     $('pausebar').hidden = !paused.on;
     $('pausebar').textContent = paused.on ? `Đang tạm dừng: job đang chạy sẽ làm nốt, job mới chưa bắt đầu. (${paused.reason || ''})` : '';
