@@ -4,6 +4,7 @@
 // (texts with copy buttons, chapters, thumbnail). Mounted once per visit; polls its own data. Text via textContent only.
 import {colourClass, summaryLine, canApprove} from './lib.js';
 import {voiceSummary, langTabState, partFileName, beatRows, copyLabel} from './langs_lib.js';
+import {put, add} from './lib.js';
 
 export function mountLangs(pid, {h, api}) {
   const st = {lang: null, project: null, data: null, all: [], keys: {}, msg: ''};
@@ -16,7 +17,7 @@ export function mountLangs(pid, {h, api}) {
   const uploadCard = h('section', {class: 'card lv-upload'});
   const thumbBox = h('div', {class: 'lv-thumbprev'});
   const thumbForm = buildThumbForm();
-  root.append(tabs, msg, scriptCard, h('div', {class: 'lv-grid'}, voiceCard, h('div', {}, renderCard, uploadCard)));
+  add(root, tabs, msg, scriptCard, h('div', {class: 'lv-grid'}, voiceCard, h('div', {}, renderCard, uploadCard)));
 
   const changed = (name, value) => {
     const k = JSON.stringify(value);
@@ -49,7 +50,7 @@ export function mountLangs(pid, {h, api}) {
       await api(`/api/projects/${pid}/languages`, {add: sel.value});
       st.lang = sel.value;
     }, 'Đã thêm ngôn ngữ')}, '+'));
-    tabs.replaceChildren(...p.progress.langs.map((l) => {
+    put(tabs, ...p.progress.langs.map((l) => {
       const t = langTabState(l, src);
       return h('a', {class: `lv-tab ${t.state} ${t.code === st.lang ? 'cur' : ''}`, title: t.title, href: `#/p/${pid}/langs`,
         onclick: (e) => { e.preventDefault(); st.lang = t.code; st.keys = {}; load(); }},
@@ -64,14 +65,14 @@ export function mountLangs(pid, {h, api}) {
     const head = h('div', {class: 'lv-bar'});
     const ver = s ? `v${s.version}${s.approved ? ` · ✅ đã chốt (${s.approved_by || ''})` : ''}` : 'chưa có kịch bản';
     if (d.source) {
-      head.append(h('div', {}, h('b', {}, `Kịch bản VI ${ver}`), h('span', {class: 'muted'}, ' · bản gốc, sửa ở tab Kịch bản')));
+      add(head, h('div', {}, h('b', {}, `Kịch bản VI ${ver}`), h('span', {class: 'muted'}, ' · bản gốc, sửa ở tab Kịch bản')));
     } else {
       const approve = h('button', {onclick: () => act(() => api(`${base()}/approve`, {}), 'Đã chốt')}, 'Chốt');
       if (!s || s.approved || !canApprove(c.report) || (c.problems || []).length) approve.disabled = true;
       const rewrite = h('button', {class: 'ghost', title: d.outline ? '' : 'Chốt kịch bản tiếng Việt trước',
         onclick: () => act(() => api(`${base()}/rewrite`, {}), 'Đã giao agy viết lại')}, '✍️ Viết lại (agy)');
       rewrite.disabled = !d.outline;
-      head.append(
+      add(head, 
         h('div', {}, h('b', {}, `Kịch bản ${st.lang.toUpperCase()} ${ver}`),
           c.report && c.report.sentences.length ? h('span', {class: 'muted'}, ' · ' + summaryLine(c.report)) : null,
           c.glossary_misses ? h('span', {class: 'muted'}, ` · tên lệch bảng thuật ngữ ${c.glossary_misses}`) : null),
@@ -94,7 +95,7 @@ export function mountLangs(pid, {h, api}) {
         x.flag ? h('div', {class: 'lv-flag'}, `🚩 ${x.flag.issue}`, h('div', {class: 'muted'}, `Dịch lại: ${x.flag.back_translation_vi}`)) : null))
         : h('p', {class: 'empty'}, d.source ? '' : 'Chưa có câu cho cảnh này.')))))
       : h('p', {class: 'empty'}, d.outline ? 'Chưa có kịch bản: bấm "Viết lại (agy)".' : 'Chốt kịch bản tiếng Việt trước, rồi agy mới viết lại được.');
-    scriptCard.replaceChildren(h('h2', {}, '📝 Kịch bản'), head, problems, body);
+    put(scriptCard, h('h2', {}, '📝 Kịch bản'), head, problems, body);
   }
 
   // ---------------------------------------------------------------- voice
@@ -119,7 +120,7 @@ export function mountLangs(pid, {h, api}) {
     zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('over'); });
     zone.addEventListener('dragleave', () => zone.classList.remove('over'));
     zone.addEventListener('drop', (e) => { e.preventDefault(); zone.classList.remove('over'); dropFiles(e.dataTransfer.files); });
-    voiceCard.replaceChildren(h('h2', {}, '🎙️ Giọng'), h('p', {class: v.stale ? 'error' : 'muted'}, voiceSummary(v)),
+    put(voiceCard, h('h2', {}, '🎙️ Giọng'), h('p', {class: v.stale ? 'error' : 'muted'}, voiceSummary(v)),
       h('div', {class: 'row'}, prep), list, v.parts.length ? zone : null);
   }
 
@@ -152,7 +153,7 @@ export function mountLangs(pid, {h, api}) {
       try { const j = await api(`/api/projects/${pid}/render/${st.lang}`, {}); out.textContent = `Đã giao render: ${j.label || j.id || 'ok'}`; }
       catch (e) { out.textContent = e.message; out.className = 'error'; }
     }}, `🎬 Render ${st.lang.toUpperCase()}`);
-    renderCard.replaceChildren(h('h2', {}, '🎬 Render'),
+    put(renderCard, h('h2', {}, '🎬 Render'),
       h('p', {class: 'muted'}, d.timing ? `Có timing (${Math.round(d.duration || 0)} s)` : 'Chưa có timing: cần đủ phần giọng'),
       h('div', {class: 'row'}, btn), out,
       d.render.length ? h('ul', {class: 'list'}, d.render.map((f) => h('li', {}, '📼 ', h('code', {}, f)))) : null);
@@ -167,7 +168,7 @@ export function mountLangs(pid, {h, api}) {
   function renderUpload() {
     const d = st.data, u = d.upload;
     const desc = u ? u.description + (d.chapters ? '\n\n' + d.chapters : '') : '';
-    uploadCard.replaceChildren(h('h2', {}, '📤 Upload'),
+    put(uploadCard, h('h2', {}, '📤 Upload'),
       h('div', {class: 'row'}, h('button', {class: 'ghost', onclick: () => act(() => api(`${base()}/upload_texts`, {}), 'Đã giao agy viết text upload')},
         u ? '↻ Viết lại text upload (agy)' : '✍️ Viết text upload (agy)')),
       u ? [field('Tiêu đề', u.title), field('Mô tả (kèm chương)', desc), field('Tags', (u.tags || []).join(', '))]
@@ -175,7 +176,7 @@ export function mountLangs(pid, {h, api}) {
       !u && d.chapters ? field('Chương', d.chapters) : null,
       h('p', {class: 'muted'}, 'Khi upload: đặt nội dung thay đổi/tổng hợp = Có. Không thêm dòng "minh họa bằng AI".'),
       h('h3', {}, 'Thumbnail'), thumbBox, thumbForm);
-    thumbBox.replaceChildren(d.thumb ? h('img', {src: `${base()}/thumb.png?t=${Date.now()}`, alt: 'thumbnail', class: 'lv-thumb'})
+    put(thumbBox, d.thumb ? h('img', {src: `${base()}/thumb.png?t=${Date.now()}`, alt: 'thumbnail', class: 'lv-thumb'})
       : h('p', {class: 'empty'}, 'Chưa có thumbnail.'));
   }
 

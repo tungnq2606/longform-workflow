@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock, factIcon, colourClass, summaryLine, canApprove, stateLabel,
-  imageStateLabel, scoreClass, nextIndex, needsOwner, filterImages, IMAGE_FILTERS, imageSrc} from './lib.js';
+  imageStateLabel, scoreClass, nextIndex, needsOwner, filterImages, IMAGE_FILTERS, imageSrc, put, add} from './lib.js';
 
 test('route', () => {
   assert.deepEqual(route(''), {screen: 'home'});
@@ -157,4 +157,12 @@ test('imageSrc busts the cache when the item changes', () => {
   const it = {id: 'BG01', history: [1, 2, 3], files: {final: 'x'}};
   assert.equal(imageSrc('001-a', it, 'thumb'), '/api/projects/001-a/images/BG01/thumb?v=3');
   assert.equal(imageSrc('001-a', {id: 'BG02', history: [], files: {}}, 'thumb'), null);
+});
+
+test('put and add drop empty children (DOM would print "null")', () => {
+  const got = [];
+  const el = {replaceChildren: (...k) => got.push(['r', k]), append: (...k) => got.push(['a', k])};
+  put(el, 'a', null, [false, 'b', [undefined, 'c']]);
+  add(el, null, 'd');
+  assert.deepEqual(got, [['r', ['a', 'b', 'c']], ['a', ['d']]]);
 });

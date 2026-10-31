@@ -2,6 +2,7 @@
 // what changed, so a typed note or an open image is never interrupted. Cards appear and update as each image is
 // drawn and scored. Keys in the large view: A approve, R redraw with a note, X reject, ←/→ move, Esc close.
 import {imageStateLabel, scoreClass, nextIndex, filterImages, IMAGE_FILTERS, imageSrc, RUNNING_IMAGE} from './lib.js';
+import {put, add} from './lib.js';
 
 const TYPE_LABEL = {bg: 'nền', prop: 'đạo cụ', pose: 'nhân vật'};
 const SPEC_FIELDS = ['shot', 'angle', 'layout', 'setting', 'people', 'props', 'light', 'must_not'];
@@ -14,7 +15,7 @@ export function mountImages(pid, {h, api}) {
   const chips = h('div', {class: 'iv-chips'});
   const grid = h('div', {class: 'iv-grid'});
   const viewer = h('div', {class: 'iv-viewer', hidden: ''});
-  root.append(bar, chips, grid, viewer);
+  add(root, bar, chips, grid, viewer);
 
   const changed = (name, value) => {
     const k = JSON.stringify(value);
@@ -56,7 +57,7 @@ export function mountImages(pid, {h, api}) {
           if (errs.length) alert(errs.map(([id, e]) => `${id}: ${e}`).join('\n'));
         })}, `Duyệt ${st.selected.size} ảnh`)
       : null;
-    bar.replaceChildren(
+    put(bar, 
       h('div', {class: 'iv-summary'},
         h('b', {}, n ? `${n} ảnh` : 'Chưa có danh sách ảnh'),
         n ? h('span', {class: 'muted'}, ` · ${c.wait || 0} cần bạn · ${c.pass || 0} đạt chờ duyệt · ${doing} đang làm · ${c.approved || 0} đã duyệt`
@@ -77,7 +78,7 @@ export function mountImages(pid, {h, api}) {
   }
 
   function renderChips() {
-    chips.replaceChildren(...Object.entries(IMAGE_FILTERS).map(([k, [label]]) => h('button', {
+    put(chips, ...Object.entries(IMAGE_FILTERS).map(([k, [label]]) => h('button', {
       class: `chip ${st.filter === k ? 'on' : ''}`, onclick: () => { st.filter = k; renderChips(); renderGrid(); }},
       `${label} ${filterImages(st.items, k).length}`)));
   }
@@ -114,7 +115,7 @@ export function mountImages(pid, {h, api}) {
 
   function renderGrid() {
     const list = shown();
-    grid.replaceChildren(...(list.length ? list.map(card) : [h('p', {class: 'empty'}, st.items.length
+    put(grid, ...(list.length ? list.map(card) : [h('p', {class: 'empty'}, st.items.length
       ? 'Không có ảnh ở mục này.'
       : 'Chưa có ảnh. Chốt kịch bản rồi bấm "Lập danh sách ảnh": agy đề xuất nền, đạo cụ và tư thế nhân vật, rồi vẽ và chấm từng ảnh.')]));
   }
@@ -159,7 +160,7 @@ export function mountImages(pid, {h, api}) {
 
   function renderViewer() {
     const it = st.items.find((x) => x.id === st.open);
-    if (!it) { viewer.hidden = true; viewer.replaceChildren(); return; }
+    if (!it) { viewer.hidden = true; put(viewer); return; }
     viewer.hidden = false;
     const src = imageSrc(pid, it, it.type === 'pose' ? 'cutout' : 'final') || imageSrc(pid, it, 'raw');
     const decidable = ['pass', 'wait', 'failed'].includes(it.state);
@@ -169,7 +170,7 @@ export function mountImages(pid, {h, api}) {
       return b;
     };
     const list = shown();
-    viewer.replaceChildren(h('div', {class: 'iv-panel', role: 'dialog', 'aria-label': `Ảnh ${it.id}`},
+    put(viewer, h('div', {class: 'iv-panel', role: 'dialog', 'aria-label': `Ảnh ${it.id}`},
       h('div', {class: `iv-big ${it.type}`}, src ? h('img', {src, alt: it.id}) : h('div', {class: 'iv-ph'},
         RUNNING_IMAGE.includes(it.state) ? h('span', {class: 'spin'}) : null, imageStateLabel(it.state))),
       h('aside', {class: 'iv-side'},

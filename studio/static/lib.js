@@ -117,3 +117,8 @@ export function imageSrc(pid, item, which) {
   if (!has) return null;
   return `/api/projects/${pid}/images/${encodeURIComponent(item.id)}/${which}?v=${(item.history || []).length}`;
 }
+
+// DOM replaceChildren/append print null and false as text: these drop empty children first.
+const keep = (kids) => kids.flat(Infinity).filter((k) => k != null && k !== false);
+export const put = (el, ...kids) => el.replaceChildren(...keep(kids));
+export const add = (el, ...kids) => el.append(...keep(kids));

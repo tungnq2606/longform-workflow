@@ -2,6 +2,7 @@
 // plus "Claude dựng cảnh" and a render button per language. Mounted once per visit; polls its own data and redraws
 // only when it changed, so an open "+" sound picker is not wiped by a poll. Text goes in via textContent only (h()).
 import {beatProblems, beatStatus, sfxChips, sfxChoices, camText, renderLabel, short} from './scenes_lib.js';
+import {put, add} from './lib.js';
 
 export function mountScenes(pid, {h, api}) {
   const st = {data: null, audio: {music: [], sfx: []}, key: '', adding: null};
@@ -9,7 +10,7 @@ export function mountScenes(pid, {h, api}) {
   const bar = h('section', {class: 'card scb-bar'});
   const notes = h('div', {class: 'scb-notes'});
   const table = h('div', {class: 'scb-wrap'});
-  root.append(bar, notes, table);
+  add(root, bar, notes, table);
 
   async function act(fn) {
     try { await fn(); await load(true); } catch (e) { alert(e.message); }
@@ -29,7 +30,7 @@ export function mountScenes(pid, {h, api}) {
       b.title = r.problems && r.problems.length ? r.problems.join('\n') : (r.file || '');
       return h('span', {class: `scb-render ${r.state}`}, b, r.file ? h('span', {class: 'muted scb-file'}, r.file) : null);
     });
-    bar.replaceChildren(
+    put(bar, 
       h('div', {class: 'scb-head'},
         h('b', {}, sc ? `File cảnh v${sc.version}` : 'Chưa có file cảnh'),
         sc ? h('span', {class: d.problems.length ? 'scb-count bad' : 'scb-count ok'},
@@ -41,7 +42,7 @@ export function mountScenes(pid, {h, api}) {
   function renderNotes() {
     const d = st.data;
     const other = d.problems.filter((p) => !/^B\d+: /.test(p));
-    notes.replaceChildren(
+    put(notes, 
       ...d.warnings.map((w) => h('div', {class: 'scb-warn'}, '⚠ ', w)),
       ...other.map((p) => h('div', {class: 'scb-err'}, '✖ ', p)));
   }
@@ -109,7 +110,7 @@ export function mountScenes(pid, {h, api}) {
   function renderTable() {
     const d = st.data;
     if (!d.scenes) {
-      table.replaceChildren(h('p', {class: 'empty'}, d.script.length
+      put(table, h('p', {class: 'empty'}, d.script.length
         ? 'Chưa có file cảnh. Bấm "Claude dựng cảnh" khi kịch bản đã chốt và có ảnh đã duyệt.'
         : 'Chưa có kịch bản.'));
       return;
@@ -120,7 +121,7 @@ export function mountScenes(pid, {h, api}) {
       lastChapter = row.chapter;
       return beatRow(row, first);
     });
-    table.replaceChildren(h('table', {class: 'scb-table'},
+    put(table, h('table', {class: 'scb-table'},
       h('thead', {}, h('tr', {}, ['Cảnh', 'Câu', 'Nền', 'Nhân vật', 'Đám đông', 'Chuyển động', 'Âm thanh', 'Trạng thái', 'Xem trước'].map((t) => h('th', {}, t)))),
       h('tbody', {}, rows)));
   }
@@ -142,7 +143,7 @@ export function mountScenes(pid, {h, api}) {
       if (!st.adding) draw();
       else renderBar();
     } catch (e) {
-      bar.replaceChildren(h('p', {class: 'error'}, `Không tải được bảng cảnh: ${e.message}`));
+      put(bar, h('p', {class: 'error'}, `Không tải được bảng cảnh: ${e.message}`));
     }
   }
 

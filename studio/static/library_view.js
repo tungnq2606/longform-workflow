@@ -1,4 +1,5 @@
 // Library screen (Plan 4): hero kits with their poses (+ new pose), reusable backgrounds, code-drawn crowd factions
+import {put, add} from './lib.js';
 // and the style lock. Mounted once per visit; reloads every 5 s without touching an open new-pose form.
 
 const COLOUR = /^#[0-9a-f]{3,8}$/i;
@@ -14,7 +15,7 @@ export function mountLibrary({h, api}) {
   const bgEl = h('section', {class: 'card'});
   const crowdEl = h('section', {class: 'card'});
   const styleEl = h('section', {class: 'card'});
-  root.append(h('div', {class: 'lv-grid'}, h('div', {}, kitsEl, bgEl), h('div', {}, crowdEl, styleEl)));
+  add(root, h('div', {class: 'lv-grid'}, h('div', {}, kitsEl, bgEl), h('div', {}, crowdEl, styleEl)));
 
   const changed = (name, value) => {
     const k = JSON.stringify(value);
@@ -45,13 +46,13 @@ export function mountLibrary({h, api}) {
       h('label', {}, 'Tên tư thế', key), h('label', {}, 'Mô tả', desc), h('label', {}, 'Dự án', proj), err,
       h('div', {class: 'row end'}, h('button', {type: 'button', class: 'ghost', onclick: () => { st.form = null; renderKits(); }}, 'Huỷ'),
         h('button', {type: 'submit'}, 'Vẽ tư thế mới')));
-    if (!projects.length) form.replaceChildren(h('p', {class: 'muted'}, 'Cần một dự án trước: tư thế mới được vẽ và duyệt trong dự án.'));
+    if (!projects.length) put(form, h('p', {class: 'muted'}, 'Cần một dự án trước: tư thế mới được vẽ và duyệt trong dự án.'));
     form.addEventListener('submit', submit);
     return form;
   }
 
   function renderKits() {
-    kitsEl.replaceChildren(...[h('h2', {}, 'Nhân vật quan trọng', h('span', {class: 'count'}, String(st.kits.length))),
+    put(kitsEl, ...[h('h2', {}, 'Nhân vật quan trọng', h('span', {class: 'count'}, String(st.kits.length))),
       st.note ? h('p', {class: 'lv-note'}, st.note) : null,
       st.kits.length ? h('div', {class: 'lv-kits'}, st.kits.map((k) => h('div', {class: 'lv-kit'},
         h('div', {class: 'row lv-kithead'}, h('b', {}, k.name), h('span', {class: 'muted'}, `${k.id} · ${k.poses.length} tư thế · cao ${k.height} px`),
@@ -66,7 +67,7 @@ export function mountLibrary({h, api}) {
 
   function renderBackgrounds() {
     const bgs = st.home ? st.home.library.backgrounds : [];
-    bgEl.replaceChildren(h('h2', {}, 'Nền dùng lại', h('span', {class: 'count'}, String(bgs.length))),
+    put(bgEl, h('h2', {}, 'Nền dùng lại', h('span', {class: 'count'}, String(bgs.length))),
       bgs.length ? h('div', {class: 'lv-bgs'}, bgs.map((b) => h('figure', {},
         h('img', {src: `/api/thumb/bg/${encodeURIComponent(b.id)}`, alt: b.id, loading: 'lazy'}), h('figcaption', {}, b.id))))
         : h('p', {class: 'empty'}, 'Chưa có nền nào. Nền đã duyệt trong dự án có nút "Đưa vào thư viện".'));
@@ -79,7 +80,7 @@ export function mountLibrary({h, api}) {
   }
 
   function renderCrowds() {
-    crowdEl.replaceChildren(h('h2', {}, 'Đám đông (người que, Remotion vẽ)'),
+    put(crowdEl, h('h2', {}, 'Đám đông (người que, Remotion vẽ)'),
       st.factions.length ? h('ul', {class: 'list'}, st.factions.map((f) => h('li', {},
         swatch(f.tunic, 'áo'), swatch(f.skin, 'da'), h('b', {}, FACTION_VI[f.id] || f.id),
         h('span', {class: 'grow muted'}, `mũ ${vi(f.helmet)} · ${vi(f.weapon)}${f.shield === 'true' ? ' · khiên' : ''}`))))
@@ -89,7 +90,7 @@ export function mountLibrary({h, api}) {
 
   function renderStyle() {
     const styles = st.home ? st.home.library.styles : [];
-    styleEl.replaceChildren(h('h2', {}, 'Style lock'),
+    put(styleEl, h('h2', {}, 'Style lock'),
       styles.length ? h('ul', {class: 'list'}, styles.map((s) => h('li', {},
         h('span', {}, s.approved ? '✅' : '⏳'), h('b', {}, s.id), h('span', {class: 'grow muted'}, s.approved ? 'đã khóa, dùng cho mọi prompt ảnh' : 'chưa duyệt'))))
         : h('p', {class: 'empty'}, 'Chưa có style lock.'));
