@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock, factIcon, colourClass, summaryLine, canApprove} from './lib.js';
+import {route, stateIcon, kindIcon, progressBar, jobLine, runState, pauseButton, nextTheme, clock, factIcon, colourClass, summaryLine, canApprove, stateLabel} from './lib.js';
 
 test('route', () => {
   assert.deepEqual(route(''), {screen: 'home'});
@@ -97,4 +97,12 @@ test('summaryLine and canApprove', () => {
   assert.equal(canApprove({red: 0, yellow: 3, green: 1, sentences: [1]}), true);
   assert.equal(canApprove({red: 0, yellow: 0, green: 0, sentences: []}), false);
   assert.equal(canApprove(null), false);
+});
+
+test('stateLabel', () => {
+  assert.equal(stateLabel('todo'), 'chưa làm');
+  assert.equal(stateLabel('doing'), 'đang làm');
+  assert.equal(stateLabel('wait'), 'chờ bạn');
+  assert.equal(stateLabel('done'), 'xong');
+  assert.equal(stateLabel('x'), 'chưa làm');
 });

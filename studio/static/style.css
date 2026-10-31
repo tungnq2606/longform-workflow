@@ -221,3 +221,40 @@ label.upload { border: 1px solid var(--line); border-radius: 9px; padding: 7px 1
 }
 
 main:has(.sv) { max-width: 1680px; }
+
+/* project header: stepper + language chips */
+.phead { padding: 18px 20px 14px; }
+.stepper { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.step { position: relative; text-align: center; }
+.step::before { content: ""; position: absolute; top: 15px; left: calc(-50% + 18px); right: calc(50% + 18px); height: 2px;
+  background: var(--line); }
+.step:first-child::before { display: none; }
+.step.done::before, .step.doing::before, .step.wait::before { background: var(--ok); }
+.step a { display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--ink); text-decoration: none;
+  padding: 0 4px 6px; border-radius: 10px; }
+.step a:hover { background: var(--hover); }
+.dotnum { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px;
+  border: 2px solid var(--line); background: var(--card); color: var(--muted); }
+.step.done .dotnum { background: var(--ok); border-color: var(--ok); color: var(--card); }
+.step.doing .dotnum { border-color: var(--accent); color: var(--accent); }
+.step.wait .dotnum { border-color: var(--warn); color: var(--warn); box-shadow: 0 0 0 4px color-mix(in srgb, var(--warn) 22%, transparent); }
+.step.cur .slabel { color: var(--accent); }
+.slabel { font-weight: 700; font-size: 14px; }
+.sstate { font-size: 11.5px; color: var(--muted); }
+.step.wait .sstate { color: var(--warn); font-weight: 600; }
+.langchips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--line); font-size: 13px; }
+.langchip { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 999px;
+  padding: 3px 10px 3px 9px; background: var(--card-2); }
+.langchip b { font-size: 12px; letter-spacing: .04em; margin-right: 2px; }
+.ldot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: inline-block; }
+.ldot.doing { background: var(--accent); }
+.ldot.wait { background: var(--warn); }
+.ldot.done { background: var(--ok); }
+.legend { margin-left: auto; font-size: 12px; }
+@media (max-width: 720px) {
+  .stepper { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 10px; }
+  .step:nth-child(5)::before { display: none; }
+  .sstate { display: none; }
+  .legend { display: none; }
+}

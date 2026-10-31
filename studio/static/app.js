@@ -1,6 +1,6 @@
 // Studio UI: hash router, polling, job bar, Claude box. User text only ever goes in via textContent.
 import {mountScript} from './script_view.js';
-import {route, stateIcon, kindIcon, jobLine, runState, pauseButton, nextTheme, clock, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
+import {route, stateIcon, kindIcon, jobLine, runState, pauseButton, nextTheme, clock, stateLabel, THEME_LABEL, FLOW, TABS, TAB_PLAN} from './lib.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -143,18 +143,21 @@ function renderHome(d) {
 
 function renderProject(d, tab) {
   const p = d.project, g = d.progress, tabOf = {topic: 'overview', script: 'script', images: 'images', scenes: 'scenes', langs: 'langs'};
-  const steps = h('div', {class: 'steps'}, g.steps.map((s, i) => [
-    i ? h('span', {class: 'arrow'}, '→') : null,
-    h('a', {href: `#/p/${p.id}/${tabOf[s.id] || 'overview'}`, class: tabOf[s.id] === tab ? 'cur' : ''}, `${stateIcon(s.state)} ${s.label}`),
-  ]));
-  const partVi = {script: 'kịch bản', voice: 'giọng', render: 'render'};
-  const langs = h('div', {class: 'langs'}, g.langs.map((l, i) => [
-    i ? ' · ' : null, h('b', {}, l.code.toUpperCase()), ' ',
-    Object.entries(l.parts).map(([k, v]) => `${stateIcon(v)} ${partVi[k]}`).join(' '),
-  ]));
+  const steps = h('ol', {class: 'stepper'}, g.steps.map((s, i) => h('li', {class: `step ${s.state} ${tabOf[s.id] === tab ? 'cur' : ''}`},
+    h('a', {href: `#/p/${p.id}/${tabOf[s.id] || 'overview'}`, title: `${s.label}: ${stateLabel(s.state)}`},
+      h('span', {class: 'dotnum'}, s.state === 'done' ? '✓' : String(i + 1)),
+      h('span', {class: 'slabel'}, s.label),
+      h('span', {class: 'sstate'}, stateLabel(s.state))))));
+  const partVi = {script: 'Kịch bản', voice: 'Giọng', render: 'Render'};
+  const langs = h('div', {class: 'langchips'},
+    h('span', {class: 'muted'}, 'Ngôn ngữ'),
+    g.langs.map((l) => h('span', {class: 'langchip', title: Object.entries(l.parts).map(([k, v]) => `${partVi[k]}: ${stateLabel(v)}`).join('\n')},
+      h('b', {}, l.code.toUpperCase()),
+      Object.entries(l.parts).map(([k, v]) => h('i', {class: `ldot ${v}`, title: `${partVi[k]}: ${stateLabel(v)}`})))),
+    h('span', {class: 'legend muted'}, 'chấm: kịch bản · giọng · render'));
   const tabs = h('nav', {class: 'tabs'}, Object.entries(TABS).map(([k, label]) =>
     h('a', {href: `#/p/${p.id}/${k}`, class: k === tab ? 'cur' : ''}, label)));
-  const head = [h('h1', {}, `${p.id.slice(0, 3)} · ${p.title}`), h('section', {class: 'card'}, steps, langs), tabs];
+  const head = [h('h1', {}, `${p.id.slice(0, 3)} · ${p.title}`), h('section', {class: 'card phead'}, steps, langs), tabs];
   if (tab === 'script') return head;  // the script screen itself is mounted once below the header (mountScript)
   const body = tab === 'overview'
     ? h('section', {class: 'card'}, h('h2', {}, `🔔 Cần bạn (${d.inbox.length})`), inboxList(d.inbox, false))

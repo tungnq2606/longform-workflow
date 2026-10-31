@@ -74,3 +74,6 @@ export const FACT_LABEL = {pending: 'đang kiểm', verified: 'đã kiểm', wea
 export const colourClass = (c) => `c-${['red', 'yellow', 'green', 'plain'].includes(c) ? c : 'plain'}`;
 export const summaryLine = (r) => `đỏ ${r.red} · vàng ${r.yellow} · xanh ${r.green} · ${r.sentences.length} câu`;
 export const canApprove = (r) => Boolean(r && r.sentences && r.sentences.length && r.red === 0);
+
+const STATE_LABEL = {todo: 'chưa làm', doing: 'đang làm', wait: 'chờ bạn', done: 'xong'};
+export const stateLabel = (s) => STATE_LABEL[s] || STATE_LABEL.todo;
