@@ -223,11 +223,11 @@ def main():
     cfg = studio_config()
     n = jobs.recover()
     if n:
-        print("Studio: %d job bị ngắt từ lần trước (xem Cần bạn)" % n)
+        print("Studio: %d job bị ngắt từ lần trước (xem Cần bạn)" % n, flush=True)
     runner = jobs.Runner(cfg["lanes"])
     runner.start()
     srv = make_server(cfg["port"], runner)
-    print("Studio: http://127.0.0.1:%d" % cfg["port"])
+    print("Studio: http://127.0.0.1:%d" % cfg["port"], flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

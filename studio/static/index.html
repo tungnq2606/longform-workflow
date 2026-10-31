@@ -1,2 +1,54 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><title>Studio</title></head><body></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Studio</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#/">Công xưởng video dài</a>
+    <nav>
+      <a href="#/">Trang chủ</a>
+      <a href="#/library">Thư viện</a>
+      <button id="pause" class="ghost" type="button">⏸ Tạm dừng</button>
+    </nav>
+  </header>
+  <div id="pausebar" class="pausebar" hidden></div>
+  <main id="view"></main>
+
+  <footer class="bottom">
+    <section class="jobs">
+      <h3>Job</h3>
+      <ul id="jobs"></ul>
+      <pre id="log" hidden></pre>
+    </section>
+    <section class="claude">
+      <h3>Claude <span id="claude-where" class="muted"></span></h3>
+      <div id="history" class="history"></div>
+      <form id="claude-form">
+        <textarea id="msg" rows="2" placeholder="Nhờ Claude làm gì đó… (Ctrl+Enter để gửi)"></textarea>
+        <div class="row">
+          <select id="model" aria-label="Model"></select>
+          <button type="submit">Gửi</button>
+        </div>
+      </form>
+    </section>
+  </footer>
+
+  <dialog id="new">
+    <form id="new-form" method="dialog">
+      <h2>Video mới</h2>
+      <label>Tên video <input id="new-title" required placeholder="Ví dụ: Bạch Đằng 1288"></label>
+      <fieldset><legend>Ngôn ngữ xuất</legend><div id="new-langs"></div></fieldset>
+      <p id="new-error" class="error" hidden></p>
+      <div class="row end">
+        <button type="button" class="ghost" id="new-cancel">Huỷ</button>
+        <button type="submit" id="new-ok">Tạo</button>
+      </div>
+    </form>
+  </dialog>
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>
